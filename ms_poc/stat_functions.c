@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 
+// stat, lstat, fstat, 
 int main(int argc, char **argv, char **envp)
 {
 

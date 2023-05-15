@@ -9,8 +9,8 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 
+// getcwd, chdir, getenv
 int main(int argc, char **argv, char **envp)
 {
 
 }
-

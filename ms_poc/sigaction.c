@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 
+// sigaction, sigemptyset, sigaddset
 int main(int argc, char **argv, char **envp)
 {
 

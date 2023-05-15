@@ -9,6 +9,10 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 
+// rl functions
+// readline, rl_clear_history, rl_on_new_line,
+// rl_replace_line, rl_redisplay, add_history,
+
 int main(int argc, char **argv, char **envp)
 {
 

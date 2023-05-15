@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 
+// isatty, ttyname, ttyslot, ioctl,
 int main(int argc, char **argv, char **envp)
 {
 

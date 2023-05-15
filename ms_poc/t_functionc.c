@@ -9,6 +9,8 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 
+// tcsetattr, tcgetattr, tgetent, tgetflag,
+// tgetnum, tgetstr, tgoto, tputs
 int main(int argc, char **argv, char **envp)
 {
 

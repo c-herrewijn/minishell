@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 
+// opendir, readdir, closedir
 int main(int argc, char **argv, char **envp)
 {
 
