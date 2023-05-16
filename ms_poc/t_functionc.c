@@ -13,6 +13,15 @@
 // tgetnum, tgetstr, tgoto, tputs
 int main(int argc, char **argv, char **envp)
 {
-
+	
 }
 
+/*
+man
+curs_termcap(3X)
+direct curses interface to the terminfo capability database
+
+something with database tables or something
+inputting and requesting data
+
+*/
