@@ -13,14 +13,9 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdbool.h>
-// rl functions
-// readline, rl_clear_history, rl_on_new_line,
-// rl_replace_line, rl_redisplay, add_history,
 
-int main(int argc, char **argv, char **envp)
+char *taking_input(char *str)
 {
-	char *str;
-
 	while(true)
 	{
 		str = readline("input: ");
@@ -29,11 +24,17 @@ int main(int argc, char **argv, char **envp)
 		add_history(str);
 		printf("%s\n", str);
 	}
+}
+
+int main(int argc, char **argv, char **envp)
+{
+	char *str;
+
+	str = taking_input(str);
 	return 0;
 }
 
 /*
-cc -lreadline rl_functions.c -o rl_functions
-./rl_functions
-end with ctrl-c
+cc -lreadline *.c
+./a.out
 */
