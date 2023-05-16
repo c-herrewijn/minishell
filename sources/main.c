@@ -14,23 +14,20 @@
 #include <readline/history.h>
 #include <stdbool.h>
 
-char *taking_input(char *str)
-{
-	while(true)
-	{
-		str = readline("input: ");
-		if (str == NULL)
-			break;
-		add_history(str);
-		printf("%s\n", str);
-	}
-}
-
 int main(int argc, char **argv, char **envp)
 {
 	char *str;
 
-	str = taking_input(str);
+	while(true)
+	{
+		str = readline("minishell$ ");
+		if (str == NULL)
+			break;
+		add_history(str);
+
+		// debug
+		printf("%s\n", str);
+	}
 	return 0;
 }
 
