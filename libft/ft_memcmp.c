@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_memcmp.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 12:42:24 by cherrewi      ########   odam.nl         */
+/*   Created: 2022/10/19 15:10:57 by cherrewi      #+#    #+#                 */
+/*   Updated: 2022/10/23 12:18:40 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+/*
+The memcmp() function compares byte string s1 against byte string s2.
+Both strings are assumed to be n bytes long.
+*/
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	char	*str;
+	size_t	i;
+	int		result;
 
-	while (true)
+	i = 0;
+	result = 0;
+	while ((result == 0) && (i < n))
 	{
-		str = readline("minishell$ ");
-		if (str == NULL)
-			break;
-		add_history(str);
-
-		// debug
-		printf("%s\n", str);
+		result = *(unsigned char *)(s1 + i) - *(unsigned char *)(s2 + i);
+		if (result)
+			return (result);
+		i++;
 	}
-	return (0);
+	return (result);
 }

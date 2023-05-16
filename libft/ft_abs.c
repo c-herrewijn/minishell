@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_abs.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 12:42:24 by cherrewi      ########   odam.nl         */
+/*   Created: 2023/04/27 22:20:12 by cherrewi      #+#    #+#                 */
+/*   Updated: 2023/04/27 22:22:39 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+int	ft_abs(int num)
 {
-	char	*str;
-
-	while (true)
+	if (num >= 0)
+		return (num);
+	else
 	{
-		str = readline("minishell$ ");
-		if (str == NULL)
-			break;
-		add_history(str);
-
-		// debug
-		printf("%s\n", str);
+		if (num == INT_MIN)
+			return (num);
+		else
+			return (num * -1);
 	}
-	return (0);
 }

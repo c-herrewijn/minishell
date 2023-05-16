@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_striteri.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 12:42:24 by cherrewi      ########   odam.nl         */
+/*   Created: 2022/10/19 15:12:28 by cherrewi      #+#    #+#                 */
+/*   Updated: 2022/10/23 13:25:50 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	char	*str;
+	size_t	i;
 
-	while (true)
+	if (s && f)
 	{
-		str = readline("minishell$ ");
-		if (str == NULL)
-			break;
-		add_history(str);
-
-		// debug
-		printf("%s\n", str);
+		i = 0;
+		while (i < ft_strlen(s))
+		{
+			f(i, s + i);
+			i++;
+		}
 	}
-	return (0);
 }

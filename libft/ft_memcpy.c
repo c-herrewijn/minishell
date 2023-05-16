@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_memcpy.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 12:42:24 by cherrewi      ########   odam.nl         */
+/*   Created: 2022/10/19 15:11:06 by cherrewi      #+#    #+#                 */
+/*   Updated: 2022/10/19 15:11:07 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+/*
+Copies n bytes from src to dest.
+Src and dest should not overlap; there is no protection.
+*/
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	char	*str;
+	void		*p_dst_iter;
 
-	while (true)
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	p_dst_iter = dst;
+	while (n)
 	{
-		str = readline("minishell$ ");
-		if (str == NULL)
-			break;
-		add_history(str);
-
-		// debug
-		printf("%s\n", str);
+		*(unsigned char *)p_dst_iter = *(unsigned char *)src;
+		src++;
+		p_dst_iter++;
+		n--;
 	}
-	return (0);
+	return (dst);
 }

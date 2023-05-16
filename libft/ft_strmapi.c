@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_strmapi.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 12:42:24 by cherrewi      ########   odam.nl         */
+/*   Created: 2022/10/19 15:13:11 by cherrewi      #+#    #+#                 */
+/*   Updated: 2022/10/23 13:24:19 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char	*str;
+	size_t	i;
+	char	*new_str;
 
-	while (true)
+	if (!s || !f)
+		return (0);
+	new_str = ft_calloc(ft_strlen(s) + 1, sizeof(char));
+	if (new_str == NULL)
+		return (NULL);
+	i = 0;
+	while (i < ft_strlen(s))
 	{
-		str = readline("minishell$ ");
-		if (str == NULL)
-			break;
-		add_history(str);
-
-		// debug
-		printf("%s\n", str);
+		new_str[i] = f(i, s[i]);
+		i++;
 	}
-	return (0);
+	return (new_str);
 }

@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_strchr.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 12:42:24 by cherrewi      ########   odam.nl         */
+/*   Created: 2022/10/19 15:12:09 by cherrewi      #+#    #+#                 */
+/*   Updated: 2023/05/11 13:39:54 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+/*
+Locates the first occurrence of c (converted to a char) in string s.
+returns NULL if the character does not appear in the string
+*/
+char	*ft_strchr(const char *s, int c)
 {
-	char	*str;
-
-	while (true)
+	if (s == NULL)
+		return (NULL);
+	if ((char)c == 0)
 	{
-		str = readline("minishell$ ");
-		if (str == NULL)
-			break;
-		add_history(str);
-
-		// debug
-		printf("%s\n", str);
+		while (*s)
+			s++;
+		return ((char *)s);
 	}
-	return (0);
+	else
+	{
+		while (*s)
+		{
+			if (*s == (char)c)
+				return ((char *)s);
+			s++;
+		}
+	}
+	return (NULL);
 }

@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_memset.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 12:42:24 by cherrewi      ########   odam.nl         */
+/*   Created: 2022/10/19 15:11:22 by cherrewi      #+#    #+#                 */
+/*   Updated: 2022/10/19 15:11:23 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+/*
+Writes the memory with a fixed char.
+Also useful to clean memory (fill with 0).
+*/
+void	*ft_memset(void *b, int c, size_t len)
 {
-	char	*str;
+	int		i;
+	void	*p_iter;
 
-	while (true)
+	i = len;
+	p_iter = b;
+	while (i)
 	{
-		str = readline("minishell$ ");
-		if (str == NULL)
-			break;
-		add_history(str);
-
-		// debug
-		printf("%s\n", str);
+		*(unsigned char *)p_iter = c;
+		p_iter++;
+		i--;
 	}
-	return (0);
+	return (b);
 }

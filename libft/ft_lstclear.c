@@ -1,30 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_lstclear.c                                :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 12:42:24 by cherrewi      ########   odam.nl         */
+/*   Created: 2022/10/19 15:08:56 by cherrewi      #+#    #+#                 */
+/*   Updated: 2022/10/23 13:30:55 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+/*
+deletes all nodes in a linked list after and including lst
+the content fo the nodes is deleted by function del
+*/
+void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	char	*str;
+	t_list	*next;
+	t_list	*first;
 
-	while (true)
+	if (lst && del)
 	{
-		str = readline("minishell$ ");
-		if (str == NULL)
-			break;
-		add_history(str);
-
-		// debug
-		printf("%s\n", str);
+		first = *lst;
+		while (*lst)
+		{
+			next = (*lst)->next;
+			if (next == first)
+				break ;
+			ft_lstdelone(*lst, del);
+			*lst = next;
+		}
 	}
-	return (0);
 }

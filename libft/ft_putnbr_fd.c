@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_putnbr_fd.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 12:42:24 by cherrewi      ########   odam.nl         */
+/*   Created: 2022/10/19 15:11:46 by cherrewi      #+#    #+#                 */
+/*   Updated: 2022/10/21 12:47:42 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+void	ft_putnbr_fd(int n, int fd)
 {
-	char	*str;
+	int	num_to_write;
 
-	while (true)
+	if (n == -2147483648)
+		write(fd, "-2147483648", 11);
+	else
 	{
-		str = readline("minishell$ ");
-		if (str == NULL)
-			break;
-		add_history(str);
-
-		// debug
-		printf("%s\n", str);
+		if (n < 0)
+		{
+			n = n * (-1);
+			write(fd, "-", 1);
+		}
+		if (n < 10)
+		{
+			num_to_write = n + 48;
+			write(fd, &num_to_write, 1);
+		}
+		else
+		{
+			ft_putnbr_fd(n / 10, fd);
+			num_to_write = (n % 10) + 48;
+			write(fd, &num_to_write, 1);
+		}
 	}
-	return (0);
 }

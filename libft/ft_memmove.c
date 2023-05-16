@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_memmove.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 12:42:24 by cherrewi      ########   odam.nl         */
+/*   Created: 2022/10/19 15:11:14 by cherrewi      #+#    #+#                 */
+/*   Updated: 2022/10/19 15:11:15 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+/*
+Copies n bytes from src to dest.
+The move is also successful in case src and dest overlap
+*/
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	char	*str;
-
-	while (true)
+	if (dst == NULL && src == NULL)
+		return (NULL);
+	if (src > dst)
+		ft_memcpy(dst, src, len);
+	else
 	{
-		str = readline("minishell$ ");
-		if (str == NULL)
-			break;
-		add_history(str);
-
-		// debug
-		printf("%s\n", str);
+		while (len)
+		{
+			*(unsigned char *)(dst + len - 1)
+				= *(unsigned char *)(src + len - 1);
+			len--;
+		}
 	}
-	return (0);
+	return (dst);
 }

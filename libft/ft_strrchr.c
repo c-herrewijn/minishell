@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_strrchr.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 12:42:24 by cherrewi      ########   odam.nl         */
+/*   Created: 2022/10/19 15:13:31 by cherrewi      #+#    #+#                 */
+/*   Updated: 2022/10/19 15:17:00 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+/*
+finds first char in string, searching right to left
+*/
+char	*ft_strrchr(const char *s, int c)
 {
-	char	*str;
+	const char	*str_i;
 
-	while (true)
+	str_i = s;
+	while (*str_i)
 	{
-		str = readline("minishell$ ");
-		if (str == NULL)
-			break;
-		add_history(str);
-
-		// debug
-		printf("%s\n", str);
+		str_i++;
 	}
-	return (0);
+	while (str_i >= s)
+	{
+		if (*str_i == (char)c)
+			return ((char *)str_i);
+		str_i--;
+	}
+	return (NULL);
 }

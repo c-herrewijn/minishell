@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_calloc.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 12:42:24 by cherrewi      ########   odam.nl         */
+/*   Created: 2022/10/19 15:07:22 by cherrewi      #+#    #+#                 */
+/*   Updated: 2022/11/13 11:10:44 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+/*
+Allocates bytes based on object size and nr. of objects
+Makes sure the allocated volume is empty
+*/
+void	*ft_calloc(size_t count, size_t size)
 {
 	char	*str;
+	size_t	i;
 
-	while (true)
+	str = malloc(count * size);
+	if (str == NULL)
+		return (str);
+	i = 0;
+	while (i < (count * size))
 	{
-		str = readline("minishell$ ");
-		if (str == NULL)
-			break;
-		add_history(str);
-
-		// debug
-		printf("%s\n", str);
+		str[i] = '\0';
+		i++;
 	}
-	return (0);
+	return (str);
 }

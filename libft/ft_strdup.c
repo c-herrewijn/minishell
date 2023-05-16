@@ -1,30 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_strdup.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 12:42:24 by cherrewi      ########   odam.nl         */
+/*   Created: 2022/10/19 15:12:20 by cherrewi      #+#    #+#                 */
+/*   Updated: 2022/10/23 12:18:40 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+/*
+Duplicates a string, and reseves memory via ft_calloc.
+*/
+char	*ft_strdup(const char *s1)
 {
-	char	*str;
+	size_t		len;
+	size_t		i;
+	const char	*s_iter;
+	char		*s2;
 
-	while (true)
+	i = 0;
+	len = 0;
+	s_iter = s1;
+	while (*s_iter)
 	{
-		str = readline("minishell$ ");
-		if (str == NULL)
-			break;
-		add_history(str);
-
-		// debug
-		printf("%s\n", str);
+		len++;
+		s_iter++;
 	}
-	return (0);
+	s2 = (char *)ft_calloc(len + 1, sizeof(char));
+	if (s2 == NULL)
+		return (s2);
+	while (i < len)
+	{
+		*(s2 + i) = *(s1 + i);
+		i++;
+	}
+	return (s2);
 }
