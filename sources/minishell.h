@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/17 20:49:10 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/17 21:57:38 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ typedef struct s_token
 
 typedef enum e_lexer_state {
 	DELIMITED = 0,
-    READING_WORD = 1,
-    READING_OPERATOR = 2
+	READING_WORD = 1,
+	READING_OPERATOR = 2
 }	t_lexer_state;
 
 /*
@@ -62,6 +62,16 @@ void	b_unset(void);
 void	b_env(void);
 void	b_exit(void);
 
+// lexer
 size_t	count_tokens(char *str);
+void	count_tokens_delimited(size_t *word_count, t_lexer_state *state,
+			char *str, size_t index);
+void	count_tokens_reading_operator(size_t *word_count, t_lexer_state *state,
+			char *str, size_t index);
+void	count_tokens_reading_word(size_t *word_count, t_lexer_state *state,
+			char *str, size_t index);
+bool	is_unquoted_blank(char *str, size_t i);
+bool	is_unquoted_operator_char(char *str, size_t i);
+bool	is_double_operator(char c1, char c2);
 
 #endif

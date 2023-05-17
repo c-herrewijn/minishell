@@ -2,7 +2,7 @@ NAME = minishell
 # CFLAGS = -Wall -Werror -Wextra -lreadline
 CFLAGS = -Wall -lreadline -g
 SRC_DIR = sources
-SRCS = 	main.c builtins.c lexer.c
+SRCS = 	main.c builtins.c lexer_count_tokens.c lexer_utils.c lexer.c
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 LIBFT_DIR = libft
@@ -34,9 +34,9 @@ re: fclean all
 
 # testing
 TEST_SRCS = test.c
-FUNCTION_SRCS = lexer.c
+FUNCTION_SRCS = builtins.c lexer_count_tokens.c lexer_utils.c lexer.c
 
 test: $(NAME)
-	$(CC) -g $(FLAGS) $(addprefix tests/, $(TEST_SRCS)) $(addprefix sources/, $(FUNCTION_SRCS)) $(LIBFT_DIR)/$(LIBFTNAME) -o test.out
-	./test.out
-	rm -rf test.out*
+	@$(CC) -g $(FLAGS) $(addprefix tests/, $(TEST_SRCS)) $(addprefix sources/, $(FUNCTION_SRCS)) $(LIBFT_DIR)/$(LIBFTNAME) -o test.out
+	@./test.out
+	@rm -rf test.out*
