@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/17 21:57:38 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/17 22:45:43 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,15 @@ typedef enum e_lexer_state {
 	READING_OPERATOR = 2
 }	t_lexer_state;
 
+typedef struct s_data
+{
+	int		argc;
+	char	**argv;
+	char	**envp;
+	char	**envp_copy;
+	char	*str;
+}	t_data;
+
 /*
 b_
 builtin functions remake
@@ -54,7 +63,7 @@ builtins.c
 void	b_free_arr(char **s);
 int		b_arr_len(char **s);
 void	check_if_builtin(char *str, char **envp);
-void	b_echo(void);
+void	b_echo(char *str);
 void	b_cd(char *str, char **envp);
 void	b_pwd(void);
 void	b_export(void);
