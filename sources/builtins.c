@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/17 15:56:06 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/17 20:37:50 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int		b_arr_len(char **s)
 
 void	check_if_builtin(char *str, char **envp)
 {
-	if (ft_strncmp("echo", str, 5) == 0)
-		b_echo();
+	if (ft_strncmp("echo", str, 4) == 0)
+		b_echo(str);
 	if (ft_strncmp("cd", str, 2) == 0)
 		b_cd(str, envp);
 	if (ft_strncmp("pwd", str, 4) == 0)
@@ -57,30 +57,49 @@ void	check_if_builtin(char *str, char **envp)
 	(void) envp;
 }
 
-void	b_echo(void)
+void	b_echo(char *str)
 {
+	int len;
+	int nlflag;
+	int i;
+
+	i = 5;
+	nlflag = true;
+	len = (int)ft_strlen(str);
+	if (len <= 5)
+		return ;
+	if (len >= 7)
+	{
+		if (str[5] == '-' && str[6] == 'n')
+		{
+			nlflag = false;
+			i = 7;
+		}	
+	}
+	printf("%s", str + i);
+	if (nlflag == true)
+		printf("\n");
 }
 
 void	b_cd(char *str, char **envp)
 {
-	char **home_path;
 	char **cd_path;
-	home_path = ft_split(envp[2], '=');
 	cd_path = ft_split(str, ' ');
 
 	if (b_arr_len(cd_path) <= 1)
 	{
-		chdir(home_path[1]);
-		b_free_arr(home_path);
+		chdir(getenv("HOME"));
 		b_free_arr(cd_path);
-		b_pwd();
+	}
+	else if (cd_path[1][0] == '~' && cd_path[1][1] == '\0') // up for interpetation
+	{
+		chdir(getenv("HOME"));
+		b_free_arr(cd_path);
 	}
 	else
 	{
 		chdir(cd_path[1]);
-		b_free_arr(home_path);
 		b_free_arr(cd_path);
-		b_pwd();
 	}
 }
 
