@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/16 14:24:17 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/17 14:09:33 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,21 @@
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
+
+/*
+b_
+builtin functions remake
+builtins.c
+*/
+void	check_if_builtin(char *str);
+void	b_echo(void);
+void	b_cd(void);
+void	b_pwd(void);
+void	b_export(void);
+void	b_unset(void);
+void	b_env(void);
+void	b_exit(void);
+
+
 
 #endif

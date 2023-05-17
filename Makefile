@@ -1,8 +1,8 @@
 NAME = minishell
-# FLAGS = -Wall -Werror -Wextra -lreadline
-FLAGS = -Wall -lreadline
+# CFLAGS = -Wall -Werror -Wextra -lreadline
+CFLAGS = -Wall -lreadline
 SRC_DIR = sources
-SRCS = 	main.c
+SRCS = 	main.c builtins.c
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 LIBFT_DIR = libft
@@ -11,11 +11,11 @@ LIBFTNAME = libft.a
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_DIR)/$(LIBFTNAME)
-	$(CC) $(FLAGS) $^ -o $(NAME)
+	$(CC) $(CFLAGS) $^ -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) -c $(FLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@
 
 $(LIBFT_DIR)/$(LIBFTNAME):
 	@$(MAKE) -C $(LIBFT_DIR) bonus
