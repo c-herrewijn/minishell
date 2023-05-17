@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/19 15:14:18 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/11 13:09:33 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/17 14:33:10 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_list
 
 int		ft_abs(int num);
 int		ft_isalpha(int c);
+int		ft_isblank(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
