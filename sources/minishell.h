@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/17 15:52:42 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/17 20:49:10 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@
 # include <curses.h>
 # include <term.h>
 
+typedef struct s_token
+{
+	char		type;
+	char		*word;
+	char		operator[2];
+}	t_token;
+
+typedef enum e_lexer_state {
+	DELIMITED = 0,
+    READING_WORD = 1,
+    READING_OPERATOR = 2
+}	t_lexer_state;
+
 /*
 b_
 builtin functions remake
@@ -49,6 +62,6 @@ void	b_unset(void);
 void	b_env(void);
 void	b_exit(void);
 
-
+size_t	count_tokens(char *str);
 
 #endif
