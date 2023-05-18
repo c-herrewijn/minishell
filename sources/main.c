@@ -6,23 +6,11 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/17 21:27:46 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/18 16:50:48 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void print_2d_array(char **s)
-{
-	int i;
-
-	i = 0;
-	while(s[i] != NULL)
-	{
-		printf("%s\n", s[i]);
-		i++;
-	}
-}
 
 int	main(int argc, char **argv, char **envp)
 {

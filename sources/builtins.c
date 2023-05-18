@@ -6,12 +6,11 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/17 20:37:50 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/18 16:51:54 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//need to do 4 on the strncmp for pwd to check for '\0' char
 
 void	b_free_arr(char **s)
 {

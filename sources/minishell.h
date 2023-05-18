@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/17 22:45:43 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/18 20:40:32 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,14 @@ typedef struct s_data
 	int		argc;
 	char	**argv;
 	char	**envp;
-	char	**envp_copy;
 	char	*str;
 }	t_data;
+
+typedef struct s_node
+{
+	void	*content;
+	struct	s_node;
+} t_node;
 
 /*
 b_
@@ -70,6 +75,9 @@ void	b_export(void);
 void	b_unset(void);
 void	b_env(void);
 void	b_exit(void);
+
+//helpers.c
+void print_2d_array(char **s);
 
 // lexer
 size_t	count_tokens(char *str);
