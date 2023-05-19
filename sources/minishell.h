@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/18 20:40:32 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/19 19:21:04 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ typedef struct s_data
 
 typedef struct s_node
 {
-	void	*content;
-	struct	s_node;
-} t_node;
+	char			*str;
+	struct s_node	*next;
+}	t_node;
 
 /*
 b_
@@ -67,17 +67,26 @@ builtins.c
 */
 void	b_free_arr(char **s);
 int		b_arr_len(char **s);
-void	check_if_builtin(char *str, char **envp);
+void	check_if_builtin(char *str, t_node **head);
 void	b_echo(char *str);
-void	b_cd(char *str, char **envp);
+void	b_cd(char *str, t_node **head);
 void	b_pwd(void);
-void	b_export(void);
-void	b_unset(void);
-void	b_env(void);
+void	b_export(char *str, t_node **head);
+void	b_unset(char *str, t_node **head);
+void	b_env(char *str, t_node **head);
 void	b_exit(void);
 
 //helpers.c
-void print_2d_array(char **s);
+void	list_remove_first(t_node **head);
+void	list_remove_index(t_node **head, int spot);
+void	print_env_var(char *str, t_node *head);
+void	print_2d_array(char **s);
+
+//create_env.c
+void list_print(t_node *head);
+void list_clear(t_node *head);
+void list_append(t_node **head, char *str);
+void list_create_env(t_node **head, t_data data);
 
 // lexer
 size_t	count_tokens(char *str);

@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/18 16:51:54 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/19 19:42:16 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,24 @@ int		b_arr_len(char **s)
 	return i;
 }
 
-void	check_if_builtin(char *str, char **envp)
+void	check_if_builtin(char *str, t_node **head)
 {
-	if (ft_strncmp("echo", str, 4) == 0)
+	if (ft_strncmp("echo ", str, 5) == 0)
 		b_echo(str);
-	if (ft_strncmp("cd", str, 2) == 0)
-		b_cd(str, envp);
+	if (ft_strncmp("cd ", str, 3) == 0)
+		b_cd(str, head);
 	if (ft_strncmp("pwd", str, 4) == 0)
 		b_pwd();
-	if (ft_strncmp("export", str, 7) == 0)
-		b_export();
-	if (ft_strncmp("unset", str, 6) == 0)
-		b_unset();
+	if (ft_strncmp("export ", str, 7) == 0)
+		b_export(str, head);
+	if (ft_strncmp("unset ", str, 6) == 0)
+		b_unset(str, head);
 	if (ft_strncmp("env", str, 4) == 0)
-		b_env();
+		b_env(str, head);
 	if (ft_strncmp("exit", str, 5) == 0)
 		b_exit();
-	(void) envp;
+	if (ft_strncmp("$", str, 1) == 0)
+		print_env_var(str, *head);
 }
 
 void	b_echo(char *str)
@@ -80,7 +81,8 @@ void	b_echo(char *str)
 		printf("\n");
 }
 
-void	b_cd(char *str, char **envp)
+//need to update the env when cd is succesfull
+void	b_cd(char *str, t_node **head)
 {
 	char **cd_path;
 	cd_path = ft_split(str, ' ');
@@ -102,6 +104,7 @@ void	b_cd(char *str, char **envp)
 	}
 }
 
+//should still be able to do pwd command even if PWD is unset
 void	b_pwd(void)
 {
 	char	s[PATH_MAX];
@@ -110,16 +113,45 @@ void	b_pwd(void)
 	printf("%s\n", s);
 }
 
-void	b_export(void)
+//unset then export
+//might want to update existing env var in place if it already exists
+void	b_export(char *str, t_node **head)
 {
+	b_unset(str, head);
+	list_append(head, str + 7);
 }
 
-void	b_unset(void)
+//not working yet, might be something with how i use strncmp
+//or might be something to do with the list_remove_index function
+void	b_unset(char *str, t_node **head)
 {
+	t_node *node;
+	int str_len;
+	int i;
+
+	node = *head;
+	str_len = (int)ft_strlen(str) - 6;
+	if (str_len <= 1)
+		return ;
+	i = 0;
+	while(node != NULL)
+	{
+		if (ft_strncmp(str, node->str, str_len) == 0)
+		{
+			// if ((node->str)[str_len] == '=')
+			// {
+			list_remove_index(head, i);
+			// }
+			return ;
+		}
+		i++;
+		node = node->next;
+	}
 }
 
-void	b_env(void)
+void	b_env(char *str, t_node **head)
 {
+	list_print(*head);
 }
 
 void	b_exit(void)
