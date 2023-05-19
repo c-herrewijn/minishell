@@ -8,19 +8,6 @@ but using them is kinda verbose,
 however i am probally using them wrong
 */
 
-// self explanatory
-void list_print(t_node *head)
-{
-	t_node *node;
-	
-	node = head;
-	while(node != NULL)
-	{
-		printf("%s\n", node->str);
-		node = node->next;
-	}
-}
-
 // need to keep track of both to not lose the pointer
 void list_clear(t_node *head)
 {

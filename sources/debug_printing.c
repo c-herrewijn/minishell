@@ -1,47 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   helpers.c                                          :+:    :+:            */
+/*   debug_printing.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/19 20:15:14 by kkroon        ########   odam.nl         */
+/*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
+/*   Updated: 2023/05/19 22:29:48 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// pop off first
-void list_remove_first(t_node **head)
+// for printing/debugging env
+void list_print(t_node *head)
 {
 	t_node *node;
-
-	node = (*head)->next;
-	free(*head);
-	*head = node;
-}
-
-// might be a workaround to not use temp, not sure yet
-void list_remove_index(t_node **head, int spot)
-{
-	int i;
-	t_node *node;
-	t_node *temp;
-
-	i = 0;
-	node = *head;
-	temp = NULL;
-	if (spot == 0)
-		list_remove_first(head);
-	while(i < (spot - 1))
+	
+	node = head;
+	while(node != NULL)
 	{
+		printf("%s\n", node->str);
 		node = node->next;
-		i++;
 	}
-	temp = node->next;
-	node->next = temp->next;
-	free(temp);
 }
 
 // probally will need some error checking

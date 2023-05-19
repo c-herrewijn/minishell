@@ -2,8 +2,8 @@ NAME = minishell
 # CFLAGS = -Wall -Werror -Wextra -lreadline
 CFLAGS = -Wall -lreadline -g
 SRC_DIR = sources
-SRCS = 	main.c builtins.c create_env.c helpers.c\
-lexer_count_tokens.c lexer_utils.c lexer.c
+SRCS = 	builtin_unset.c check_for_builtin.c create_env.c debug_printing.c \
+echo_cd_pwd.c export_env_exit.c lexer_count_tokens.c lexer_utils.c lexer.c main.c
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 LIBFT_DIR = libft
