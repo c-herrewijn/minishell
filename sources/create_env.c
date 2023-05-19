@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+/*
+alot of these functions malloc inside
+non of them accept malloced nodes as param
+could change this later to use t_list ft_lst_funcs
+but using them is kinda verbose,
+however i am probally using them wrong
+*/
+
+// self explanatory
 void list_print(t_node *head)
 {
 	t_node *node;
@@ -12,6 +21,7 @@ void list_print(t_node *head)
 	}
 }
 
+// need to keep track of both to not lose the pointer
 void list_clear(t_node *head)
 {
 	t_node *cur_node;
@@ -27,6 +37,9 @@ void list_clear(t_node *head)
 	}
 }
 
+// add to the end
+// helper to list_create_env
+// also used in b_export
 void list_append(t_node **head, char *str)
 {
 	t_node *node;
@@ -41,6 +54,7 @@ void list_append(t_node **head, char *str)
 	node->next->next = NULL;
 }
 
+// main func, called from main
 void list_create_env(t_node **head, t_data data)
 {
 	int i;

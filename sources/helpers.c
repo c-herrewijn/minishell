@@ -6,12 +6,13 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/19 19:34:26 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/19 20:15:14 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// pop off first
 void list_remove_first(t_node **head)
 {
 	t_node *node;
@@ -21,6 +22,7 @@ void list_remove_first(t_node **head)
 	*head = node;
 }
 
+// might be a workaround to not use temp, not sure yet
 void list_remove_index(t_node **head, int spot)
 {
 	int i;
@@ -42,6 +44,7 @@ void list_remove_index(t_node **head, int spot)
 	free(temp);
 }
 
+// probally will need some error checking
 void print_env_var(char *str, t_node *head)
 {
 	t_node *node;
@@ -60,6 +63,7 @@ void print_env_var(char *str, t_node *head)
 	}
 }
 
+// kinda useless / not used
 void print_2d_array(char **s)
 {
 	int i;

@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/19 19:21:04 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/19 20:21:21 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ typedef enum e_lexer_state {
 	READING_OPERATOR = 2
 }	t_lexer_state;
 
+/*
+probally handy to keep a copy of the params of main
+i think its bad practice to use the params from main directly
+
+also think its handy to keep track of input str from readline in this
+*/
 typedef struct s_data
 {
 	int		argc;
@@ -54,6 +60,12 @@ typedef struct s_data
 	char	*str;
 }	t_data;
 
+/*
+using this instead of t_list
+because then i dont need to type cast all the time the void *content
+
+might convert all functions to use t_list later and will remove this then
+*/
 typedef struct s_node
 {
 	char			*str;

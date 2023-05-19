@@ -6,25 +6,13 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/19 19:42:16 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/19 20:22:53 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	b_free_arr(char **s)
-{
-	int i;
-
-	i = 0;
-	while(s[i] != NULL)
-	{
-		free(s[i]);
-		i++;
-	}
-	free(s);
-}
-
+// get length of double char pointer
 int		b_arr_len(char **s)
 {
 	int i;
@@ -37,6 +25,8 @@ int		b_arr_len(char **s)
 	return i;
 }
 
+// only works for basic input with only one command basicly
+// need to use lexer/parser input later on
 void	check_if_builtin(char *str, t_node **head)
 {
 	if (ft_strncmp("echo ", str, 5) == 0)
@@ -57,6 +47,7 @@ void	check_if_builtin(char *str, t_node **head)
 		print_env_var(str, *head);
 }
 
+//works with -n (no newline) flag
 void	b_echo(char *str)
 {
 	int len;
@@ -88,20 +79,11 @@ void	b_cd(char *str, t_node **head)
 	cd_path = ft_split(str, ' ');
 
 	if (b_arr_len(cd_path) <= 1)
-	{
 		chdir(getenv("HOME"));
-		b_free_arr(cd_path);
-	}
 	else if (cd_path[1][0] == '~' && cd_path[1][1] == '\0') // up for interpetation
-	{
 		chdir(getenv("HOME"));
-		b_free_arr(cd_path);
-	}
 	else
-	{
 		chdir(cd_path[1]);
-		b_free_arr(cd_path);
-	}
 }
 
 //should still be able to do pwd command even if PWD is unset
@@ -121,8 +103,7 @@ void	b_export(char *str, t_node **head)
 	list_append(head, str + 7);
 }
 
-//not working yet, might be something with how i use strncmp
-//or might be something to do with the list_remove_index function
+// might need to do something with magic numbers
 void	b_unset(char *str, t_node **head)
 {
 	t_node *node;
@@ -130,18 +111,14 @@ void	b_unset(char *str, t_node **head)
 	int i;
 
 	node = *head;
-	str_len = (int)ft_strlen(str) - 6;
-	if (str_len <= 1)
-		return ;
+	str_len = ((int)ft_strlen(str)) - ((int)ft_strlen("unset "));
 	i = 0;
 	while(node != NULL)
 	{
-		if (ft_strncmp(str, node->str, str_len) == 0)
+		if (ft_strncmp(str + 6, node->str, str_len) == 0)
 		{
-			// if ((node->str)[str_len] == '=')
-			// {
-			list_remove_index(head, i);
-			// }
+			if ((node->str)[str_len] == '=')
+				list_remove_index(head, i);
 			return ;
 		}
 		i++;
@@ -149,11 +126,14 @@ void	b_unset(char *str, t_node **head)
 	}
 }
 
+//even need for b_env?
+//prob need some error checking that env doesnt get any arguments
 void	b_env(char *str, t_node **head)
 {
 	list_print(*head);
 }
 
+//exit with errno and strerror/perror?
 void	b_exit(void)
 {
 	exit(1);
