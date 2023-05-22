@@ -6,30 +6,39 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:44:41 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/22 12:04:56 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/22 20:23:43 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	count_tokens(char *str)
+void	free_tokens(t_token *token_arr, t_data *data)
 {
-	size_t			token_count;
-	size_t			i;
-	t_lexer_state	state;
+	size_t	i;
 
-	state = DELIMITED;
-	token_count = 0;
 	i = 0;
-	while (str[i] != '\0')
+	while (i < data->nr_tokens)
 	{
-		if (state == DELIMITED)
-			count_tokens_delimited(&token_count, &state, str, i);
-		else if (state == READING_OPERATOR)
-			count_tokens_reading_operator(&token_count, &state, str, i);
-		else if (state == READING_WORD)
-			count_tokens_reading_word(&token_count, &state, str, i);
+		free(token_arr[i].word);
 		i++;
 	}
-	return (token_count);
+	free(token_arr);
+	data->nr_tokens = 0;
+}
+
+// takes input line excluding linebreak
+t_token	*lexer(t_data *data)
+{
+	t_token			*token_arr;
+
+	if (data->str == NULL || *data->str == '\0')
+		return (NULL);
+	data->nr_tokens = count_tokens(data->str);
+	if (data->nr_tokens == 0)
+		return (NULL);
+	token_arr = ft_calloc((data->nr_tokens + 1), sizeof(t_token));
+	if (token_arr == NULL)
+		return (NULL);
+	create_tokens(data->str, token_arr);
+	return (token_arr);
 }
