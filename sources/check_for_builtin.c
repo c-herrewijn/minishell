@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/19 22:40:01 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/22 15:45:53 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	check_if_builtin(char *str, t_node **head)
 {
 	if (ft_strncmp("echo ", str, 5) == 0)
 		b_echo(str);
-	if (ft_strncmp("cd ", str, 3) == 0)
+	if (ft_strncmp("cd", str, 2) == 0)
 		b_cd(str, head);
 	if (ft_strncmp("pwd", str, 4) == 0)
 		b_pwd();
@@ -41,8 +41,8 @@ void	check_if_builtin(char *str, t_node **head)
 		b_unset(str, head);
 	if (ft_strncmp("env", str, 4) == 0)
 		b_env(str, head);
-	if (ft_strncmp("exit", str, 5) == 0)
-		b_exit();
+	if (ft_strncmp("exit", str, 4) == 0)
+		b_exit(0);
 	if (ft_strncmp("$", str, 1) == 0)
 		print_env_var(str, *head);
 }

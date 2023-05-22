@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/19 22:46:53 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/22 16:01:31 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,10 @@ void	b_pwd(void);
 //export_env_exit.c
 void	b_export(char *str, t_node **head);
 void	b_env(char *str, t_node **head);
-void	b_exit(void);
+void	b_exit(int exit_status);
 
+//builtin_utils.c
+void	free_double_char_pointer(char **s);
 
 // lexer
 size_t	count_tokens(char *str);

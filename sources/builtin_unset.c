@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   helpers.c                                          :+:    :+:            */
+/*   builtin_unset.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/19 22:30:58 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/22 15:40:04 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // pop off first
+// saves the original pointer
 void list_remove_first(t_node **head)
 {
 	t_node *node;
 
-	node = (*head)->next;
-	free(*head);
-	*head = node;
+	node = *head;
+	*head = (*head)->next;
+	free(node);
 }
 
 // might be a workaround to not use temp, not sure yet

@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:35:03 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/19 22:39:06 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/22 16:04:39 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,20 @@ void	b_echo(char *str)
 void	b_cd(char *str, t_node **head)
 {
 	char **cd_path;
-	cd_path = ft_split(str, ' ');
 
-	if (b_arr_len(cd_path) <= 1)
-		chdir(getenv("HOME"));
-	else if (cd_path[1][0] == '~' && cd_path[1][1] == '\0') // up for interpetation
-		chdir(getenv("HOME"));
-	else
-		chdir(cd_path[1]);
+	if (str[2] == '\0' || str[2] == ' ')
+	{
+		cd_path = ft_split(str, ' ');
+		if (cd_path == NULL)
+			return ;
+		if (b_arr_len(cd_path) <= 1)
+			chdir(getenv("HOME"));
+		else if (cd_path[1][0] == '~' && cd_path[1][1] == '\0') // up for interpetation
+			chdir(getenv("HOME"));
+		else
+			chdir(cd_path[1]);
+		free_double_char_pointer(cd_path);
+	}
 }
 
 //not sure which edgecases pwd would need
