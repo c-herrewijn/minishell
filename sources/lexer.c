@@ -6,23 +6,23 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:44:41 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/23 12:23:53 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/23 12:32:29 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_tokens(t_token *token_arr, t_data *data)
+void	free_tokens(t_data *data)
 {
 	size_t	i;
 
 	i = 0;
 	while (i < data->nr_tokens)
 	{
-		free(token_arr[i].word);
+		free(data->token_arr[i].word);
 		i++;
 	}
-	free(token_arr);
+	free(data->token_arr);
 	data->nr_tokens = 0;
 }
 

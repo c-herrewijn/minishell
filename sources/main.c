@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/23 12:28:44 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/23 12:36:53 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	main(int argc, char **argv, char **envp)
 		check_if_builtin(data.str, &head);
 
 		//debug
-		// print_tokens(data.token_arr, &data);
+		// print_tokens(&data);
 
-		free_tokens(data.token_arr, &data);
+		free_tokens(&data);
 		free(data.str);
 	}
 	return (0);

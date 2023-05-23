@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/22 20:22:23 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/23 12:35:15 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void print_2d_array(char **s)
 	}
 }
 
-void	print_tokens(t_token *token_arr, t_data *data)
+void	print_tokens(t_data *data)
 {
 	int	i;
 
@@ -65,12 +65,12 @@ void	print_tokens(t_token *token_arr, t_data *data)
 	dprintf(2, "%zu tokens created:\n", data->nr_tokens);
 	while (i < data->nr_tokens)
 	{
-		if (token_arr[i].type == 'w')
-			dprintf(2, "%s\n", token_arr[i].word);
-		if (token_arr[i].type == 'o')
+		if (data->token_arr[i].type == 'w')
+			dprintf(2, "%s\n", data->token_arr[i].word);
+		if (data->token_arr[i].type == 'o')
 		{
-			dprintf(2, "%c%c\n", token_arr[i].operator[0],
-				token_arr[i].operator[1]);
+			dprintf(2, "%c%c\n", data->token_arr[i].operator[0],
+				data->token_arr[i].operator[1]);
 		}
 		i++;
 	}

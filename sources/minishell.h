@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/23 12:22:50 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/23 12:33:21 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	list_create_env(t_node **head, t_data data);
 void	list_print(t_node *head);
 void	print_env_var(char *str, t_node *head);
 void	print_2d_array(char **s);
-void	print_tokens(t_token *token_arr, t_data *data);
+void	print_tokens(t_data *data);
 
 /*
 probally will split these two files up more later
@@ -121,7 +121,7 @@ void	count_tokens_reading_operator(size_t *word_count, t_lexer_state *state,
 void	count_tokens_reading_word(size_t *word_count, t_lexer_state *state,
 			char *str, size_t index);
 int		create_tokens(t_data *data);
-void	free_tokens(t_token *token_arr, t_data *data);
+void	free_tokens(t_data *data);
 bool	is_unquoted_blank(char *str, size_t i);
 bool	is_unquoted_operator_char(char *str, size_t i);
 bool	is_double_operator(char c1, char c2);
