@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 15:31:40 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/22 20:09:52 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/23 12:21:05 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,25 @@ static void	create_operator(char *str, t_token *token, size_t *i)
 		token->operator[1] = '\0';
 }
 
-int	create_tokens(char *str, t_token *token_arr)
+int	create_tokens(t_data *data)
 {
 	size_t	str_i;
 	size_t	token_i;
 
 	str_i = 0;
 	token_i = 0;
-	while (str[str_i] != '\0')
+	while (data->str[str_i] != '\0')
 	{
-		if (is_unquoted_blank(str, str_i) == true)
+		if (is_unquoted_blank(data->str, str_i) == true)
 			;
-		else if (is_unquoted_operator_char(str, str_i))
+		else if (is_unquoted_operator_char(data->str, str_i))
 		{
-			create_operator(str, &(token_arr[token_i]), &str_i);
+			create_operator(data->str, &(data->token_arr[token_i]), &str_i);
 			token_i++;
 		}
 		else
 		{
-			if (create_word(str, &(token_arr[token_i]), &str_i) < 0)
+			if (create_word(data->str, &(data->token_arr[token_i]), &str_i) < 0)
 				return (-1);
 			token_i++;
 		}

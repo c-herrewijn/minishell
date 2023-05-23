@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/22 20:26:36 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/23 12:22:50 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_data
 	char	**envp;
 	char	*str;
 	size_t	nr_tokens;
+	t_token	*token_arr;
 }	t_data;
 
 /*
@@ -111,7 +112,7 @@ void	b_exit(int exit_status);
 void	free_double_char_pointer(char **s);
 
 // lexer
-t_token	*lexer(t_data *data);
+void	lexer(t_data *data);
 size_t	count_tokens(char *str);
 void	count_tokens_delimited(size_t *word_count, t_lexer_state *state,
 			char *str, size_t index);
@@ -119,7 +120,7 @@ void	count_tokens_reading_operator(size_t *word_count, t_lexer_state *state,
 			char *str, size_t index);
 void	count_tokens_reading_word(size_t *word_count, t_lexer_state *state,
 			char *str, size_t index);
-int		create_tokens(char *str, t_token *token_arr);
+int		create_tokens(t_data *data);
 void	free_tokens(t_token *token_arr, t_data *data);
 bool	is_unquoted_blank(char *str, size_t i);
 bool	is_unquoted_operator_char(char *str, size_t i);
