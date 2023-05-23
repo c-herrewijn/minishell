@@ -36,7 +36,9 @@ re: fclean all
 
 # testing
 TEST_SRCS = test.c
-FUNCTION_SRCS = builtins.c lexer_count_tokens.c lexer_utils.c lexer.c
+FUNCTION_SRCS =	builtin_unset.c check_for_builtin.c create_env.c debug_printing.c \
+		builtin_utils.c echo_cd_pwd.c export_env_exit.c lexer_count_tokens.c \
+		lexer_create_tokens.c lexer_utils.c lexer.c
 
 test: $(NAME)
 	@$(CC) -g $(FLAGS) $(addprefix tests/, $(TEST_SRCS)) $(addprefix sources/, $(FUNCTION_SRCS)) $(LIBFT_DIR)/$(LIBFTNAME) -o test.out
