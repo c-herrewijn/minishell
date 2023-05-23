@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/23 14:48:11 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/23 16:07:16 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,23 @@
 # include <curses.h>
 # include <term.h>
 
-typedef struct s_token
-{
-	char		type;
-	char		*word;
-	char		operator[2];
-}	t_token;
-
 typedef enum e_lexer_state {
 	DELIMITED = 0,
 	READING_WORD = 1,
 	READING_OPERATOR = 2
 }	t_lexer_state;
+
+typedef enum e_token_type {
+	WORD = 0,
+	OPERATOR = 1
+}	t_token_type;
+
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*word;
+	char			operator[2];
+}	t_token;
 
 /*
 probally handy to keep a copy of the params of main

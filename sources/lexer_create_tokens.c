@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 15:31:40 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/23 12:21:05 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/23 16:06:03 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	create_word(char *str, t_token *token, size_t *i)
 	size_t	len;
 
 	len = word_len(str, *i);
-	token->type = 'w';
+	token->type = WORD;
 	token->operator[0] = '\0';
 	token->operator[1] = '\0';
 	token->word = ft_substr(str, *i, len);
@@ -53,7 +53,7 @@ static int	create_word(char *str, t_token *token, size_t *i)
 
 static void	create_operator(char *str, t_token *token, size_t *i)
 {
-	token->type = 'o';
+	token->type = OPERATOR;
 	token->word = NULL;
 	token->operator[0] = str[*i];
 	if (is_double_operator(str[*i], str[(*i) + 1]))

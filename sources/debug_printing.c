@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/23 12:35:15 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/23 16:06:22 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ void	print_tokens(t_data *data)
 	dprintf(2, "%zu tokens created:\n", data->nr_tokens);
 	while (i < data->nr_tokens)
 	{
-		if (data->token_arr[i].type == 'w')
+		if (data->token_arr[i].type == WORD)
 			dprintf(2, "%s\n", data->token_arr[i].word);
-		if (data->token_arr[i].type == 'o')
+		if (data->token_arr[i].type == OPERATOR)
 		{
 			dprintf(2, "%c%c\n", data->token_arr[i].operator[0],
 				data->token_arr[i].operator[1]);
