@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/23 16:07:16 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/23 16:50:04 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,6 @@ typedef enum e_token_type {
 	OPERATOR = 1
 }	t_token_type;
 
-typedef struct s_token
-{
-	t_token_type	type;
-	char			*word;
-	char			operator[2];
-}	t_token;
-
-/*
-probally handy to keep a copy of the params of main
-i think its bad practice to use the params from main directly
-
-also think its handy to keep track of input str from readline in this
-*/
-typedef struct s_data
-{
-	int		argc;
-	char	**argv;
-	char	**envp;
-	char	*str;
-	size_t	nr_tokens;
-	t_token	*token_arr;
-}	t_data;
-
 /*
 using this instead of t_list
 because then i dont need to type cast all the time the void *content
@@ -78,6 +55,45 @@ typedef struct s_node
 	char			*str;
 	struct s_node	*next;
 }	t_node;
+
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*word;
+	char			operator[2];
+}	t_token;
+
+/*
+simple command as described by the shell grammar
+https://www.man7.org/linux/man-pages/man1/bash.1.html#SHELL_GRAMMAR
+*/
+typedef struct s_command
+{
+	size_t	argc;
+	char	**argv;
+	t_node	*envp;
+	char	*executable_location;
+	pid_t	pid;
+	int		exit_status;
+}	t_command;
+
+/*
+probally handy to keep a copy of the params of main
+i think its bad practice to use the params from main directly
+
+also think its handy to keep track of input str from readline in this
+*/
+typedef struct s_data
+{
+	int			argc;
+	char		**argv;
+	char		**envp;
+	char		*str;
+	size_t		nr_tokens;
+	t_token		*token_arr;
+	size_t		nr_commands;
+	t_command	*command_arr;
+}	t_data;
 
 //builtin_unset.c
 void	list_remove_first(t_node **head);
@@ -130,5 +146,8 @@ void	free_tokens(t_data *data);
 bool	is_unquoted_blank(char *str, size_t i);
 bool	is_unquoted_operator_char(char *str, size_t i);
 bool	is_double_operator(char c1, char c2);
+
+// parser
+int		parser(t_data *data);
 
 #endif
