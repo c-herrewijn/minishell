@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/23 12:33:21 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/23 14:48:11 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	b_exit(int exit_status);
 void	free_double_char_pointer(char **s);
 
 // lexer
-void	lexer(t_data *data);
+int		lexer(t_data *data);
 size_t	count_tokens(char *str);
 void	count_tokens_delimited(size_t *word_count, t_lexer_state *state,
 			char *str, size_t index);
