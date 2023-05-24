@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/24 15:10:41 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/24 18:00:47 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	list_print(t_node *head);
 void	print_env_var(char *str, t_node *head);
 void	print_2d_array(char **s);
 void	print_tokens(t_data *data);
+char	*tokens_to_string(t_data *data);
 
 /*
 probally will split these two files up more later
