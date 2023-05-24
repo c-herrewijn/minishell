@@ -1,4 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   echo_argc_argv.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/24 19:54:14 by kkroon        #+#    #+#                 */
+/*   Updated: 2023/05/24 19:54:39 by kkroon        ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "echoheader.h"
+
+/*
+check if s == -n\0 or -nnnnnnnnnnnn\0
+*/
+bool is_dash_n(char *s)
+{
+	int i;
+	int len;
+
+	i = 1;
+	len = (int) ft_strlen(s);
+	if (s[0] != '-')
+		return false;
+	while (s[i] != '\0')
+	{
+		if (s[i] != 'n')
+			return false;
+		i++;
+	}
+	return true;
+}
 
 void	b_echo(int argc, char **argv)
 {
@@ -12,10 +45,10 @@ void	b_echo(int argc, char **argv)
 	}
 	nlflag = true;
 	i = 1;
-	if (argv[1][0] == '-' && argv[1][1] == 'n' && argv[1][2] == '\0')
+	while(argv[i] != NULL && is_dash_n(argv[i]) == true)
 	{
 		nlflag = false;
-		i = 2;
+		i++;
 	}
 	while(argv[i] != NULL)
 	{
@@ -26,12 +59,6 @@ void	b_echo(int argc, char **argv)
 	}
 	if (nlflag == true)
 		printf("\n");
-}
-
-int main2(int argc, char **argv)
-{
-	b_echo(argc, argv);
-	return 0;
 }
 
 int main(void)
@@ -47,7 +74,7 @@ int main(void)
 		add_history(str);
 		arr = ft_split(str, ' ');
 		printf("|");
-		main2(len_2d_arr(arr), arr);
+		b_echo(len_2d_arr(arr), arr);
 		printf("|\n");
 	}
 	return 0;
