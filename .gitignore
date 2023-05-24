@@ -2,3 +2,6 @@ minishell
 obj/
 *.o
 *.a
+infile
+outfile
+*.txt
