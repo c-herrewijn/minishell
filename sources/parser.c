@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/23 16:01:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/24 15:26:11 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/24 17:28:52 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ int	parser(t_data *data)
 	data->nr_commands = get_nr_commands(data);
 	
 	// debug
-	printf("nr of commands = %zu\n", data->nr_commands);
+	// printf("nr of commands = %zu\n", data->nr_commands);
 
 	if (syntax_validation(data) == false)
 	{
 		write(STDERR_FILENO, "syntax error\n", 13);
-		return (-1);
+		return (0);
 	}
 	else
 	{
