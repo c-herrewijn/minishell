@@ -57,9 +57,55 @@ void	test_create_tokens(void)
 	free(data.token_arr);
 }
 
+void	test_syntax_validation(void)
+{
+	t_data	data;
+
+	// valid cases
+	data.str = "AA BB";
+	lexer(&data);
+	assert(syntax_validation(&data) == true);
+
+	data.str = "AA | BB";
+	lexer(&data);
+	assert(syntax_validation(&data) == true);
+
+	data.str = "";
+	lexer(&data);
+	assert(syntax_validation(&data) == true);
+
+	// invalid cases
+	data.str = "| BB";
+	lexer(&data);
+	assert(syntax_validation(&data) == false);
+
+	data.str = "BB |";
+	lexer(&data);
+	assert(syntax_validation(&data) == false);
+
+	data.str = "AA ||| BB";
+	lexer(&data);
+	assert(syntax_validation(&data) == false);
+
+	data.str = "AA | BB >";
+	lexer(&data);
+	assert(syntax_validation(&data) == false);
+
+	data.str = "AA | BB >>";
+	lexer(&data);
+	assert(syntax_validation(&data) == false);
+
+	data.str = ">";
+	lexer(&data);
+	assert(syntax_validation(&data) == false);
+
+	puts("testing syntax_validation OK");
+}
 
 int main(void)
 {
 	test_count_tokens();
 	test_create_tokens();
+	test_syntax_validation();
+	exit(0);
 }
