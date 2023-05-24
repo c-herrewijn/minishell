@@ -6,13 +6,13 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 21:23:55 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/22 15:31:05 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/24 22:04:34 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	count_tokens_delimited(size_t *token_count, t_lexer_state *state,
+static void	count_tokens_delimited(size_t *token_count, t_lexer_state *state,
 	char *str, size_t index)
 {
 	if (is_unquoted_blank(str, index) == true)
@@ -29,8 +29,8 @@ void	count_tokens_delimited(size_t *token_count, t_lexer_state *state,
 	}
 }
 
-void	count_tokens_reading_operator(size_t *token_count, t_lexer_state *state,
-	char *str, size_t index)
+static void	count_tokens_reading_operator(size_t *token_count,
+	t_lexer_state *state, char *str, size_t index)
 {
 	if (is_unquoted_blank(str, index) == true)
 		*state = DELIMITED;
@@ -48,8 +48,8 @@ void	count_tokens_reading_operator(size_t *token_count, t_lexer_state *state,
 	}
 }
 
-void	count_tokens_reading_word(size_t *token_count, t_lexer_state *state,
-	char *str, size_t index)
+static void	count_tokens_reading_word(size_t *token_count,
+	t_lexer_state *state, char *str, size_t index)
 {
 	if (is_unquoted_blank(str, index) == true)
 		*state = DELIMITED;
