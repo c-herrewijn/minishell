@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/24 15:10:41 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/24 21:35:09 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ void	b_env(char *str, t_node **head);
 void	b_exit(int exit_status);
 
 //builtin_utils.c
+int		is_in_env(char *str, t_node **head);
 void	free_double_char_pointer(char **s);
 
 // lexer
