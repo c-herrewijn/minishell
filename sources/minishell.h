@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/24 22:33:42 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/24 22:39:12 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	list_print(t_node *head);
 void	print_env_var(char *str, t_node *head);
 void	print_2d_array(char **s);
 void	print_tokens(t_data *data);
+char	*tokens_to_string(t_data *data);
 
 /*
 probally will split these two files up more later
@@ -139,12 +140,6 @@ void	free_double_char_pointer(char **s);
 // lexer
 int		lexer(t_data *data);
 size_t	count_tokens(char *str);
-void	count_tokens_delimited(size_t *word_count, t_lexer_state *state,
-			char *str, size_t index);
-void	count_tokens_reading_operator(size_t *word_count, t_lexer_state *state,
-			char *str, size_t index);
-void	count_tokens_reading_word(size_t *word_count, t_lexer_state *state,
-			char *str, size_t index);
 int		create_tokens(t_data *data);
 void	free_tokens(t_data *data);
 bool	is_unquoted_blank(char *str, size_t i);
@@ -153,5 +148,6 @@ bool	is_double_operator(char c1, char c2);
 
 // parser
 int		parser(t_data *data);
+bool	syntax_validation(t_data *data);
 
 #endif
