@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/24 21:35:09 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/24 22:33:42 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	check_if_builtin(char *str, t_node **head);
 
 //create_env.c
 void	list_clear(t_node *head);
-void	list_append(t_node **head, char *str);
+void	list_append(t_node **head, char *str, int flag);
 void	list_create_env(t_node **head, t_data data);
 
 //debug_printing.c
@@ -129,7 +129,7 @@ void	b_pwd(void);
 
 //export_env_exit.c
 void	b_export(char *str, t_node **head);
-void	b_env(char *str, t_node **head);
+void	b_env(char *str, t_node *head);
 void	b_exit(int exit_status);
 
 //builtin_utils.c

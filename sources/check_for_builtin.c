@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/22 15:45:53 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/24 22:32:45 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	check_if_builtin(char *str, t_node **head)
 	if (ft_strncmp("unset ", str, 6) == 0)
 		b_unset(str, head);
 	if (ft_strncmp("env", str, 4) == 0)
-		b_env(str, head);
+		b_env(str, *head);
 	if (ft_strncmp("exit", str, 4) == 0)
 		b_exit(0);
 	if (ft_strncmp("$", str, 1) == 0)

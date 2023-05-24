@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:40:04 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/22 15:45:49 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/24 22:34:39 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 void	b_export(char *str, t_node **head)
 {
 	b_unset(str, head);
-	list_append(head, str + 7);
+	list_append(head, str + 7, 1);
 }
 
 //even need for b_env?
 //probally need some error checking that env doesnt get any arguments
-void	b_env(char *str, t_node **head)
+void	b_env(char *str, t_node *head)
 {
-	list_print(*head);
+	list_print(head);
 }
 
 //exit with errno and strerror/perror?

@@ -27,7 +27,8 @@ void list_clear(t_node *head)
 // add to the end
 // helper to list_create_env
 // also used in b_export
-void list_append(t_node **head, char *str)
+// flag is just for debugging, need to remove later and update in minishell.h
+void list_append(t_node **head, char *str, int flag)
 {
 	t_node *node;
 
@@ -39,6 +40,13 @@ void list_append(t_node **head, char *str)
 	node->next = malloc(sizeof(t_node));
 	node->next->str = str;
 	node->next->next = NULL;
+	if (flag == 1)
+	{
+		printf("\n\n debug\n");
+		printf("str : %s\n", str);
+		printf("node->next->str : %s\n", node->next->str);
+		printf("nnode->next->next : %p\n\n", node->next->next);
+	}
 }
 
 // main func, called from main
@@ -52,7 +60,7 @@ void list_create_env(t_node **head, t_data data)
 	(*head)->next = NULL;
 	while(data.envp[i] != NULL)
 	{
-		list_append(head, data.envp[i]);
+		list_append(head, data.envp[i], 0);
 		i++;
 	}
 }
