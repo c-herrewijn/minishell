@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/23 16:06:22 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/24 15:24:15 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,26 @@ void print_2d_array(char **s)
 
 void	print_tokens(t_data *data)
 {
-	int	i;
+	int				i;
+	t_token_type	type;
 
 	i = 0;
 	dprintf(2, "%zu tokens created:\n", data->nr_tokens);
 	while (i < data->nr_tokens)
 	{
-		if (data->token_arr[i].type == WORD)
+		type = data->token_arr[i].type;
+		if (type == WORD)
 			dprintf(2, "%s\n", data->token_arr[i].word);
-		if (data->token_arr[i].type == OPERATOR)
-		{
-			dprintf(2, "%c%c\n", data->token_arr[i].operator[0],
-				data->token_arr[i].operator[1]);
-		}
+		if (type == PIPE)
+			dprintf(2, "|\n");
+		if (type == REDIRECT_INPUT)
+			dprintf(2, "<\n");
+		if (type == HEREDOC)
+			dprintf(2, "<<\n");
+		if (type == REDIRECT_OUTPUT)
+			dprintf(2, ">\n");
+		if (type == REDIRECT_OUTPUT_APPEND)
+			dprintf(2, ">>\n");
 		i++;
 	}
 }

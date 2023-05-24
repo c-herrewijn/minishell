@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/23 16:50:04 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/24 15:10:41 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,18 @@
 # include <term.h>
 
 typedef enum e_lexer_state {
-	DELIMITED = 0,
-	READING_WORD = 1,
-	READING_OPERATOR = 2
+	DELIMITED,
+	READING_WORD,
+	READING_OPERATOR
 }	t_lexer_state;
 
 typedef enum e_token_type {
-	WORD = 0,
-	OPERATOR = 1
+	WORD,
+	PIPE,
+	REDIRECT_INPUT,
+	HEREDOC,
+	REDIRECT_OUTPUT,
+	REDIRECT_OUTPUT_APPEND,
 }	t_token_type;
 
 /*
@@ -60,7 +64,6 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*word;
-	char			operator[2];
 }	t_token;
 
 /*

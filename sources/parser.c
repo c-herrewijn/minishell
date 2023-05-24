@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/23 16:01:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/23 18:52:42 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/24 15:26:11 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,32 @@ Validations:
 */
 static bool	syntax_validation(t_data *data)
 {
-	// loop over the nr of commands commands
-	// per command, select the relevant tokens (i.e between the pipes)
+	size_t			i;
+	t_token			token;
 
-	// checks:
-	// - nr of tokens should not be zero
-	// - there should be a word after redirection token.
-
-	return (true);  // dummy return
+	i = 0;
+	while (i < data->nr_tokens)
+	{
+		token = data->token_arr[i];
+		if ((token.type == PIPE) && (i == 0 || i == data->nr_tokens - 1))
+			return (false);
+		if (token.type == REDIRECT_INPUT
+			|| token.type == HEREDOC
+			|| token.type == REDIRECT_OUTPUT
+			|| token.type == REDIRECT_OUTPUT_APPEND)
+		{
+			if (i == data->nr_tokens - 1)
+				return (false);
+			else
+			{
+				if (data->token_arr[i + 1].type != WORD)
+					return (false);
+			}
+		}
+		i++;
+	}
+	return (true);
 }
-
 
 size_t	get_nr_commands(t_data *data)
 {
@@ -41,11 +57,8 @@ size_t	get_nr_commands(t_data *data)
 	command_count = 1;
 	while (i < data->nr_tokens)
 	{
-		if (data->token_arr[i].type == OPERATOR
-			&& data->token_arr[i].operator[0] == '|')
-		{
+		if (data->token_arr[i].type == PIPE)
 			command_count++;
-		}
 		i++;
 	}
 	return (command_count);
@@ -56,12 +69,12 @@ int	parser(t_data *data)
 	data->nr_commands = get_nr_commands(data);
 	
 	// debug
-	// printf("nr of commands = %zu\n", data->nr_commands);
+	printf("nr of commands = %zu\n", data->nr_commands);
 
 	if (syntax_validation(data) == false)
 	{
-		// provide error
-		;
+		write(STDERR_FILENO, "syntax error\n", 13);
+		return (-1);
 	}
 	else
 	{

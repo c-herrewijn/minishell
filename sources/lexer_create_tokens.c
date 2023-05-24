@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 15:31:40 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/23 16:06:03 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/24 15:19:08 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ static int	create_word(char *str, t_token *token, size_t *i)
 
 	len = word_len(str, *i);
 	token->type = WORD;
-	token->operator[0] = '\0';
-	token->operator[1] = '\0';
 	token->word = ft_substr(str, *i, len);
 	if (token->word == NULL)
 		return (-1);
@@ -53,16 +51,22 @@ static int	create_word(char *str, t_token *token, size_t *i)
 
 static void	create_operator(char *str, t_token *token, size_t *i)
 {
-	token->type = OPERATOR;
+	char c1;
+	char c2;
+
+	c1 = str[*i];
+	c2 = str[(*i) + 1];
 	token->word = NULL;
-	token->operator[0] = str[*i];
-	if (is_double_operator(str[*i], str[(*i) + 1]))
-	{
-		token->operator[1] = str[(*i) + 1];
-		(*i)++;
-	}
-	else
-		token->operator[1] = '\0';
+	if (c1 == '<' && c2 == '<')
+		token->type = HEREDOC;
+	else if (c1 == '>' && c2 == '>')
+		token->type = REDIRECT_OUTPUT_APPEND;
+	else if (c1 == '<')
+		token->type = REDIRECT_INPUT;
+	else if (c1 == '>')
+		token->type = REDIRECT_OUTPUT;
+	else if (c1 == '|')
+		token->type = PIPE;
 }
 
 int	create_tokens(t_data *data)
