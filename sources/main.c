@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/25 21:08:20 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/25 21:15:31 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@ static void	init_data_struct(t_data *data, int argc, char **argv, char **envp)
 	data->argc = argc;
 	data->argv = argv;
 	data->envp = envp;
-	data->nr_tokens = 0;
 	data->str = NULL;
+	data->nr_tokens = 0;
 	data->token_arr = NULL;
+	data->nr_commands = 0;
+	data->command_arr = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)

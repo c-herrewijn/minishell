@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/25 17:18:44 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/25 21:15:14 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,25 @@ typedef struct s_token
 	char			*word;
 }	t_token;
 
+typedef struct s_redirection
+{
+	t_token_type	redirection_type;
+	t_token			*word;
+}	t_redirection;
+
 /*
 simple command as described by the shell grammar
 https://www.man7.org/linux/man-pages/man1/bash.1.html#SHELL_GRAMMAR
 */
 typedef struct s_command
 {
-	size_t	argc;
-	char	**argv;
-	t_node	*envp;
-	char	*executable_location;
-	pid_t	pid;
-	int		exit_status;
+	size_t			argc;
+	char			**argv;
+	t_node			*envp;
+	t_redirection	**redirections;
+	char			*executable_location;
+	pid_t			pid;
+	int				exit_status;
 }	t_command;
 
 /*

@@ -8,6 +8,7 @@
 		"stat.h": "c",
 		"fcntl.h": "c",
 		"history.h": "c",
-		"readline.h": "c"
+		"readline.h": "c",
+		"limits.h": "c",
 	}
 }
