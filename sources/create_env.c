@@ -41,19 +41,10 @@ void list_append(t_node **head, char *str, int flag)
 
 	node = *head;
 	while(node->next != NULL)
-	{
 		node = node->next;
-	}
 	node->next = malloc(sizeof(t_node));
 	node->next->str = str;
 	node->next->next = NULL;
-	if (flag == 1)
-	{
-		printf("\n\n debug\n");
-		printf("str : %s\n", str);
-		printf("node->next->str : %s\n", node->next->str);
-		printf("nnode->next->next : %p\n\n", node->next->next);
-	}
 }
 
 // main func, called from main

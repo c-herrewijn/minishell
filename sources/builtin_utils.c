@@ -6,26 +6,36 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 15:53:59 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/24 21:53:24 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/25 17:18:31 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		is_in_env(char *str, t_node **head)
+void print_next(t_node **head)
+{
+	//debug
+	t_node *node = *head;
+	printf("node->next->str : %s\n", node->next->str);
+}
+
+int		is_in_env(char *str, t_node **head, int flag)
 {
 	t_node *node;
 	int i;
-	int unset_len;
+	int prefix;
 	int str_len;
 	
 	node = *head;
 	i = 0;
-	unset_len = ((int)ft_strlen("unset "));
-	str_len = ((int)ft_strlen(str)) - unset_len;
+	if (flag == 1)
+		prefix = ((int)ft_strlen("unset "));
+	else
+		prefix = ((int)ft_strlen("export "));
+	str_len = ((int)ft_strlen(str)) - prefix;
 	while(node != NULL)
 	{
-		if (ft_strncmp(str + unset_len, node->str, str_len) == 0)
+		if (ft_strncmp(str + prefix, node->str, str_len) == 0)
 		{
 			if ((node->str)[str_len] == '=')
 				return i;

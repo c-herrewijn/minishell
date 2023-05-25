@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/24 15:27:27 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/25 21:08:20 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,15 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 	t_node	*head;
 
+	// might need to be t_node head
+	// without the the pointer
+	// and then update the other function that use the linked list
+
 	// debug
 	// atexit(check_leaks);  
 
 	init_data_struct(&data, argc, argv, envp);
-	list_create_env(&head, data);	
+	list_create_env(&head, data);
 	while (true)
 	{
 		data.str = readline("minishell$ ");

@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:40:04 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/25 15:32:50 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/25 20:30:31 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,15 @@
 //might want to update existing env var in place if it already exists
 void	b_export(char *str, t_node **head)
 {
-	b_unset(str, head);
-	list_append(head, str + 7, 1);
+	char *cpy;
+	int slen;
+	int elen;
+
+	slen = (int)ft_strlen(str);
+	elen = (int)ft_strlen("export ");
+	cpy = ft_substr(str, elen, slen - elen);
+	b_unset(str, head, 2);
+	list_append(head, cpy, 1);
 }
 
 //even need for b_env?

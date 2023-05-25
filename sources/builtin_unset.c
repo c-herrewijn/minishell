@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/25 15:35:20 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/25 20:58:55 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void unset_all(t_node **head)
 
 	i = 0;
 	len = list_len(*head);
-	while (i < len - 5)
+	while (i < len - 2)
 	{
 		// list_remove_first(head);
-		list_remove_index(head, 3);
+		list_remove_index(head, 1);
 		i++;
 	}
 }
@@ -61,11 +61,11 @@ void list_remove_index(t_node **head, int spot)
 }
 
 // might need to do something with magic numbers
-void	b_unset(char *str, t_node **head)
+void	b_unset(char *str, t_node **head, int flag)
 {
 	int i;
 	
-	i = is_in_env(str, head);
+	i = is_in_env(str, head, flag);
 	if (i != -1)
 		list_remove_index(head, i);
 }

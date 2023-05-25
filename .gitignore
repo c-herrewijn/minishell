@@ -5,3 +5,4 @@ obj/
 infile
 outfile
 *.txt
+.vscode

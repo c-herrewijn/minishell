@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/25 15:32:58 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/25 17:18:44 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,14 +109,15 @@ void	b_env(t_node *head);
 void	b_exit(int exit_status);
 
 //builtin_utils.c
-int		is_in_env(char *str, t_node **head);
+void print_next(t_node **head);
+int		is_in_env(char *str, t_node **head, int flag);
 void	free_double_char_pointer(char **s);
 
 //builtin_unset.c
 void	unset_all(t_node **head);
 void	list_remove_first(t_node **head);
 void	list_remove_index(t_node **head, int spot);
-void	b_unset(char *str, t_node **head);
+void	b_unset(char *str, t_node **head, int flag);
 
 //check_for_builtin.c
 int		b_arr_len(char **s);
