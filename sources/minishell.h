@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/24 22:39:12 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/25 15:32:58 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,22 @@ typedef struct s_data
 	t_command	*command_arr;
 }	t_data;
 
+//echo_cd_pwd.c
+void	b_echo(char *str);
+void	b_cd(char *str, t_node **head);
+void	b_pwd(void);
+
+//export_env_exit.c
+void	b_export(char *str, t_node **head);
+void	b_env(t_node *head);
+void	b_exit(int exit_status);
+
+//builtin_utils.c
+int		is_in_env(char *str, t_node **head);
+void	free_double_char_pointer(char **s);
+
 //builtin_unset.c
+void	unset_all(t_node **head);
 void	list_remove_first(t_node **head);
 void	list_remove_index(t_node **head, int spot);
 void	b_unset(char *str, t_node **head);
@@ -108,6 +123,7 @@ int		b_arr_len(char **s);
 void	check_if_builtin(char *str, t_node **head);
 
 //create_env.c
+int		list_len(t_node *head);
 void	list_clear(t_node *head);
 void	list_append(t_node **head, char *str, int flag);
 void	list_create_env(t_node **head, t_data data);
@@ -118,24 +134,6 @@ void	print_env_var(char *str, t_node *head);
 void	print_2d_array(char **s);
 void	print_tokens(t_data *data);
 char	*tokens_to_string(t_data *data);
-
-/*
-probally will split these two files up more later
-*/
-
-//echo_cd_pwd.c
-void	b_echo(char *str);
-void	b_cd(char *str, t_node **head);
-void	b_pwd(void);
-
-//export_env_exit.c
-void	b_export(char *str, t_node **head);
-void	b_env(char *str, t_node *head);
-void	b_exit(int exit_status);
-
-//builtin_utils.c
-int		is_in_env(char *str, t_node **head);
-void	free_double_char_pointer(char **s);
 
 // lexer
 int		lexer(t_data *data);

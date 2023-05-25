@@ -6,11 +6,26 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/24 21:35:45 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/25 15:35:20 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void unset_all(t_node **head)
+{
+	int i;
+	int len;
+
+	i = 0;
+	len = list_len(*head);
+	while (i < len - 5)
+	{
+		// list_remove_first(head);
+		list_remove_index(head, 3);
+		i++;
+	}
+}
 
 // pop off first
 // saves the original pointer

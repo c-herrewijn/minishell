@@ -1,12 +1,19 @@
 #include "minishell.h"
 
-/*
-alot of these functions malloc inside
-non of them accept malloced nodes as param
-could change this later to use t_list ft_lst_funcs
-but using them is kinda verbose,
-however i am probally using them wrong
-*/
+int list_len(t_node *head)
+{
+	t_node *node;
+	int i;
+
+	node = head;
+	i = 0;
+	while (node->next != NULL)
+	{
+		node = node->next;
+		i++;
+	}
+	return i;
+}
 
 // need to keep track of both to not lose the pointer
 void list_clear(t_node *head)
