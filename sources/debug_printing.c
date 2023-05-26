@@ -6,11 +6,23 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/24 18:15:16 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/26 14:21:16 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void print_next(t_node **head)
+{
+	//debug
+	t_node *node = *head;
+	if (*head == NULL)
+	{
+		printf("*head == NULL it seems\n");
+		return ;
+	}
+	printf("node->next->str : %s\n", node->next->str);
+}
 
 // for printing/debugging env
 void list_print(t_node *head)
@@ -18,6 +30,11 @@ void list_print(t_node *head)
 	t_node *node;
 	
 	node = head;
+	if (head == NULL)
+	{
+		printf("head == NULL it seems\n");
+		return ;
+	}
 	while(node != NULL)
 	{
 		printf("%s\n", node->str);

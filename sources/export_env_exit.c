@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:40:04 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/25 20:30:31 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/26 14:01:58 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	b_export(char *str, t_node **head)
 	elen = (int)ft_strlen("export ");
 	cpy = ft_substr(str, elen, slen - elen);
 	b_unset(str, head, 2);
-	list_append(head, cpy, 1);
+	list_append(head, cpy);
 }
 
 //even need for b_env?

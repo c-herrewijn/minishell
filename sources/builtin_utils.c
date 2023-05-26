@@ -6,18 +6,11 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 15:53:59 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/25 17:18:31 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/26 14:17:55 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void print_next(t_node **head)
-{
-	//debug
-	t_node *node = *head;
-	printf("node->next->str : %s\n", node->next->str);
-}
 
 int		is_in_env(char *str, t_node **head, int flag)
 {

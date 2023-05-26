@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/25 21:15:14 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/26 14:18:25 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ void	b_env(t_node *head);
 void	b_exit(int exit_status);
 
 //builtin_utils.c
-void print_next(t_node **head);
 int		is_in_env(char *str, t_node **head, int flag);
 void	free_double_char_pointer(char **s);
 
@@ -133,10 +132,11 @@ void	check_if_builtin(char *str, t_node **head);
 //create_env.c
 int		list_len(t_node *head);
 void	list_clear(t_node *head);
-void	list_append(t_node **head, char *str, int flag);
+void	list_append(t_node **head, char *str);
 void	list_create_env(t_node **head, t_data data);
 
 //debug_printing.c
+void	print_next(t_node **head);
 void	list_print(t_node *head);
 void	print_env_var(char *str, t_node *head);
 void	print_2d_array(char **s);

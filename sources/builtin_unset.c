@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/25 20:58:55 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/26 14:14:56 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ void list_remove_first(t_node **head)
 {
 	t_node *node;
 
+	if (*head == NULL)
+	{
+		printf("*head == NULL it seems\n");
+		return ;
+	}
 	node = *head;
 	*head = (*head)->next;
 	free(node);
@@ -42,14 +47,24 @@ void list_remove_first(t_node **head)
 void list_remove_index(t_node **head, int spot)
 {
 	int i;
+	int listlen;
 	t_node *node;
 	t_node *temp;
-
+	
+	listlen = list_len(*head);
+	if (*head == NULL || spot > listlen)
+	{
+		printf("*head == NULL || spot > listlen\n");
+		return;
+	}
 	i = 0;
 	node = *head;
 	temp = NULL;
 	if (spot == 0)
+	{
 		list_remove_first(head);
+		return ;
+	}
 	while(i < (spot - 1))
 	{
 		node = node->next;

@@ -1,7 +1,7 @@
 NAME = minishell
 # CFLAGS = -Wall -Werror -Wextra -lreadline
-# CFLAGS = -Wall -lreadline -g -fsanitize=address
-CFLAGS = -Wall -lreadline
+CFLAGS = -Wall -lreadline -g -fsanitize=address
+# CFLAGS = -Wall -lreadline
 SRC_DIR = sources
 SRCS =	builtin_unset.c check_for_builtin.c create_env.c debug_printing.c \
 		builtin_utils.c echo_cd_pwd.c export_env_exit.c lexer_count_tokens.c \
