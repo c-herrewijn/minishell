@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/26 16:33:19 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/26 18:18:06 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void unset_all(t_node **head)
 
 	i = 0;
 	len = list_len(*head);
-	while (i < len - 2)
+	while (i < len)
 	{
 		list_remove_first(head);
 		// list_remove_index(head, 1);
@@ -68,6 +68,8 @@ void list_remove_index(t_node **head, int spot)
 	temp = NULL;
 	if (listlen == 1)
 	{
+		if (node->str != NULL)
+			free(node->str);
 		node->str = NULL;
 		node->next = NULL;
 		return ;
@@ -91,7 +93,16 @@ void list_remove_index(t_node **head, int spot)
 void	b_unset(char *str, t_node **head, int type)
 {
 	int i;
-	
+	if (*head == NULL)
+	{
+		printf("*head == NULL\n");
+		return;
+	}
+	if ((*head)->str == NULL)
+	{
+		printf("(*head)->str == NULL\n");
+		return;
+	}
 	i = is_in_env(str, head, type);
 	if (i != -1)
 		list_remove_index(head, i);

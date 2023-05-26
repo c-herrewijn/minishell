@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/26 17:17:25 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/26 18:57:00 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,43 @@ int		b_arr_len(char **s)
 	return i;
 }
 
+int index_of_c_in_str(char *str, char c)
+{
+	int i;
+
+	i = 0;
+	if (str == NULL || c == 0)
+		return -1;
+	while(str[i] != '\0')
+	{
+		if (str[i] == c)
+			return i;
+		i++;
+	}
+	return -1;
+}
+
+bool b_export_allowed_format(char *str)
+{
+	int i;
+	int flag;
+	int equals;
+	
+	flag = 0;
+	i = 7;
+	equals = index_of_c_in_str(str, '=');
+	if (ft_isdigit(str[i]) || equals == -1)
+		return false;
+	while (str[i] != '\0' && i < equals)
+	{
+		if (!(ft_isalnum(str[i]) || str[i] == '_'))
+			if (!(str[i] == '+' && str[i + 1] == '='))
+				return false;
+		i++;
+	}
+	return true;
+}
+
 // only works for basic input with only one command basicly
 // need to use lexer/parser input later on
 void	check_if_builtin(char *str, t_node **head)
@@ -37,8 +74,10 @@ void	check_if_builtin(char *str, t_node **head)
 		b_pwd();
 	if (ft_strncmp("export ", str, 7) == 0)
 	{
-		
-		b_export(str, head);
+		if (b_export_allowed_format(str) == true)
+			b_export(str, head);
+		else
+			printf("incorrect format for export! >:(\n");
 	}
 	if (ft_strncmp("unset ", str, 6) == 0)
 		b_unset(str, head, 1);
@@ -59,9 +98,9 @@ void	check_if_builtin(char *str, t_node **head)
 		int listlen;
 	
 		listlen = list_len(*head);
-		printf("listlen : %d\n", listlen);
+		// printf("listlen : %d\n", listlen);
 		int n = str[10] - '0';
-		printf("n : %d\n", n);
+		// printf("n : %d\n", n);
 		list_remove_index(head, n);
 	}
 	if (ft_strncmp("print first", str, 11) == 0)

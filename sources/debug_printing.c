@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/26 16:13:17 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/26 19:01:27 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ void print_next(t_node **head)
 	if (*head == NULL)
 	{
 		printf("*head == NULL it seems\n");
+		return ;
+	}
+	int listlen = list_len(*head);
+	if (listlen == 1)
+	{
+		printf("cant print, because list len is 1\n");
 		return ;
 	}
 	printf("node->next->str : %s\n", node->next->str);
