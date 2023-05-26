@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/25 15:22:18 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/25 15:23:14 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/25 17:50:00 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@ static bool	syntax_validations_redirections(t_data *data, size_t i_token)
 	return (true);
 }
 
+bool	is_redirection_token(t_token token)
+{
+	return ((token.type == REDIRECT_INPUT
+				|| token.type == HEREDOC
+				|| token.type == REDIRECT_OUTPUT
+				|| token.type == REDIRECT_OUTPUT_APPEND));
+}
+
 bool	syntax_validation(t_data *data)
 {
 	size_t	i;
@@ -55,10 +63,7 @@ bool	syntax_validation(t_data *data)
 		token = data->token_arr[i];
 		if ((token.type == PIPE) && syntax_validation_pipe(data, i) == false)
 			return (false);
-		if ((token.type == REDIRECT_INPUT
-				|| token.type == HEREDOC
-				|| token.type == REDIRECT_OUTPUT
-				|| token.type == REDIRECT_OUTPUT_APPEND)
+		if (is_redirection_token(token)
 			&& syntax_validations_redirections(data, i) == false)
 			return (false);
 		i++;
