@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/26 14:18:25 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/26 15:57:00 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,5 +155,6 @@ bool	is_double_operator(char c1, char c2);
 // parser
 int		parser(t_data *data);
 bool	syntax_validation(t_data *data);
+bool	is_redirection_token(t_token token);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/23 16:01:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/25 15:23:18 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/26 16:03:01 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,71 @@ size_t	get_nr_commands(t_data *data)
 	return (command_count);
 }
 
+// assumes command_nr <= nr tokens of type PIPE
+static size_t	get_start_token(t_data *data, size_t command_nr)
+{
+	size_t	token_nr;
+	size_t	pipe_count;
+
+	token_nr = 0;
+	pipe_count = 0;
+	while (command_nr > pipe_count)
+	{
+		if (data->token_arr[token_nr].type == PIPE)
+			pipe_count++;
+		token_nr++;
+	}
+	return (token_nr);
+}
+
+int	create_command(t_data *data, size_t command_nr)
+{
+	t_command	command;
+	size_t		start_token;
+	size_t		i_token;
+	int			argc;
+
+	command = (data->command_arr)[command_nr];
+	start_token = get_start_token(data, command_nr);
+	argc = 0;
+	i_token = start_token;
+
+	while (i_token < data->nr_tokens && data->token_arr[i_token].type != PIPE)
+	{
+		if (is_redirection_token(data->token_arr[i_token]))
+			;
+			// add_redirection(); // todo
+		else
+			;
+			// add_argv();
+		i_token++;
+	}
+	return (42);  // dummy
+}
+
+
+int	create_commands(t_data *data)
+{
+	size_t	i;
+
+	data->nr_commands = get_nr_commands(data);
+	if (data->nr_commands == 0)
+		return (0);
+	data->command_arr = ft_calloc(data->nr_commands, sizeof(t_command));
+	if (data->command_arr == NULL)
+		return (-1);
+	i = 0;
+	while (i < data->nr_commands)
+	{
+		if (create_command(data, i) < 0)
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
 int	parser(t_data *data)
 {
-	data->nr_commands = get_nr_commands(data);
 	
 	// debug
 	// printf("nr of commands = %zu\n", data->nr_commands);
@@ -42,7 +104,7 @@ int	parser(t_data *data)
 	}
 	else
 	{
-		// create command
+		// create commands
 		;
 	}
 	return (42);  // dummy return value
