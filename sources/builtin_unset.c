@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/26 14:14:56 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/26 16:33:19 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void unset_all(t_node **head)
 	len = list_len(*head);
 	while (i < len - 2)
 	{
-		// list_remove_first(head);
-		list_remove_index(head, 1);
+		list_remove_first(head);
+		// list_remove_index(head, 1);
 		i++;
 	}
 }
@@ -32,10 +32,16 @@ void unset_all(t_node **head)
 void list_remove_first(t_node **head)
 {
 	t_node *node;
-
+	int listlen;
 	if (*head == NULL)
 	{
 		printf("*head == NULL it seems\n");
+		return ;
+	}
+	listlen = list_len(*head);
+	if (listlen == 1)
+	{
+		(*head)->str = NULL;
 		return ;
 	}
 	node = *head;
@@ -60,6 +66,12 @@ void list_remove_index(t_node **head, int spot)
 	i = 0;
 	node = *head;
 	temp = NULL;
+	if (listlen == 1)
+	{
+		node->str = NULL;
+		node->next = NULL;
+		return ;
+	}
 	if (spot == 0)
 	{
 		list_remove_first(head);
@@ -76,11 +88,11 @@ void list_remove_index(t_node **head, int spot)
 }
 
 // might need to do something with magic numbers
-void	b_unset(char *str, t_node **head, int flag)
+void	b_unset(char *str, t_node **head, int type)
 {
 	int i;
 	
-	i = is_in_env(str, head, flag);
+	i = is_in_env(str, head, type);
 	if (i != -1)
 		list_remove_index(head, i);
 }

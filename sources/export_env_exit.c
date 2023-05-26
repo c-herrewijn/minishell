@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:40:04 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/26 14:01:58 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/26 16:32:52 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,23 @@ void	b_export(char *str, t_node **head)
 	char *cpy;
 	int slen;
 	int elen;
+	int listlen;
 
+	if (*head == NULL)
+	{
+		printf("*head == NULL it seems\n");
+		return ;
+	}
+	listlen = list_len(*head);
 	slen = (int)ft_strlen(str);
 	elen = (int)ft_strlen("export ");
 	cpy = ft_substr(str, elen, slen - elen);
+	if (listlen == 1 && (*head)->str == NULL)
+	{
+		(*head)->str = cpy;
+		(*head)->next = NULL;
+		return ;
+	}
 	b_unset(str, head, 2);
 	list_append(head, cpy);
 }

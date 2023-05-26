@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/25 18:35:37 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/26 17:17:25 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,17 @@ void	check_if_builtin(char *str, t_node **head)
 	if (ft_strncmp("pwd", str, 4) == 0)
 		b_pwd();
 	if (ft_strncmp("export ", str, 7) == 0)
+	{
+		
 		b_export(str, head);
+	}
 	if (ft_strncmp("unset ", str, 6) == 0)
 		b_unset(str, head, 1);
 	if (ft_strncmp("env", str, 4) == 0)
 		b_env(*head);
 	if (ft_strncmp("exit", str, 4) == 0)
 		b_exit(0);
+
 	//for debugging
 	if (ft_strncmp("$", str, 1) == 0)
 		print_env_var(str, *head);
@@ -52,10 +56,18 @@ void	check_if_builtin(char *str, t_node **head)
 		list_remove_first(head);
 	if (ft_strncmp("remove on", str, 9) == 0)
 	{
+		int listlen;
+	
+		listlen = list_len(*head);
+		printf("listlen : %d\n", listlen);
 		int n = str[10] - '0';
 		printf("n : %d\n", n);
 		list_remove_index(head, n);
 	}
+	if (ft_strncmp("print first", str, 11) == 0)
+		print_first(head);
 	if (ft_strncmp("print next", str, 10) == 0)
 		print_next(head);
+	if (ft_strncmp("list len", str, 8) == 0)
+		printf("list len : %d\n", list_len(*head));
 }

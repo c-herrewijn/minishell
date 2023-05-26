@@ -6,13 +6,13 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 15:53:59 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/26 14:17:55 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/26 16:23:26 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		is_in_env(char *str, t_node **head, int flag)
+int		is_in_env(char *str, t_node **head, int type)
 {
 	t_node *node;
 	int i;
@@ -21,7 +21,7 @@ int		is_in_env(char *str, t_node **head, int flag)
 	
 	node = *head;
 	i = 0;
-	if (flag == 1)
+	if (type == 1)
 		prefix = ((int)ft_strlen("unset "));
 	else
 		prefix = ((int)ft_strlen("export "));

@@ -7,12 +7,16 @@ int list_len(t_node *head)
 
 	node = head;
 	i = 0;
+	if (head == NULL) //  || head->str == NULL (maybe need to add)
+	{
+		return 0;
+	}
 	while (node->next != NULL)
 	{
 		node = node->next;
 		i++;
 	}
-	return i;
+	return i+1;
 }
 
 // need to keep track of both to not lose the pointer
@@ -52,13 +56,18 @@ void list_create_env(t_node **head, t_data data)
 {
 	int i;
 	char *cpy;
+	int envplen;
 
 	i = 1;
+	envplen = b_arr_len(data.envp);
+	if (envplen == 0)
+		return ;
 	cpy = ft_substr(data.envp[0], 0, ft_strlen(data.envp[0]));
-
 	*head = malloc(sizeof(t_node));
 	(*head)->str = cpy;
 	(*head)->next = NULL;
+	// if (envplen == 1)
+	// 	return ;
 	while(data.envp[i] != NULL)
 	{
 		cpy = ft_substr(data.envp[i], 0, ft_strlen(data.envp[i]));
