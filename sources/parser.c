@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/23 16:01:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/30 16:30:44 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/30 17:52:09 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	command_count_arguments(t_data *data, size_t command_nr)
 	size_t	i_token;
 	int		argc;
 
-	i_token = 0;
+	i_token = get_start_token(data, command_nr);
 	argc = 0;
 	while (i_token < data->nr_tokens && data->token_arr[i_token].type != PIPE)
 	{
