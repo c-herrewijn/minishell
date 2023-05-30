@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/26 19:06:43 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/30 16:10:14 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,9 @@ void	b_cd(char *str, t_node **head);
 void	b_pwd(void);
 
 //export_env_exit.c
+char	*remove_plus(char *str);
+void	b_export_concat_inplace(char *str, t_node **head, int spot);
+void	b_export_concat(char *str, t_node **head);
 void	b_export(char *str, t_node **head);
 void	b_env(t_node *head);
 void	b_exit(int exit_status);
@@ -128,7 +131,7 @@ void	b_unset(char *str, t_node **head, int type);
 //check_for_builtin.c
 int		b_arr_len(char **s);
 int		index_of_c_in_str(char *str, char c);
-bool	b_export_allowed_format(char *str);
+int		b_export_allowed_format(char *str);
 void	check_if_builtin(char *str, t_node **head);
 
 //create_env.c

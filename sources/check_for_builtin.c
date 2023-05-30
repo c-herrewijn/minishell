@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/26 18:57:00 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/30 13:34:39 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,34 @@ int index_of_c_in_str(char *str, char c)
 	return -1;
 }
 
-bool b_export_allowed_format(char *str)
+/*
+returns
+-1 for invalid syntax
+1 for normal name=value syntax
+2 for concat name+=value syntax
+*/
+int		b_export_allowed_format(char *str)
 {
 	int i;
 	int flag;
 	int equals;
 	
 	flag = 0;
-	i = 7;
+	i = (int)ft_strlen("export ");
 	equals = index_of_c_in_str(str, '=');
 	if (ft_isdigit(str[i]) || equals == -1)
-		return false;
+		return -1;
 	while (str[i] != '\0' && i < equals)
 	{
 		if (!(ft_isalnum(str[i]) || str[i] == '_'))
 			if (!(str[i] == '+' && str[i + 1] == '='))
-				return false;
+				return -1;
+		if (i > 7)
+			if (str[i] == '+' && str[i + 1] == '=')
+				return 2;
 		i++;
 	}
-	return true;
+	return 1;
 }
 
 // only works for basic input with only one command basicly
@@ -74,8 +83,12 @@ void	check_if_builtin(char *str, t_node **head)
 		b_pwd();
 	if (ft_strncmp("export ", str, 7) == 0)
 	{
-		if (b_export_allowed_format(str) == true)
+		int export_format;
+		export_format = b_export_allowed_format(str);
+		if (export_format == 1)
 			b_export(str, head);
+		else if (export_format == 2)
+			b_export_concat(str, head);
 		else
 			printf("incorrect format for export! >:(\n");
 	}
