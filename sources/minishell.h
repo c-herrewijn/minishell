@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/30 15:00:42 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/30 17:42:58 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ https://www.man7.org/linux/man-pages/man1/bash.1.html#SHELL_GRAMMAR
 */
 typedef struct s_command
 {
-	size_t			argc;
+	int				argc;
 	char			**argv;
 	t_node			*envp;
 	t_redirection	**redirections;
