@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/26 19:01:27 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/30 16:32:39 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,4 +169,48 @@ char *tokens_to_string(t_data *data)
 		i++;		
 	}
 	return (str);
+}
+
+void	write_operator(t_token_type type)
+{
+	if (type == WORD)
+		dprintf(2, "%s\n", "unexpected word");
+	if (type == PIPE)
+		dprintf(2, "|");
+	if (type == REDIRECT_INPUT)
+		dprintf(2, "<");
+	if (type == HEREDOC)
+		dprintf(2, "<<");
+	if (type == REDIRECT_OUTPUT)
+		dprintf(2, ">");
+	if (type == REDIRECT_OUTPUT_APPEND)
+		dprintf(2, ">>");
+}
+
+void	print_commands(t_data *data)
+{
+	size_t	i;
+	size_t	i_r;
+	size_t	i_argv;
+
+	i = 0;
+	while (i < data->nr_commands)
+	{
+		puts("argv:");
+		i_argv = 0;
+		while ((data->command_arr)[i].argv[i_argv] != NULL)
+		{
+			printf("%s\n", (data->command_arr)[i].argv[i_argv]);
+			i_argv++;
+		}
+		puts("redirections:");
+		i_r = 0;
+		while ((data->command_arr)[i].redirections[i_r] != NULL)
+		{
+			write_operator((data->command_arr)[i].redirections[i_r]->redirection_type);
+			dprintf(2, " %s\n", (data->command_arr)[i].redirections[i_r]->word);
+			i_r++;
+		}
+		i++;
+	}
 }

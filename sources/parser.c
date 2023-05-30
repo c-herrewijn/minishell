@@ -6,11 +6,29 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/23 16:01:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/26 16:03:01 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/30 16:30:44 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	command_count_arguments(t_data *data, size_t command_nr)
+{
+	size_t	i_token;
+	int		argc;
+
+	i_token = 0;
+	argc = 0;
+	while (i_token < data->nr_tokens && data->token_arr[i_token].type != PIPE)
+	{
+		if (is_redirection_token(data->token_arr[i_token]))
+			i_token++;
+		else
+			argc++;
+		i_token++;
+	}
+	return (argc);
+}
 
 size_t	get_nr_commands(t_data *data)
 {
@@ -29,7 +47,7 @@ size_t	get_nr_commands(t_data *data)
 }
 
 // assumes command_nr <= nr tokens of type PIPE
-static size_t	get_start_token(t_data *data, size_t command_nr)
+size_t	get_start_token(t_data *data, size_t command_nr)
 {
 	size_t	token_nr;
 	size_t	pipe_count;
@@ -44,32 +62,6 @@ static size_t	get_start_token(t_data *data, size_t command_nr)
 	}
 	return (token_nr);
 }
-
-int	create_command(t_data *data, size_t command_nr)
-{
-	t_command	command;
-	size_t		start_token;
-	size_t		i_token;
-	int			argc;
-
-	command = (data->command_arr)[command_nr];
-	start_token = get_start_token(data, command_nr);
-	argc = 0;
-	i_token = start_token;
-
-	while (i_token < data->nr_tokens && data->token_arr[i_token].type != PIPE)
-	{
-		if (is_redirection_token(data->token_arr[i_token]))
-			;
-			// add_redirection(); // todo
-		else
-			;
-			// add_argv();
-		i_token++;
-	}
-	return (42);  // dummy
-}
-
 
 int	create_commands(t_data *data)
 {
@@ -93,10 +85,6 @@ int	create_commands(t_data *data)
 
 int	parser(t_data *data)
 {
-	
-	// debug
-	// printf("nr of commands = %zu\n", data->nr_commands);
-
 	if (syntax_validation(data) == false)
 	{
 		write(STDERR_FILENO, "syntax error\n", 13);
@@ -104,8 +92,8 @@ int	parser(t_data *data)
 	}
 	else
 	{
-		// create commands
-		;
+		if (create_commands(data) < 0)
+			return (-1);
 	}
-	return (42);  // dummy return value
+	return (0);
 }

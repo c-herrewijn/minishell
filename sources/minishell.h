@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/26 19:06:43 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/30 15:00:42 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_token
 typedef struct s_redirection
 {
 	t_token_type	redirection_type;
-	t_token			*word;
+	char			*word;
 }	t_redirection;
 
 /*
@@ -145,6 +145,7 @@ void	print_env_var(char *str, t_node *head);
 void	print_2d_array(char **s);
 void	print_tokens(t_data *data);
 char	*tokens_to_string(t_data *data);
+void	print_commands(t_data *data);
 
 // lexer
 int		lexer(t_data *data);
@@ -159,5 +160,8 @@ bool	is_double_operator(char c1, char c2);
 int		parser(t_data *data);
 bool	syntax_validation(t_data *data);
 bool	is_redirection_token(t_token token);
+int		create_command(t_data *data, size_t command_nr);
+size_t	get_start_token(t_data *data, size_t command_nr);
+int		command_count_arguments(t_data *data, size_t command_nr);
 
 #endif
