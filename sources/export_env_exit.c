@@ -6,11 +6,25 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:40:04 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/30 20:55:21 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/30 21:37:26 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	empty_list_add(t_node **head, char *str)
+{
+	int listlen;
+
+	listlen = list_len(*head);
+	if (listlen == 1 && (*head)->str == NULL)
+	{
+		(*head)->str = str;
+		(*head)->next = NULL;
+		return true;
+	}
+	return false;
+}
 
 char	*remove_plus(char *str)
 {
@@ -36,9 +50,7 @@ char	*remove_plus(char *str)
 		}
 		i++;
 	}
-	// printf("wacky\n");
 	new[j] = '\0';
-	// printf("new : %s\n", new);
 	return new;
 }
 
@@ -47,8 +59,10 @@ char	*remove_plus(char *str)
 //loop through
 void	b_export_concat_inplace(char *str, t_node **head, int spot)
 {
-	t_node *node;
-	int i;
+	t_node	*node;
+	int		i;
+	int		x;
+	char	*temp;
 
 	node = *head;
 	i = 0;
@@ -57,50 +71,41 @@ void	b_export_concat_inplace(char *str, t_node **head, int spot)
 		node = node->next;
 		i++;
 	}
-	// printf("looped, now at : %s\n", node->str);
+	x = index_of_c_in_str(str, '=');
+	temp = ft_strjoin(node->str, str + x + 1);
+	free(node->str);
+	node->str = temp;
 	return ;
 }
 
-//prob want to use ft_strjoin with free inside the function
 //if in, concat inplace
 //if not in, append to the env linked list
 void	b_export_concat(char *str, t_node **head)
 {
-	int listlen;
 	int spot;
 	char *without_plus;
+	char **arr;
+	char *with_prefix;
 
 	if (*head == NULL)
 	{
 		printf("*head == NULL it seems\n");
 		return ;
 	}
-	listlen = list_len(*head);
-	// printf("concat : past listlen\n");
 	without_plus = remove_plus(str); //also without export
-	if (listlen == 1 && (*head)->str == NULL)
-	{
-		printf("concat : listlen == 1\n");
-		(*head)->str = without_plus;
-		(*head)->next = NULL;
+	if (empty_list_add(head, without_plus) == true)
 		return ;
-	}
-	//ft_strjoin("export ", without_plus)
-	char *with_prefix;
 	with_prefix = ft_strjoin("export ", without_plus);
-	// printf("with_prefix : %s\n", with_prefix);
-	spot = is_in_env(with_prefix, head, 2);
-	if (spot == -1) // always the case if using without_plus, without export prefix
+	arr = ft_split(with_prefix,'=');
+	spot = is_in_env(arr[0], head, 2);
+	free_double_char_pointer(arr);
+	if (spot == -1)
 	{
 		printf("concat : spot == -1 : %s\n", without_plus);
 		list_append(head, without_plus);
 		return ;
 	}
-	//else concat in place
-	//how to concat,
-	//get spot, split on =, join everything step for step
 	b_export_concat_inplace(without_plus, head, spot);
-	// printf("concat : end of func\n");
 }
 
 //unset then export
@@ -111,6 +116,7 @@ void	b_export(char *str, t_node **head)
 	int slen;
 	int elen;
 	int listlen;
+	char **arr;
 
 	if (*head == NULL)
 	{
@@ -121,13 +127,13 @@ void	b_export(char *str, t_node **head)
 	slen = (int)ft_strlen(str);
 	elen = (int)ft_strlen("export ");
 	cpy = ft_substr(str, elen, slen - elen);
-	if (listlen == 1 && (*head)->str == NULL)
-	{
-		(*head)->str = cpy;
-		(*head)->next = NULL;
+	if (empty_list_add(head, cpy) == true)
 		return ;
-	}
-	b_unset(str, head, 2);
+	arr = ft_split(str,'=');
+	b_unset(arr[0], head, 2);
+	free_double_char_pointer(arr);
+	if (empty_list_add(head, cpy) == true)
+		return ;
 	list_append(head, cpy);
 }
 

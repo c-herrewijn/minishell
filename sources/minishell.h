@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/30 17:55:43 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/30 21:15:47 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	b_cd(char *str, t_node **head);
 void	b_pwd(void);
 
 //export_env_exit.c
+bool	empty_list_add(t_node **head, char *str);
 char	*remove_plus(char *str);
 void	b_export_concat_inplace(char *str, t_node **head, int spot);
 void	b_export_concat(char *str, t_node **head);
