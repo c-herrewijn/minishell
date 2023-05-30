@@ -6,7 +6,7 @@ SRC_DIR = sources
 SRCS =	builtin_unset.c check_for_builtin.c create_env.c debug_printing.c \
 		builtin_utils.c echo_cd_pwd.c export_env_exit.c lexer_count_tokens.c \
 		lexer_create_tokens.c lexer_utils.c lexer.c parser.c \
-		parser_syntax_validation.c main.c
+		parser_syntax_validation.c parser_create_command.c main.c
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 LIBFT_DIR = libft
@@ -40,7 +40,8 @@ re: fclean all
 TEST_SRCS = test.c
 FUNCTION_SRCS =	builtin_unset.c check_for_builtin.c create_env.c debug_printing.c \
 		builtin_utils.c echo_cd_pwd.c export_env_exit.c lexer_count_tokens.c \
-		lexer_create_tokens.c lexer_utils.c lexer.c parser.c parser_syntax_validation.c
+		lexer_create_tokens.c lexer_utils.c lexer.c parser.c parser_syntax_validation.c \
+		parser_create_command.c
 
 test: $(NAME)
 	@$(CC) -g $(FLAGS) $(addprefix tests/, $(TEST_SRCS)) $(addprefix sources/, $(FUNCTION_SRCS)) $(LIBFT_DIR)/$(LIBFTNAME) -o test.out
