@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/30 13:34:39 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/30 19:04:44 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,26 @@ int		b_export_allowed_format(char *str)
 	int i;
 	int flag;
 	int equals;
-	
+	int elen;
+
+	elen = (int)ft_strlen("export ");
 	flag = 0;
-	i = (int)ft_strlen("export ");
+	i = elen;
 	equals = index_of_c_in_str(str, '=');
 	if (ft_isdigit(str[i]) || equals == -1)
 		return -1;
 	while (str[i] != '\0' && i < equals)
 	{
 		if (!(ft_isalnum(str[i]) || str[i] == '_'))
-			if (!(str[i] == '+' && str[i + 1] == '='))
+			if (!(str[i] == '+' && str[i + 1] == '=' && i > elen))
 				return -1;
-		if (i > 7)
+		if (i > elen)
 			if (str[i] == '+' && str[i + 1] == '=')
+			{
+				if (str[i + 2] == '\0')
+					return 3;
 				return 2;
+			}
 		i++;
 	}
 	return 1;
@@ -86,11 +92,19 @@ void	check_if_builtin(char *str, t_node **head)
 		int export_format;
 		export_format = b_export_allowed_format(str);
 		if (export_format == 1)
+		{
+			printf("\nDEBUG : normal export\n");
 			b_export(str, head);
+		}
 		else if (export_format == 2)
+		{
+			printf("\nDEBUG : concat export\n");
 			b_export_concat(str, head);
-		else
+		}
+		else if (export_format == -1)
 			printf("incorrect format for export! >:(\n");
+		else
+			return ;
 	}
 	if (ft_strncmp("unset ", str, 6) == 0)
 		b_unset(str, head, 1);
@@ -122,4 +136,6 @@ void	check_if_builtin(char *str, t_node **head)
 		print_next(head);
 	if (ft_strncmp("list len", str, 8) == 0)
 		printf("list len : %d\n", list_len(*head));
+	else
+		return ;
 }

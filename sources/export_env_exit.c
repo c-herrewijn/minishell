@@ -6,27 +6,58 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:40:04 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/30 17:16:52 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/30 20:55:21 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//need to check for malloc fails
-//need to free things i don't return
 char	*remove_plus(char *str)
 {
-	char **arr;
 	char *new;
+	int i;
+	int j;
+	int flag;
+	int elen;
 
-	arr = ft_split(str, ' ');	
-	new = ft_strjoin(arr[0], arr[1]);
-	free_double_char_pointer(arr);
+	elen = (int)ft_strlen("export ");
+	i = elen;
+	j = 0;
+	flag = 0;
+	new = malloc(((int)ft_strlen(str)) - elen + 1);
+	while(str[i] != '\0')
+	{
+		if (str[i] == '+' && flag == 0)
+			flag = 1;
+		else
+		{
+			new[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	// printf("wacky\n");
+	new[j] = '\0';
+	// printf("new : %s\n", new);
 	return new;
 }
 
+// yep
+// malloc len of both
+//loop through
 void	b_export_concat_inplace(char *str, t_node **head, int spot)
 {
+	t_node *node;
+	int i;
+
+	node = *head;
+	i = 0;
+	while (node->next != NULL && i < spot)
+	{
+		node = node->next;
+		i++;
+	}
+	// printf("looped, now at : %s\n", node->str);
 	return ;
 }
 
@@ -45,23 +76,31 @@ void	b_export_concat(char *str, t_node **head)
 		return ;
 	}
 	listlen = list_len(*head);
-	spot = is_in_env(str, head, 2);
-	without_plus = remove_plus(str);
-	if (spot == -1)
+	// printf("concat : past listlen\n");
+	without_plus = remove_plus(str); //also without export
+	if (listlen == 1 && (*head)->str == NULL)
 	{
-		if (listlen == 1 && (*head)->str == NULL)
-		{
-			(*head)->str = without_plus;
-			(*head)->next = NULL;
-		}
-		else
-			list_append(head, without_plus);
+		printf("concat : listlen == 1\n");
+		(*head)->str = without_plus;
+		(*head)->next = NULL;
+		return ;
+	}
+	//ft_strjoin("export ", without_plus)
+	char *with_prefix;
+	with_prefix = ft_strjoin("export ", without_plus);
+	// printf("with_prefix : %s\n", with_prefix);
+	spot = is_in_env(with_prefix, head, 2);
+	if (spot == -1) // always the case if using without_plus, without export prefix
+	{
+		printf("concat : spot == -1 : %s\n", without_plus);
+		list_append(head, without_plus);
 		return ;
 	}
 	//else concat in place
 	//how to concat,
 	//get spot, split on =, join everything step for step
-	
+	b_export_concat_inplace(without_plus, head, spot);
+	// printf("concat : end of func\n");
 }
 
 //unset then export
