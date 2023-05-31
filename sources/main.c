@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/30 16:31:23 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/30 17:22:29 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	main(int argc, char **argv, char **envp)
 			free_and_exit(&data, 1);
 
 		// debug
-		// print_commands(&data);
+		print_commands(&data);
 		
 		// debug
 		// printf("%s\n", data.str);
