@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/31 13:00:38 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/31 20:13:17 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,7 @@ int		b_export_allowed_format(char *str)
 				return -1;
 		if (i > elen)
 			if (str[i] == '+' && str[i + 1] == '=')
-			{
-				if (str[i + 2] == '\0')
-					return 3;
 				return 2;
-			}
 		i++;
 	}
 	return 1;
