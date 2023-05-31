@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/23 16:01:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/30 17:52:09 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/05/31 14:41:32 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ size_t	get_nr_commands(t_data *data)
 	size_t	i;
 	size_t	command_count;
 
+	if (data->nr_tokens == 0)
+		return (0);
 	i = 0;
 	command_count = 1;
 	while (i < data->nr_tokens)
@@ -69,7 +71,10 @@ int	create_commands(t_data *data)
 
 	data->nr_commands = get_nr_commands(data);
 	if (data->nr_commands == 0)
+	{
+		data->command_arr = NULL;
 		return (0);
+	}
 	data->command_arr = ft_calloc(data->nr_commands, sizeof(t_command));
 	if (data->command_arr == NULL)
 		return (-1);
