@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   export_env_exit.c                                  :+:    :+:            */
+/*   b_export.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/19 22:40:04 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/30 21:37:26 by kkroon        ########   odam.nl         */
+/*   Created: 2023/05/31 12:26:47 by kkroon        #+#    #+#                 */
+/*   Updated: 2023/05/31 12:28:28 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,17 +135,4 @@ void	b_export(char *str, t_node **head)
 	if (empty_list_add(head, cpy) == true)
 		return ;
 	list_append(head, cpy);
-}
-
-//even need for b_env?
-//probally need some error checking that env doesnt get any arguments
-void	b_env(t_node *head)
-{
-	list_print(head);
-}
-
-//exit with errno and strerror/perror?
-void	b_exit(int exit_status)
-{
-	exit(exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/30 21:15:47 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/31 12:34:16 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,19 +105,27 @@ typedef struct s_data
 	t_command	*command_arr;
 }	t_data;
 
-//echo_cd_pwd.c
-void	b_echo(char *str);
+//b_cd.c
 void	b_cd(char *str, t_node **head);
-void	b_pwd(void);
 
-//export_env_exit.c
+//b_echo.c
+void	b_echo(char *str);
+
+//b_env.c
+void	b_env(t_node *head);
+
+//b_exit.c
+void	b_exit(int exit_status);
+
+//b_export.c
 bool	empty_list_add(t_node **head, char *str);
 char	*remove_plus(char *str);
 void	b_export_concat_inplace(char *str, t_node **head, int spot);
 void	b_export_concat(char *str, t_node **head);
 void	b_export(char *str, t_node **head);
-void	b_env(t_node *head);
-void	b_exit(int exit_status);
+
+//b_pwd.c
+void	b_pwd(void);
 
 //builtin_utils.c
 int		is_in_env(char *str, t_node **head, int type);

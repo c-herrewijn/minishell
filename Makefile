@@ -3,10 +3,14 @@ NAME = minishell
 CFLAGS = -Wall -lreadline -g -fsanitize=address
 # CFLAGS = -Wall -lreadline
 SRC_DIR = sources
-SRCS =	builtin_unset.c check_for_builtin.c create_env.c debug_printing.c \
-		builtin_utils.c echo_cd_pwd.c export_env_exit.c lexer_count_tokens.c \
-		lexer_create_tokens.c lexer_utils.c lexer.c parser.c \
-		parser_syntax_validation.c parser_create_command.c main.c
+SRCS =	b_cd.c builtin_utils.c lexer_utils.c \
+b_echo.c check_for_builtin.c main.c \
+b_env.c create_env.c \
+b_exit.c debug_printing.c parser.c \
+b_export.c lexer.c parser_create_command.c \
+b_pwd.c lexer_count_tokens.c parser_syntax_validation.c \
+builtin_unset.c lexer_create_tokens.c
+
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 LIBFT_DIR = libft

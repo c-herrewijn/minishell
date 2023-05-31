@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/30 21:05:23 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/05/31 13:00:38 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,12 @@ void	check_if_builtin(char *str, t_node **head)
 		export_format = b_export_allowed_format(str);
 		if (export_format == 1)
 		{
-			printf("\nDEBUG : normal export\n");
+			// printf("\nDEBUG : normal export\n");
 			b_export(str, head);
 		}
 		else if (export_format == 2)
 		{
-			printf("\nDEBUG : concat export\n");
+			// printf("\nDEBUG : concat export\n");
 			b_export_concat(str, head);
 		}
 		else if (export_format == -1)
