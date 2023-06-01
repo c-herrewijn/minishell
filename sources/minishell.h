@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/01 17:10:11 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/01 22:14:43 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,12 @@ typedef struct s_data
 	t_command	*command_arr;
 }	t_data;
 
-//b_cd.c
-void	update_OLDPWD(t_node **head);
-void	update_PWD(t_node **head);
+//update_pwd_env.c
+void	update_oldpwd(t_node **head);
+void	update_pwd(t_node **head);
 int		pwd_in_env(t_node **head);
+
+//b_cd.c
 void	b_cd(char *str, t_node **head);
 
 //b_echo.c
