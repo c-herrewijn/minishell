@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:47 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/31 12:28:28 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/01 20:00:00 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@ void	b_export_concat_inplace(char *str, t_node **head, int spot)
 	int		x;
 	char	*temp;
 
+	if (*head == NULL)
+	{
+		printf("*head == NULL it seems\n");
+		return ;
+	}
 	node = *head;
 	i = 0;
 	while (node->next != NULL && i < spot)
