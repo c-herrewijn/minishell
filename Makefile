@@ -4,7 +4,7 @@ CFLAGS = -Wall -lreadline -g -fsanitize=address
 # CFLAGS = -Wall -lreadline
 SRC_DIR = sources
 SRCS =	b_cd.c builtin_utils.c lexer_utils.c \
-b_echo.c check_for_builtin.c main.c \
+b_echo.c check_for_builtin.c main.c b_export_utils.c \
 b_env.c create_env.c update_pwd_env.c \
 b_exit.c debug_printing.c parser.c \
 b_export.c lexer.c parser_create_command.c \

@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/31 20:13:17 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/02 20:33:08 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,13 @@ int		b_export_allowed_format(char *str)
 
 // only works for basic input with only one command basicly
 // need to use lexer/parser input later on
-void	check_if_builtin(char *str, t_node **head)
+int		check_if_builtin(char *str, t_node **head)
 {
 	if (ft_strncmp("echo ", str, 5) == 0)
 		b_echo(str);
 	if (ft_strncmp("cd", str, 2) == 0)
-		b_cd(str, head);
+		if (b_cd(str, head) < 0)
+			return -1;
 	if (ft_strncmp("pwd", str, 4) == 0)
 		b_pwd();
 	if (ft_strncmp("export ", str, 7) == 0)
@@ -90,17 +91,20 @@ void	check_if_builtin(char *str, t_node **head)
 		if (export_format == 1)
 		{
 			// printf("\nDEBUG : normal export\n");
-			b_export(str, head);
+			if (b_export(str, head) == -1)
+				return (-1);
 		}
 		else if (export_format == 2)
 		{
 			// printf("\nDEBUG : concat export\n");
-			b_export_concat(str, head);
+			if (b_export_concat(str, head) == -1)
+				return (-1);
 		}
 		else if (export_format == -1)
+		{
 			printf("incorrect format for export! >:(\n");
-		else
-			return ;
+		}
+		return 0;
 	}
 	if (ft_strncmp("unset ", str, 6) == 0)
 		b_unset(str, head, 1);
@@ -132,6 +136,5 @@ void	check_if_builtin(char *str, t_node **head)
 		print_next(head);
 	if (ft_strncmp("list len", str, 8) == 0)
 		printf("list len : %d\n", list_len(*head));
-	else
-		return ;
+	return 0;
 }

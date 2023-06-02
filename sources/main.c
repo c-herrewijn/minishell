@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/01 17:35:37 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/02 19:13:32 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_leaks(void)
 	system("leaks minishell");
 }
 
-static void	free_data(t_data *data)
+static void	free_data(t_data *data, t_node **head)
 {
 	free(data->str);
 	data->str = NULL;
@@ -26,9 +26,10 @@ static void	free_data(t_data *data)
 	free_commands(data);
 }
 
-static void	free_and_exit_with_perror(t_data *data)
+static void	free_and_exit_with_perror(t_data *data, t_node **head)
 {
-	free_data(data);
+	free_data(data, head);
+	list_clear(head);
 	perror(NULL);
 	exit(1);
 }
@@ -50,34 +51,31 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 	t_node	*head;
 
-	// might need to be t_node head
-	// without the the pointer
-	// and then update the other function that use the linked list
-
 	// debug
 	// atexit(check_leaks);  
 
 	init_data_struct(&data, argc, argv, envp);
-	list_create_env(&head, data);
+	if (list_create_env(&head, data) < 0)
+		free_and_exit_with_perror(&data, &head);
 	while (true)
 	{
 		data.str = readline("minishell$ ");
 		if (data.str == NULL)
 		{
-			free_data(&data);
+			free_data(&data, &head);
 			write(STDOUT_FILENO, "exit\n", 5);
 			exit(0);
 		}
 		add_history(data.str);
 		
 		if (lexer(&data) < 0)
-			free_and_exit_with_perror(&data);
+			free_and_exit_with_perror(&data, &head);
 		
 		//debug
 		// print_tokens(&data);
 		
 		if (parser(&data) < 0)
-			free_and_exit_with_perror(&data);
+			free_and_exit_with_perror(&data, &head);
 
 		// debug
 		// print_commands(&data);
@@ -85,9 +83,10 @@ int	main(int argc, char **argv, char **envp)
 		// debug
 		// printf("%s\n", data.str);
 		
-		check_if_builtin(data.str, &head);
-		
-		free_data(&data);
+		if (check_if_builtin(data.str, &head) < 0)
+			free_and_exit_with_perror(&data, &head);
+
+		free_data(&data, &head);
 	}
 	return (0);
 }

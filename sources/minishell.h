@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/02 14:08:50 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/02 20:49:16 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,6 @@ typedef struct s_command
 	int				exit_status;
 }	t_command;
 
-/*
-probally handy to keep a copy of the params of main
-i think its bad practice to use the params from main directly
-
-also think its handy to keep track of input str from readline in this
-*/
 typedef struct s_data
 {
 	int			argc;
@@ -106,12 +100,12 @@ typedef struct s_data
 }	t_data;
 
 //update_pwd_env.c
-void	update_oldpwd(t_node **head);
-void	update_pwd(t_node **head);
+int		update_oldpwd(t_node **head);
+int		update_pwd(t_node **head);
 int		pwd_in_env(t_node **head);
 
 //b_cd.c
-void	b_cd(char *str, t_node **head);
+int		b_cd(char *str, t_node **head);
 
 //b_echo.c
 void	b_echo(char *str);
@@ -122,12 +116,15 @@ void	b_env(t_node *head);
 //b_exit.c
 void	b_exit(int exit_status);
 
-//b_export.c
+//b_export_utils.c
 bool	empty_list_add(t_node **head, char *str);
 char	*remove_plus(char *str);
-void	b_export_concat_inplace(char *str, t_node **head, int spot);
-void	b_export_concat(char *str, t_node **head);
-void	b_export(char *str, t_node **head);
+int		b_export_concat_inplace(char *str, t_node **head, int spot);
+int		concat_helper(char **arr, t_node **head, char *without_plus);
+
+//b_export.c
+int		b_export_concat(char *str, t_node **head);
+int		b_export(char *str, t_node **head);
 
 //b_pwd.c
 void	b_pwd(void);
@@ -146,13 +143,13 @@ void	b_unset(char *str, t_node **head, int type);
 int		b_arr_len(char **s);
 int		index_of_c_in_str(char *str, char c);
 int		b_export_allowed_format(char *str);
-void	check_if_builtin(char *str, t_node **head);
+int		check_if_builtin(char *str, t_node **head);
 
 //create_env.c
 int		list_len(t_node *head);
-void	list_clear(t_node *head);
-void	list_append(t_node **head, char *str);
-void	list_create_env(t_node **head, t_data data);
+void	list_clear(t_node **head);
+int		list_append(t_node **head, char *str);
+int		list_create_env(t_node **head, t_data data);
 
 //debug_printing.c
 void	print_first(t_node **head);

@@ -6,12 +6,13 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/26 18:18:06 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/02 20:30:58 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//debug option to quickly check how env works when its completely empty
 void unset_all(t_node **head)
 {
 	int i;
@@ -49,31 +50,13 @@ void list_remove_first(t_node **head)
 	free(node);
 }
 
-// might be a workaround to not use temp, not sure yet
-void list_remove_index(t_node **head, int spot)
+static void	list_rm_i_helper(t_node **head, t_node *node, int spot)
 {
 	int i;
-	int listlen;
-	t_node *node;
 	t_node *temp;
-	
-	listlen = list_len(*head);
-	if (*head == NULL || spot > listlen)
-	{
-		printf("*head == NULL || spot > listlen\n");
-		return;
-	}
+
 	i = 0;
-	node = *head;
 	temp = NULL;
-	if (listlen == 1)
-	{
-		if (node->str != NULL)
-			free(node->str);
-		node->str = NULL;
-		node->next = NULL;
-		return ;
-	}
 	if (spot == 0)
 	{
 		list_remove_first(head);
@@ -89,7 +72,30 @@ void list_remove_index(t_node **head, int spot)
 	free(temp);
 }
 
-// might need to do something with magic numbers
+// might be a workaround to not use temp, not sure yet
+void	list_remove_index(t_node **head, int spot)
+{
+	int listlen;
+	t_node *node;
+
+	listlen = list_len(*head);
+	if (*head == NULL || spot > listlen)
+	{
+		printf("*head == NULL || spot > listlen\n");
+		return;
+	}
+	node = *head;
+	if (listlen == 1)
+	{
+		if (node->str != NULL)
+			free(node->str);
+		node->str = NULL;
+		node->next = NULL;
+		return ;
+	}
+	list_rm_i_helper(head, node, spot);
+}
+
 void	b_unset(char *str, t_node **head, int type)
 {
 	int i;
