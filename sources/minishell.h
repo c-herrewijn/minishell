@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/02 20:49:16 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/02 21:03:43 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,6 @@ typedef enum e_token_type {
 	REDIRECT_OUTPUT_APPEND,
 }	t_token_type;
 
-/*
-using this instead of t_list
-because then i dont need to type cast all the time the void *content
-
-might convert all functions to use t_list later and will remove this then
-*/
 typedef struct s_node
 {
 	char			*str;
@@ -97,6 +91,9 @@ typedef struct s_data
 	t_token		*token_arr;
 	size_t		nr_commands;
 	t_command	*command_arr;
+	size_t		nr_pipes;
+	int			(*pipes)[2];
+	char		**paths;
 }	t_data;
 
 //update_pwd_env.c
@@ -178,5 +175,8 @@ int		create_command(t_data *data, size_t command_nr);
 size_t	get_start_token(t_data *data, size_t command_nr);
 int		command_count_arguments(t_data *data, size_t command_nr);
 void	free_commands(t_data *data);
+
+// executer
+int		execute_commands(t_data *data);
 
 #endif

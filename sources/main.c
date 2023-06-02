@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/02 19:13:32 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/02 21:02:08 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ static void	init_data_struct(t_data *data, int argc, char **argv, char **envp)
 	data->token_arr = NULL;
 	data->nr_commands = 0;
 	data->command_arr = NULL;
+	data->nr_pipes = 0;
+	data->pipes = NULL;
+	data->paths = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -80,6 +83,9 @@ int	main(int argc, char **argv, char **envp)
 		// debug
 		// print_commands(&data);
 		
+		if (execute_commands(&data) < 0)
+			free_and_exit_with_perror(&data);
+
 		// debug
 		// printf("%s\n", data.str);
 		
