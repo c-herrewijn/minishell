@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 17:34:11 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/02 14:47:32 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/02 14:56:42 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ static void	free_command_data(t_data *data, size_t command_nr)
 {
 	t_command		*command;
 	size_t			i;
-	
-	command = &((data->command_arr)[command_nr]);
 
+	command = &((data->command_arr)[command_nr]);
 	i = 0;
 	while (command->redirections[i] != NULL)
 	{
@@ -33,7 +32,7 @@ static void	free_command_data(t_data *data, size_t command_nr)
 		free (command->argv[i]);
 		i++;
 	}
-	free (command->argv);	
+	free (command->argv);
 }
 
 void	free_commands(t_data *data)
