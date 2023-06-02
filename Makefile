@@ -9,7 +9,8 @@ b_env.c create_env.c update_pwd_env.c \
 b_exit.c debug_printing.c parser.c \
 b_export.c lexer.c parser_create_command.c \
 b_pwd.c lexer_count_tokens.c parser_syntax_validation.c \
-builtin_unset.c lexer_create_tokens.c parser_free_commands.c
+builtin_unset.c lexer_create_tokens.c parser_free_commands.c \
+executer.c
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

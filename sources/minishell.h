@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/02 14:08:50 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/02 17:51:02 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ typedef struct s_data
 	t_token		*token_arr;
 	size_t		nr_commands;
 	t_command	*command_arr;
+	size_t		nr_pipes;
+	int			(*pipes)[2];
+	char		**paths;
 }	t_data;
 
 //update_pwd_env.c
@@ -181,5 +184,8 @@ int		create_command(t_data *data, size_t command_nr);
 size_t	get_start_token(t_data *data, size_t command_nr);
 int		command_count_arguments(t_data *data, size_t command_nr);
 void	free_commands(t_data *data);
+
+// executer
+int		execute_commands(t_data *data);
 
 #endif
