@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/01 22:14:43 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/02 14:08:50 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,5 +180,6 @@ bool	is_redirection_token(t_token token);
 int		create_command(t_data *data, size_t command_nr);
 size_t	get_start_token(t_data *data, size_t command_nr);
 int		command_count_arguments(t_data *data, size_t command_nr);
+void	free_commands(t_data *data);
 
 #endif
