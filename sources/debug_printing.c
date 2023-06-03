@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/05/30 16:32:39 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/03 19:14:23 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,4 +213,36 @@ void	print_commands(t_data *data)
 		}
 		i++;
 	}
+}
+
+void debug_env_etc(char *str, t_node **head, t_data *data)
+{
+	// for (int x = 0; x < data->nr_commands; x++)
+	// 	for (int y = 0; data->command_arr[x].argv[y] != NULL; y++)
+	// 		printf("argv[%d][%d] : %s\n", x, y, data->command_arr[x].argv[y]);
+
+	if (ft_strncmp("$", str, 1) == 0)
+		print_env_var(str, *head);
+	if (ft_strncmp("unset all", str, 9) == 0)
+		unset_all(head);
+	if (ft_strncmp("remove first", str, 12) == 0)
+		list_remove_first(head);
+	if (ft_strncmp("remove on", str, 9) == 0)
+	{
+		int listlen;
+	
+		listlen = list_len(*head);
+		// printf("listlen : %d\n", listlen);
+		if (((int)ft_strlen(str)) < 11)
+			return ;
+		int n = str[10] - '0';
+		// printf("n : %d\n", n);
+		list_remove_index(head, n);
+	}
+	if (ft_strncmp("print first", str, 11) == 0)
+		print_first(head);
+	if (ft_strncmp("print next", str, 10) == 0)
+		print_next(head);
+	if (ft_strncmp("list len", str, 8) == 0)
+		printf("list len : %d\n", list_len(*head));
 }

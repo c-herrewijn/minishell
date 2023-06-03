@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/02 21:03:43 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/03 19:58:27 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,16 +102,16 @@ int		update_pwd(t_node **head);
 int		pwd_in_env(t_node **head);
 
 //b_cd.c
-int		b_cd(char *str, t_node **head);
+int		b_cd(int argc, char **argv, t_node **head);
 
 //b_echo.c
-void	b_echo(char *str);
+void	b_echo(int argc, char **argv);
 
 //b_env.c
 void	b_env(t_node *head);
 
 //b_exit.c
-void	b_exit(int exit_status);
+void	b_exit(char *exit_status);
 
 //b_export_utils.c
 bool	empty_list_add(t_node **head, char *str);
@@ -140,7 +140,7 @@ void	b_unset(char *str, t_node **head, int type);
 int		b_arr_len(char **s);
 int		index_of_c_in_str(char *str, char c);
 int		b_export_allowed_format(char *str);
-int		check_if_builtin(char *str, t_node **head);
+int		check_if_builtin(char *str, t_node **head, t_data *data);
 
 //create_env.c
 int		list_len(t_node *head);
@@ -157,6 +157,7 @@ void	print_2d_array(char **s);
 void	print_tokens(t_data *data);
 char	*tokens_to_string(t_data *data);
 void	print_commands(t_data *data);
+void	debug_env_etc(char *str, t_node **head, t_data *data);
 
 // lexer
 int		lexer(t_data *data);

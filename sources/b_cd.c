@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:34 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/02 19:25:41 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/03 19:48:38 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,18 @@
 
 //when does cd count as succesfull, kinda depends on chdir from c
 //chdir returns -1 if something is incorrect with the passed path
-int		b_cd(char *str, t_node **head)
+int		b_cd(int argc, char **argv, t_node **head)
 {
-	char **cd_path;
 	int ret;
-	
+
+	printf("DEBUG : in b_cd\n");
 	ret = 0;
-	if (str[2] == '\0' || str[2] == ' ')
-	{
-		cd_path = ft_split(str, ' ');
-		if (cd_path == NULL)
-			return -1;
-		if (b_arr_len(cd_path) <= 1)
-			ret = chdir(getenv("HOME"));
-		else if (cd_path[1][0] == '~' && cd_path[1][1] == '\0') // up for interpetation
-			ret = chdir(getenv("HOME"));
-		else
-			ret = chdir(cd_path[1]);
-		free_double_char_pointer(cd_path);
-	}
+	if (argc == 1)
+		ret = chdir(getenv("HOME"));
+	else if (argv[1][0] == '~' && argv[1][1] == '\0') // up for interpetation
+		ret = chdir(getenv("HOME"));
+	else
+		ret = chdir(argv[1]);
 	if (ret != -1)
 	{
 		if (update_oldpwd(head) == -1)

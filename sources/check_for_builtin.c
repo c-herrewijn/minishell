@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/02 20:33:08 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/03 20:40:40 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,26 @@ int		b_export_allowed_format(char *str)
 	return 1;
 }
 
-// only works for basic input with only one command basicly
-// need to use lexer/parser input later on
-int		check_if_builtin(char *str, t_node **head)
+int		check_if_builtin(char *str, t_node **head, t_data *data)
 {
-	if (ft_strncmp("echo ", str, 5) == 0)
-		b_echo(str);
-	if (ft_strncmp("cd", str, 2) == 0)
-		if (b_cd(str, head) < 0)
-			return -1;
-	if (ft_strncmp("pwd", str, 4) == 0)
-		b_pwd();
+	int i;
+
+	i = 0;
+	while(i < data->nr_commands)
+	{
+		if (ft_strncmp("echo\0", data->command_arr[i].argv[0], 5) == 0)
+			b_echo(data->command_arr[i].argc, data->command_arr[i].argv);
+		if (ft_strncmp("cd\0", data->command_arr[i].argv[0], 3) == 0)
+			if (b_cd(data->command_arr[i].argc, data->command_arr[i].argv, head) < 0)
+				return -1;
+		if (ft_strncmp("pwd\0", data->command_arr[i].argv[0], 4) == 0)
+			b_pwd();
+		if (ft_strncmp("env\0", data->command_arr[i].argv[0], 4) == 0)
+			b_env(*head);
+		if (ft_strncmp("exit\0", data->command_arr[i].argv[0], 5) == 0)
+			b_exit(data->command_arr[i].argv[1]);
+		i++;
+	}
 	if (ft_strncmp("export ", str, 7) == 0)
 	{
 		int export_format;
@@ -108,33 +117,5 @@ int		check_if_builtin(char *str, t_node **head)
 	}
 	if (ft_strncmp("unset ", str, 6) == 0)
 		b_unset(str, head, 1);
-	if (ft_strncmp("env", str, 4) == 0)
-		b_env(*head);
-	if (ft_strncmp("exit", str, 4) == 0)
-		b_exit(0);
-
-	//for debugging
-	if (ft_strncmp("$", str, 1) == 0)
-		print_env_var(str, *head);
-	if (ft_strncmp("unset all", str, 9) == 0)
-		unset_all(head);
-	if (ft_strncmp("remove first", str, 12) == 0)
-		list_remove_first(head);
-	if (ft_strncmp("remove on", str, 9) == 0)
-	{
-		int listlen;
-	
-		listlen = list_len(*head);
-		// printf("listlen : %d\n", listlen);
-		int n = str[10] - '0';
-		// printf("n : %d\n", n);
-		list_remove_index(head, n);
-	}
-	if (ft_strncmp("print first", str, 11) == 0)
-		print_first(head);
-	if (ft_strncmp("print next", str, 10) == 0)
-		print_next(head);
-	if (ft_strncmp("list len", str, 8) == 0)
-		printf("list len : %d\n", list_len(*head));
 	return 0;
 }
