@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/02 19:59:59 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/05 19:46:30 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,80 @@ static int	set_fd_pipe_out(t_data *data, size_t i_command)
 	return (0);
 }
 
-int	set_filedescriptors(t_data *data, size_t i_command)
+int	apply_redirection(t_data *data, size_t i_command, size_t i_redirect)
 {
-	if (i_command == 0)
+	t_redirection	*redirection;
+	int				fd;
+
+	redirection = data->command_arr[i_command].redirections[i_redirect];
+
+	if (redirection->redirection_type == REDIRECT_OUTPUT)
 	{
-		;
-		// if (set_fd_infile(data) < 0)
-		// 	return (-1);
+		fd = open(redirection->word, O_TRUNC | O_CREAT | O_WRONLY, 0644);		
+		if (fd == -1)
+		{
+			perror(redirection->word);
+			return (-1);
+		}
+		if (dup2(fd, STDOUT_FILENO) == -1)
+		{
+			perror(NULL);
+			return (-1);
+		}
 	}
-	else
+
+	if (redirection->redirection_type == REDIRECT_OUTPUT_APPEND)
+	{
+		fd = open(redirection->word, O_CREAT | O_APPEND | O_WRONLY, 0644);
+		if (fd == -1)
+		{
+			perror(redirection->word);
+			return (-1);
+		}
+		if (dup2(fd, STDOUT_FILENO) == -1)
+		{
+			perror(NULL);
+			return (-1);
+		}
+	}
+
+	if (redirection->redirection_type == REDIRECT_INPUT)
+	{
+		fd = open(redirection->word, O_RDONLY);
+		if (fd == -1)
+		{
+			perror(redirection->word);
+			return (-1);
+		}
+		if (dup2(fd, STDIN_FILENO) == -1)
+		{
+			perror(NULL);
+			return (-1);
+		}
+	}
+	return (0);
+}
+
+int	apply_redirections(t_data *data, size_t i_command)
+{
+	size_t	i_redirect;
+	
+	if (i_command != 0)
 	{
 		if (set_fd_pipe_in(data, i_command) < 0)
 			return (-1);
 	}
-	if (i_command + 1 == data->nr_commands)
-	{
-		;
-		// if (set_fd_outfile(data) < 0)
-		// 	return (-1);
-	}
-	else
+	if (i_command + 1 != data->nr_commands)
 	{
 		if (set_fd_pipe_out(data, i_command) < 0)
 			return (-1);
+	}
+	i_redirect = 0;
+	while (data->command_arr[i_command].redirections[i_redirect] != NULL)
+	{
+		if (apply_redirection(data, i_command, i_redirect) < 0)
+			return (-1);
+		i_redirect++;
 	}
 	return (0);
 }
@@ -111,7 +162,6 @@ static void	execute_command_from_path(char **envp, char **paths,
 {
 	int	i;
 
-	// dprintf(2, "execute command from path\n");
 	i = 0;
 	command->executable_location = NULL;
 	while (paths[i] != NULL)
@@ -122,14 +172,9 @@ static void	execute_command_from_path(char **envp, char **paths,
 			= combine_command_path(paths[i], command->argv[0]);
 		if (command->executable_location == NULL)
 			exit_child_proc_with_error(command, paths);
-		
-		// dprintf(2, "doing execve\n");
-		// dprintf(2, "path: %s\n", command->executable_location);
 		execve(command->executable_location, command->argv, envp);
-		// dprintf(2, "execve failed path not found!\n");
 		i++;
 	}
-	// dprintf(2, "WE ONLY GET HERE IF COMMAND DOES NOT EXIST!\n");
 	if (errno != EACCES)
 	{
 		execute_command_local_dir(envp, paths, command);
@@ -196,10 +241,10 @@ static void	run_child_process_and_exit(char **envp, t_data *data, size_t com_i)
 {
 	if (close_pipes_before_running_command_i(data, com_i) < 0)
 		exit(1);
-		
-	// TODO;
-	if (set_filedescriptors(data, com_i) < 0)  
+	if (apply_redirections(data, com_i) < 0)  
 		exit(1);
+	if ((data->command_arr)[com_i].argc == 0)
+		exit(0);
 	if (data->paths != NULL)
 		execute_command_from_path(envp, data->paths, &(data->command_arr)[com_i]);
 	else
@@ -269,8 +314,6 @@ int	wait_for_child_processes(t_data *data)
 // contains functionality from "execute_commands_in_child_processes()"
 int	execute_commands(t_data *data)
 {
-	// puts("executing commands!"); // debug
-
 	pid_t	new_pid;
 	size_t	i;
 	extern char **environ;  // debug
@@ -285,9 +328,7 @@ int	execute_commands(t_data *data)
 	i = 0;
 	while (i < data->nr_commands)  // only do this in case there are at least 2 commands, otherwise, run single command
 	{
-		// puts("before fork");
 		new_pid = fork();
-		// puts("after fork");
 		if (new_pid == -1)
 		{
 			perror(NULL);
@@ -295,20 +336,14 @@ int	execute_commands(t_data *data)
 		}
 		if (new_pid == 0)
 		{
-			// puts("start running child process");
 			run_child_process_and_exit(environ, data, i);
-			// puts("SHOULD NOT SHOW");
 		}
 		data->command_arr[i].pid = new_pid;
 		i++;
 	}
-
 	if (close_all_pipes(data) < 0)
 		return (-1);
-
 	if (wait_for_child_processes(data) < 0)
 		return (-1);
-	// puts("done with calling commands");
-
 	return (0);
 }
