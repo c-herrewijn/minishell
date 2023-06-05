@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/05 19:56:48 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/05 20:29:53 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,8 @@ int	close_pipes_before_running_command_i(t_data *data, size_t i_command)
 		}
 		i_pipe++;
 	}
-	return (1);
+	return (0);
 }
-
 
 static void	run_child_process_and_exit(char **envp, t_data *data, size_t com_i)
 {
