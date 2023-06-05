@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/03 19:58:27 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/05 19:56:08 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,5 +179,6 @@ void	free_commands(t_data *data);
 
 // executer
 int		execute_commands(t_data *data);
+int		apply_redirections(t_data *data, size_t i_command);
 
 #endif
