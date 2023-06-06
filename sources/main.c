@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/03 19:16:56 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/06 12:53:56 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static void	free_data(t_data *data, t_node **head)
 {
 	free(data->str);
 	data->str = NULL;
+	free(data->pipes);
+	data->pipes = NULL;
 	free_tokens(data);
 	free_commands(data);
 }
