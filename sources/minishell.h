@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/05 19:56:08 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/06 15:16:09 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,18 @@ typedef enum e_token_type {
 	REDIRECT_OUTPUT_APPEND,
 }	t_token_type;
 
+typedef enum e_builtin
+{
+	NOT_BUILTIN,
+	B_CD,
+	B_ECHO,
+	B_PWD,
+	B_EXPORT,
+	B_UNSET,
+	B_ENV,
+	B_EXIT
+}	t_builtin;
+
 typedef struct s_node
 {
 	char			*str;
@@ -64,6 +76,7 @@ typedef struct s_redirection
 {
 	t_token_type	redirection_type;
 	char			*word;
+	int				heredoc_pipe[2];
 }	t_redirection;
 
 /*

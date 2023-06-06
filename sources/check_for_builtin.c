@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/03 20:40:40 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/06 15:15:27 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int		b_export_allowed_format(char *str)
 	return 1;
 }
 
+// t_builtin	check_if_builtin(char *str)
 int		check_if_builtin(char *str, t_node **head, t_data *data)
 {
 	int i;
