@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/06 15:16:09 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/07 17:50:38 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ typedef enum e_token_type {
 
 typedef enum e_builtin
 {
-	NOT_BUILTIN,
-	B_CD,
 	B_ECHO,
+	B_CD,
 	B_PWD,
 	B_EXPORT,
 	B_UNSET,
 	B_ENV,
-	B_EXIT
+	B_EXIT,
+	NOT_BUILTIN
 }	t_builtin;
 
 typedef struct s_node
@@ -130,30 +130,32 @@ void	b_exit(char *exit_status);
 bool	empty_list_add(t_node **head, char *str);
 char	*remove_plus(char *str);
 int		b_export_concat_inplace(char *str, t_node **head, int spot);
-int		concat_helper(char **arr, t_node **head, char *without_plus);
+int		concat_helper(int argc, char **argv, t_node **head, char *without_plus);
 
 //b_export.c
-int		b_export_concat(char *str, t_node **head);
-int		b_export(char *str, t_node **head);
+int		b_export_concat(int argc, char **argv, char *str, t_node **head);
+int		b_export(int argc, char **argv, char *str, t_node **head);
 
 //b_pwd.c
 void	b_pwd(void);
 
 //builtin_utils.c
-int		is_in_env(char *str, t_node **head, int type);
+int		is_in_env(int argc, char **argv, t_node **head);
 void	free_double_char_pointer(char **s);
+int		b_arr_len(char **s);
+char	**make_is_in_env_compatible(char *str);
 
 //builtin_unset.c
 void	unset_all(t_node **head);
 void	list_remove_first(t_node **head);
 void	list_remove_index(t_node **head, int spot);
-void	b_unset(char *str, t_node **head, int type);
+void	b_unset(int argc, char **argv, t_node **head);
 
 //check_for_builtin.c
-int		b_arr_len(char **s);
-int		index_of_c_in_str(char *str, char c);
-int		b_export_allowed_format(char *str);
-int		check_if_builtin(char *str, t_node **head, t_data *data);
+int			index_of_c_in_str(char *str, char c);
+int			b_export_allowed_format(int argc, char **argv);
+t_builtin	check_if_builtin(char *str);
+int			old_builtin_test(char *str, t_node **head, t_data *data);
 
 //create_env.c
 int		list_len(t_node *head);

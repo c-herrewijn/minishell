@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:34 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/03 19:48:38 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/07 16:50:16 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,3 +35,4 @@ int		b_cd(int argc, char **argv, t_node **head)
 	}
 	return 0;
 }
+//need to double check if using getenv

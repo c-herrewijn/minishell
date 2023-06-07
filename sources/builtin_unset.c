@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/02 20:30:58 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/07 16:55:39 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,11 @@ void	list_remove_index(t_node **head, int spot)
 	list_rm_i_helper(head, node, spot);
 }
 
-void	b_unset(char *str, t_node **head, int type)
+void	b_unset(int argc, char **argv, t_node **head)
 {
 	int i;
+	//argv[0] export or unset
+	//argv[1] name=value
 	if (*head == NULL)
 	{
 		printf("*head == NULL\n");
@@ -109,7 +111,7 @@ void	b_unset(char *str, t_node **head, int type)
 		printf("(*head)->str == NULL\n");
 		return;
 	}
-	i = is_in_env(str, head, type);
+	i = is_in_env(argc, argv, head);
 	if (i != -1)
 		list_remove_index(head, i);
 }
