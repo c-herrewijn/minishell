@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/08 13:47:25 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/08 14:07:02 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ typedef enum e_token_type {
 
 typedef enum e_builtin
 {
-	B_ECHO,
+	NOT_BUILTIN,
 	B_CD,
+	B_ECHO,
 	B_PWD,
 	B_EXPORT,
 	B_UNSET,
 	B_ENV,
-	B_EXIT,
-	NOT_BUILTIN
+	B_EXIT
 }	t_builtin;
 
 typedef struct s_node
@@ -76,7 +76,6 @@ typedef struct s_redirection
 {
 	t_token_type	redirection_type;
 	char			*word;
-	int				heredoc_pipe[2];
 }	t_redirection;
 
 /*
@@ -92,6 +91,7 @@ typedef struct s_command
 	char			*executable_location;
 	pid_t			pid;
 	int				exit_status;
+	int				heredoc_pipe[2];
 }	t_command;
 
 typedef struct s_data
@@ -191,6 +191,9 @@ int		create_command(t_data *data, size_t command_nr);
 size_t	get_start_token(t_data *data, size_t command_nr);
 int		command_count_arguments(t_data *data, size_t command_nr);
 void	free_commands(t_data *data);
+
+// heredoc
+int		add_heredoc(t_data *data, size_t command_nr);
 
 // executer
 int		execute_commands(t_data *data);

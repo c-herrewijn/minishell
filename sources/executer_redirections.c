@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/05 19:52:01 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/05 20:17:34 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/08 13:56:20 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,14 @@ static int	apply_redirect(t_data *data, size_t i_command, size_t i_redirect)
 			return (-1);
 		}
 		if (dup2(fd, STDIN_FILENO) == -1)
+		{
+			perror(NULL);
+			return (-1);
+		}
+	}
+	if (redirection->redirection_type == HEREDOC)
+	{
+		if (dup2(data->command_arr[i_command].heredoc_pipe[0], STDIN_FILENO) == -1)
 		{
 			perror(NULL);
 			return (-1);
