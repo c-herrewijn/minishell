@@ -10,6 +10,9 @@
 		"history.h": "c",
 		"readline.h": "c",
 		"limits.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"wait.h": "c",
+		"unistd.h": "c",
+		"termios.h": "c"
 	}
 }
