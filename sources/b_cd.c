@@ -6,26 +6,40 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:34 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/07 16:50:16 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/08 18:13:04 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//when does cd count as succesfull, kinda depends on chdir from c
-//chdir returns -1 if something is incorrect with the passed path
-int		b_cd(int argc, char **argv, t_node **head)
+//find c in str
+//is_in_env
+static int	get_home_value(t_node **head, char **val)
 {
-	int ret;
+	int i;
+	int spot;
+	char **arr;
+	t_node *node;
+	//STUFF NO WORK, need to add printf statements to debug abit more
+	i = 0;
+	arr = make_is_in_env_compatible("HOME");
+	if (arr == NULL)
+		return -2;
+	spot = is_in_env(2, arr, head);
+	free(arr);
+	if (spot == -1)
+		return -1;
+	node = *head;
+	while(i < (spot - 1))
+		node = node->next;
+	*val = ft_substr(node->str, ft_strlen("HOME="), ft_strlen(node->str) - ft_strlen("HOME="));
+	if (*val == NULL)
+		return -2;
+	return 1;
+}
 
-	printf("DEBUG : in b_cd\n");
-	ret = 0;
-	if (argc == 1)
-		ret = chdir(getenv("HOME"));
-	else if (argv[1][0] == '~' && argv[1][1] == '\0') // up for interpetation
-		ret = chdir(getenv("HOME"));
-	else
-		ret = chdir(argv[1]);
+static int	updating_pwd_oldpwd_env_vars(int ret, t_node **head)
+{
 	if (ret != -1)
 	{
 		if (update_oldpwd(head) == -1)
@@ -35,4 +49,34 @@ int		b_cd(int argc, char **argv, t_node **head)
 	}
 	return 0;
 }
-//need to double check if using getenv
+
+//when does cd count as succesfull, kinda depends on chdir from c
+//chdir returns -1 if something is incorrect with the passed path
+int		b_cd(int argc, char **argv, t_node **head)
+{
+	int 	ret;
+	char	*home_value;
+	printf("DEBUG : in b_cd\n");
+	ret = 0;
+	if (argc == 1)
+	{
+		ret = get_home_value(head, &home_value);
+		if (ret == -2)
+			return (-1);
+		printf("DEBUG : home_value : %s\n", home_value);
+		if (ret == -1)
+			printf("cd : HOME not set\n");
+		else
+		{
+			ret = chdir(home_value);
+			free(home_value);
+		}
+	}
+	else
+	{
+		ret = chdir(argv[1]);
+		if (ret == -1)
+			printf("cd: %s: No such file or directory\n", argv[1]);
+	}
+	return (updating_pwd_oldpwd_env_vars(ret, head));
+}

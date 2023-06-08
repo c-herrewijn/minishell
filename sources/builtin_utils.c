@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 15:53:59 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/08 13:45:22 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/08 17:53:50 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int		is_in_env(int argc, char **argv, t_node **head)
 	if (argc <= 1)
 		return -1;
 	node = *head;
+	if (node->str == NULL)
+		return -1;
 	i = 0;
 	flag = ft_strncmp("export\0", argv[0], 7);
 	while(node != NULL)
@@ -89,6 +91,8 @@ char **make_is_in_env_compatible(char *str)
 	char **arr;
 
 	arr = malloc(3 * sizeof(char *));
+	if (arr == NULL)
+		return (NULL);
 	arr[0] = "test";
 	arr[1] = str;
 	arr[2] = NULL;
