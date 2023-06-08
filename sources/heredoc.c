@@ -6,27 +6,11 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 17:11:48 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/08 13:55:35 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/08 20:05:08 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static bool	command_has_heredoc(t_data *data, size_t command_nr)
-{
-	t_command	*command;
-	size_t		i;
-
-	command = &((data->command_arr)[command_nr]);
-	i = 0;
-	while (command->redirections[i] != NULL)
-	{
-		if (command->redirections[i]->redirection_type == HEREDOC)
-			return (true);
-		i++;
-	}
-	return (false);
-}
 
 static int	add_heredoc_pipe(t_data *data, size_t command_nr)
 {
@@ -56,13 +40,45 @@ static size_t	get_latest_heredoc(t_command *command)
 	return (latest_heredoc_index);
 }
 
+// return enumeration
+// -1: something went wrong
+// 0: heredoc stored succesfull
+// 1: stop word
+static int	heredoc_read_line(t_command *command, size_t i_redirect,
+	char *stop_word)
+{
+	char	*here_str;
+
+	if (write(STDOUT_FILENO, "> ", 2) < 0)
+		return (-1);
+	here_str = get_next_line(STDIN_FILENO);
+	if (here_str == NULL)
+		return (-1);
+	if ((ft_strlen(here_str) - 1 == ft_strlen(stop_word)
+			&& ft_strncmp(here_str, stop_word, ft_strlen(stop_word)) == 0))
+	{
+		free (here_str);
+		return (1);
+	}
+	if (i_redirect == get_latest_heredoc(command))
+	{
+		if (write(command->heredoc_pipe[1], here_str, ft_strlen(here_str)) < 0)
+		{
+			free (here_str);
+			return (-1);
+		}
+	}
+	free (here_str);
+	return (0);
+}
+
 // assumes there is at least one heredoc, and its word is stored correctly
 // NOTE: all heredocs are read, but only the last one is stored
 static int	read_heredocs(t_command *command)
 {
-	char			*stop_word;
-	char			*here_str;
-	size_t			i_redirect;
+	char	*stop_word;
+	size_t	i_redirect;
+	int		res;
 
 	i_redirect = 0;
 	while (command->redirections[i_redirect] != NULL)
@@ -73,30 +89,12 @@ static int	read_heredocs(t_command *command)
 			continue ;
 		}
 		stop_word = command->redirections[i_redirect]->word;
-		while (true)
+		res = 0;
+		while (res == 0)
 		{
-			if (write(STDOUT_FILENO, "> ", 2) < 0)
+			res = heredoc_read_line(command, i_redirect, stop_word);
+			if (res < 0)
 				return (-1);
-			here_str = get_next_line(STDIN_FILENO);
-			if (here_str == NULL)
-			{
-				free (here_str);
-				return (-1);
-			}
-			if ((ft_strlen(here_str) - 1 == ft_strlen(stop_word) && ft_strncmp(here_str, stop_word, ft_strlen(stop_word)) == 0))
-			{
-				free (here_str);
-				break ;
-			}
-			if (i_redirect == get_latest_heredoc(command))
-			{
-				if (write(command->heredoc_pipe[1], here_str, ft_strlen(here_str)) < 0)
-				{
-					free (here_str);
-					return (-1);
-				}
-			}
-			free (here_str);
 		}
 		i_redirect++;
 	}
