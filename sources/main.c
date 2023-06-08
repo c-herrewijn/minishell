@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/06 19:32:03 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/08 15:19:54 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_leaks(void)
 	system("leaks minishell");
 }
 
-static void	free_data(t_data *data, t_node **head)
+static void	free_data(t_data *data)
 {
 	free(data->str);
 	data->str = NULL;
@@ -30,7 +30,7 @@ static void	free_data(t_data *data, t_node **head)
 
 static void	free_and_exit_with_perror(t_data *data, t_node **head)
 {
-	free_data(data, head);
+	free_data(data);
 	list_clear(head);
 	perror(NULL);
 	exit(1);
@@ -54,48 +54,48 @@ static void	init_data_struct(t_data *data, int argc, char **argv, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-	t_node	*head;
 
 	// debug
 	// atexit(check_leaks);  
 
 	init_data_struct(&data, argc, argv, envp);
-	if (list_create_env(&head, data) < 0)
-		free_and_exit_with_perror(&data, &head);
+	if (list_create_env(&data.head, data) < 0)
+		free_and_exit_with_perror(&data, &data.head);
+	// list_print(data.head);
 	while (true)
 	{
 		data.str = readline("minishell$ ");
-		if (data.str == NULL)
+		if (data.str == NULL) //if ctrl-D is send, this will also count
 		{
-			free_data(&data, &head);
+			free_data(&data);
 			write(STDOUT_FILENO, "exit\n", 5);
 			exit(0);
 		}
 		add_history(data.str);
 		
 		if (lexer(&data) < 0)
-			free_and_exit_with_perror(&data, &head);
+			free_and_exit_with_perror(&data, &data.head);
 		
 		//debug
 		// print_tokens(&data);
 		
 		if (parser(&data) < 0)
-			free_and_exit_with_perror(&data, &head);
+			free_and_exit_with_perror(&data, &data.head);
 
 		// debug
 		// print_commands(&data);
-		debug_env_etc(data.str, &head, &data);
+		debug_env_etc(data.str, &data.head, &data);
 
-		// if (execute_commands(&data) < 0)
-		// 	free_and_exit_with_perror(&data, &head);
+		if (execute_commands(&data) < 0)
+			free_and_exit_with_perror(&data, &data.head);
 
 		// debug
 		// printf("%s\n", data.str);
 
-		if (old_builtin_test(data.str, &head, &data) < 0)
-			free_and_exit_with_perror(&data, &head);
+		if (old_builtin_test(data.str, &data.head, &data) < 0)
+			free_and_exit_with_perror(&data, &data.head);
 
-		free_data(&data, &head);
+		free_data(&data);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/08 13:47:25 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/08 15:12:18 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct s_data
 	size_t		nr_pipes;
 	int			(*pipes)[2];
 	char		**paths;
+	t_node		*head;
 }	t_data;
 
 //update_pwd_env.c

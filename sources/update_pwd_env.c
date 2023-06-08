@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 22:13:45 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/07 19:34:39 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/08 15:43:55 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static int	pwd_oldpwd_spot(t_node **head, int mode)
 	char 	**oldpwd_argv;
 	char	**pwd_argv;
 	
-	oldpwd_argv = make_is_in_env_compatible("PWD");
+	oldpwd_argv = make_is_in_env_compatible("OLDPWD");
 	if (oldpwd_argv == NULL)
 		return (-1);
-	pwd_argv = make_is_in_env_compatible("OLDPWD");
+	pwd_argv = make_is_in_env_compatible("PWD");
 	if (pwd_argv == NULL)
 	{
 		free(oldpwd_argv);
