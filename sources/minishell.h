@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/07 17:50:38 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/08 13:47:25 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,8 @@ int		b_export_concat_inplace(char *str, t_node **head, int spot);
 int		concat_helper(int argc, char **argv, t_node **head, char *without_plus);
 
 //b_export.c
-int		b_export_concat(int argc, char **argv, char *str, t_node **head);
-int		b_export(int argc, char **argv, char *str, t_node **head);
+int		b_export_concat(int argc, char **argv, t_node **head);
+int		b_export(int argc, char **argv, t_node **head);
 
 //b_pwd.c
 void	b_pwd(void);

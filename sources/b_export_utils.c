@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 20:47:48 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/07 17:47:11 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/08 13:30:37 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	empty_list_add(t_node **head, char *str)
 	return false;
 }
 
-// gives back str as name=value, without prefix or +=
+// gives back str as name=value, without +=
 char	*remove_plus(char *str)
 {
 	char *new;
@@ -83,17 +83,19 @@ int	concat_helper(int argc, char **argv, t_node **head, char *without_plus)
 {
 	int spot;
 	char *cpy;
+
 	spot = is_in_env(argc, argv, head);
 	cpy = ft_substr(without_plus, 0, ft_strlen(without_plus));
 	free(argv[1]);
 	free(argv);
-	// spot = is_in_env(0, NULL, arr[0], head, 2);
+	if (cpy == NULL)
+		return (-1);
 	if (spot == -1)
 	{
 		printf("concat : spot == -1 : %s\n", cpy);
 		if (list_append(head, cpy) == -1)
 			return (-1);
-		return 0;
+		return (0);
 	}
 	if (b_export_concat_inplace(cpy, head, spot) == -1)
 		return (-1);

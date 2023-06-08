@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/07 19:39:58 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/08 13:49:25 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,32 +98,31 @@ int		old_builtin_test(char *str, t_node **head, t_data *data)
 			b_env(*head);
 		if (ft_strncmp("exit\0", data->command_arr[i].argv[0], 5) == 0)
 			b_exit(data->command_arr[i].argv[1]);
+		if (ft_strncmp("export\0", data->command_arr[i].argv[0], 7) == 0)
+		{
+			int export_format;
+			export_format = b_export_allowed_format(data->command_arr[i].argc, data->command_arr[i].argv);
+			if (export_format == 1)
+			{
+				printf("\nDEBUG : normal export\n");
+				if (b_export(data->command_arr[i].argc, data->command_arr[i].argv, head) == -1)
+					return (-1);
+			}
+			else if (export_format == 2)
+			{
+				printf("\nDEBUG : concat export\n");
+				if (b_export_concat(data->command_arr[i].argc, data->command_arr[i].argv, head) == -1)
+					return (-1);
+			}
+			else if (export_format == -1)
+			{
+				printf("incorrect format for export! >:(\n");
+			}
+			return 0;
+		}
+		if (ft_strncmp("unset\0", data->command_arr[i].argv[0], 6) == 0)
+			b_unset(data->command_arr[i].argc, data->command_arr[i].argv, head);
 		i++;
 	}
-	
-	if (ft_strncmp("export\0", data->command_arr[0].argv[0], 7) == 0)
-	{
-		int export_format;
-		export_format = b_export_allowed_format(data->command_arr[0].argc, data->command_arr[0].argv);
-		if (export_format == 1)
-		{
-			printf("\nDEBUG : normal export\n");
-			if (b_export(data->command_arr[0].argc, data->command_arr[0].argv, str, head) == -1)
-				return (-1);
-		}
-		else if (export_format == 2)
-		{
-			printf("\nDEBUG : concat export\n");
-			if (b_export_concat(data->command_arr[0].argc, data->command_arr[0].argv, str, head) == -1)
-				return (-1);
-		}
-		else if (export_format == -1)
-		{
-			printf("incorrect format for export! >:(\n");
-		}
-		return 0;
-	}
-	if (ft_strncmp("unset\0", data->command_arr[0].argv[0], 6) == 0)
-		b_unset(data->command_arr[0].argc, data->command_arr[0].argv, head);
 	return 0;
 }
