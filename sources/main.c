@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/06 19:32:03 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/08 20:23:41 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,11 @@ int	main(int argc, char **argv, char **envp)
 
 		// debug
 		// print_commands(&data);
-		debug_env_etc(data.str, &head, &data);
+		// debug_env_etc(data.str, &head, &data);
 
-		// if (execute_commands(&data) < 0)
-		// 	free_and_exit_with_perror(&data, &head);
+		if (execute_commands(&data) < 0)
+			free_and_exit_with_perror(&data, &head);
+		print_child_errors(&data);
 
 		// debug
 		// printf("%s\n", data.str);

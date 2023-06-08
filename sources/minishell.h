@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/08 19:58:24 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/08 20:18:15 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,5 +199,6 @@ bool	command_has_heredoc(t_data *data, size_t command_nr);
 // executer
 int		execute_commands(t_data *data);
 int		apply_redirections(t_data *data, size_t i_command);
+void	print_child_errors(t_data *data);
 
 #endif

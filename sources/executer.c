@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/05 20:29:53 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/08 20:19:46 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,6 @@ int	execute_commands(t_data *data)
 	if (create_pipes(data) < 0)
 		return (-1);
 	data->paths = get_path(environ);
-
 	i = 0;
 	while (i < data->nr_commands)  // only do this in case there are at least 2 commands, otherwise, run single command
 	{
@@ -246,4 +245,21 @@ int	execute_commands(t_data *data)
 	if (wait_for_child_processes(data) < 0)
 		return (-1);
 	return (0);
+}
+
+void	print_child_errors(t_data *data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data->nr_commands)
+	{
+		if (data->command_arr[i].exit_status == 127)
+		{
+			if (data->paths != NULL)
+				ft_printf_fd(STDERR_FILENO, "%s: command not found\n",
+					data->command_arr[i].argv[0]);
+		}
+		i++;
+	}
 }
