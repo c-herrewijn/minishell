@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/09 12:40:13 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/09 15:25:42 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,17 @@ static void	init_data_struct(t_data *data, int argc, char **argv, char **envp)
 {
 	data->argc = argc;
 	data->argv = argv;
-	data->envp = envp;
-	data->str = NULL;
-	data->nr_tokens = 0;
-	data->token_arr = NULL;
-	data->nr_commands = 0;
 	data->command_arr = NULL;
+	data->envp = envp;
+	data->head = NULL;
+	data->nr_commands = 0;
 	data->nr_pipes = 0;
-	data->pipes = NULL;
+	data->nr_tokens = 0;
 	data->paths = NULL;
+	data->pipes = NULL;
+	data->previous_exit_status = 0;
+	data->str = NULL;
+	data->token_arr = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -82,12 +84,16 @@ int	main(int argc, char **argv, char **envp)
 		if (parser(&data) < 0)
 			free_and_exit_with_perror(&data, &data.head);
 
+		if (expander(&data) < 0)
+			free_and_exit_with_perror(&data, &data.head);
+
 		// debug
 		// print_commands(&data);
 		debug_env_etc(data.str, &data.head, &data);
 
 		if (execute_commands(&data) < 0)
 			free_and_exit_with_perror(&data, &data.head);
+		store_final_exit_status(&data);
 
 		// debug
 		// printf("%s\n", data.str);

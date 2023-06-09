@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/09 12:40:33 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/09 15:09:32 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_data
 	int			(*pipes)[2];
 	char		**paths;
 	t_node		*head;
+	int			previous_exit_status;
 }	t_data;
 
 //update_pwd_env.c
@@ -192,6 +193,10 @@ int		create_command(t_data *data, size_t command_nr);
 size_t	get_start_token(t_data *data, size_t command_nr);
 int		command_count_arguments(t_data *data, size_t command_nr);
 void	free_commands(t_data *data);
+
+// expander
+int		expander(t_data *data);
+void	store_final_exit_status(t_data *data);
 
 // heredoc
 int		add_heredoc(t_data *data, size_t command_nr);
