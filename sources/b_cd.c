@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:34 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/08 18:13:04 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/09 12:32:32 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,29 @@ static int	get_home_value(t_node **head, char **val)
 	int spot;
 	char **arr;
 	t_node *node;
-	//STUFF NO WORK, need to add printf statements to debug abit more
+
 	i = 0;
+	// printf("DEBUG : START GET HOME\n");
 	arr = make_is_in_env_compatible("HOME");
 	if (arr == NULL)
 		return -2;
+	// printf("DEBUG : ARR MADE\n");
 	spot = is_in_env(2, arr, head);
+	// printf("DEBUG : IS IN ENV CHECKED\n");
 	free(arr);
+	// printf("DEBUG : ARR FREED\n");
 	if (spot == -1)
+	{
+		// printf("DEBUG : HOME NOT FOUND\n");
 		return -1;
+	}
 	node = *head;
-	while(i < (spot - 1))
+	while(i < spot)
+	{
 		node = node->next;
+		i++;
+	}
+	// printf("DEBUG : AFTER NODE LOOP\n");
 	*val = ft_substr(node->str, ft_strlen("HOME="), ft_strlen(node->str) - ft_strlen("HOME="));
 	if (*val == NULL)
 		return -2;
@@ -63,12 +74,14 @@ int		b_cd(int argc, char **argv, t_node **head)
 		ret = get_home_value(head, &home_value);
 		if (ret == -2)
 			return (-1);
-		printf("DEBUG : home_value : %s\n", home_value);
+		// printf("DEBUG : home_value : %s\n", home_value);
 		if (ret == -1)
 			printf("cd : HOME not set\n");
 		else
 		{
 			ret = chdir(home_value);
+			if (ret == -1)
+				printf("cd: %s: No such file or directory\n", home_value);
 			free(home_value);
 		}
 	}
