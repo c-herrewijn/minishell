@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/09 19:39:26 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/09 20:01:15 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,13 @@ int	main(int argc, char **argv, char **envp)
 			write(STDOUT_FILENO, "exit\n", 5);
 			exit(0);
 		}
+		if (data.str[0] == '\0')
+		{
+			printf("DEBUG: data.str[0] == 0\n");
+			free(data.str);
+			continue;
+		}
+		// printf("\n\ndata.str : |%s|\n\n", data.str);
 		add_history(data.str);
 		
 		if (lexer(&data) < 0)
