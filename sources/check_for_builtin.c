@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/08 13:49:25 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/09 19:29:51 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ t_builtin	check_if_builtin(char *str)
 		return B_CD;
 	if (ft_strncmp("pwd\0", str, 4) == 0)
 		return B_PWD;
-	if (ft_strncmp("EXPORT\0", str, 7) == 0)
+	if (ft_strncmp("export\0", str, 7) == 0)
 		return B_EXPORT;
-	if (ft_strncmp("UNSET\0", str, 6) == 0)
+	if (ft_strncmp("unset\0", str, 6) == 0)
 		return B_UNSET;
 	if (ft_strncmp("env\0", str, 4) == 0)
 		return B_ENV;
@@ -78,7 +78,8 @@ t_builtin	check_if_builtin(char *str)
 		return NOT_BUILTIN;
 }
 
-int		old_builtin_test(char *str, t_node **head, t_data *data)
+//need to remove later
+int		old_builtin_test(t_node **head, t_data *data)
 {
 	int i;
 

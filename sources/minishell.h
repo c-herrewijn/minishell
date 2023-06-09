@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/09 12:40:33 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/09 19:24:00 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void	b_unset(int argc, char **argv, t_node **head);
 int			index_of_c_in_str(char *str, char c);
 int			b_export_allowed_format(int argc, char **argv);
 t_builtin	check_if_builtin(char *str);
-int			old_builtin_test(char *str, t_node **head, t_data *data);
+int			old_builtin_test(t_node **head, t_data *data);
 
 //create_env.c
 int		list_len(t_node *head);
@@ -197,9 +197,30 @@ void	free_commands(t_data *data);
 int		add_heredoc(t_data *data, size_t command_nr);
 bool	command_has_heredoc(t_data *data, size_t command_nr);
 
-// executer
+// executer.c
+char	*combine_command_path(char *path, char *cmd);
+void	exit_child_proc_with_error(t_command *command, char **paths);
+void	execute_command_builtin(t_node **head, t_data *data, size_t i);
+void	execute_command_local_dir(char **envp, char **paths,
+	t_command *command);
+void	execute_command_from_path(char **envp, char **paths,
+	t_command *command);
+int		create_pipes(t_data *data);
+int		close_pipes_before_running_command_i(t_data *data, size_t i_command);
+void	run_child_process_and_exit(char **envp, t_data *data, size_t com_i);
+char	**get_path(char **envp);
+int		close_all_pipes(t_data *data);
+int		wait_for_child_processes(t_data *data);
 int		execute_commands(t_data *data);
-int		apply_redirections(t_data *data, size_t i_command);
 void	print_child_errors(t_data *data);
+
+//executer_redirections.c
+int		apply_redirections(t_data *data, size_t i_command);
+
+//single_builtin.c
+int execute_single_builtin_command(t_node **head, t_data *data);
+
+//single_command.c
+int execute_single_command(t_data *data);
 
 #endif

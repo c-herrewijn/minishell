@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/08 20:19:46 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/09 19:15:47 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,58 @@ void	exit_child_proc_with_error(t_command *command, char **paths)
 	exit(1);
 }
 
-static void	execute_command_local_dir(char **envp, char **paths,
+//how does it work with it being in a child process
+//do i exit child process with error, what about malloc fail?
+//else if chain gets messed up cuz 
+//if i do export in here, it doesnt update the linked list outside of the child process
+//do builtins even need to be in a child process?
+//builtins dont really execute when pipes are in the mix
+//for example cd ../ | ls or ls | cd ../
+//first one only prints ls, neither change the directory
+void execute_command_builtin(t_node **head, t_data *data, size_t i)
+{
+	t_builtin type;
+
+	type = check_if_builtin(data->command_arr[i].argv[0]);
+	if (type == B_ECHO)
+		b_echo(data->command_arr[i].argc, data->command_arr[i].argv);
+	if (type == B_CD)
+		if (b_cd(data->command_arr[i].argc, data->command_arr[i].argv, head) < 0)
+			return ; //-1
+	if (type == B_PWD)
+		b_pwd();
+	if (type == B_ENV)
+		b_env(*head);
+	if (type == B_EXIT)
+		b_exit(data->command_arr[i].argv[1]);
+	if (type == B_EXPORT)
+	{
+		int export_format;
+		export_format = b_export_allowed_format(data->command_arr[i].argc, data->command_arr[i].argv);
+		if (export_format == 1)
+		{
+			printf("\nDEBUG : normal export\n");
+			if (b_export(data->command_arr[i].argc, data->command_arr[i].argv, head) == -1)
+				return ; //-1
+		}
+		else if (export_format == 2)
+		{
+			printf("\nDEBUG : concat export\n");
+			if (b_export_concat(data->command_arr[i].argc, data->command_arr[i].argv, head) == -1)
+				return ; //-1
+		}
+		else if (export_format == -1)
+		{
+			printf("incorrect format for export! >:(\n");
+		}
+	}
+	if (type == B_UNSET)
+		b_unset(data->command_arr[i].argc, data->command_arr[i].argv, head);
+	else
+		return ;
+}
+
+void	execute_command_local_dir(char **envp, char **paths,
 	t_command *command)
 {
 	if (command->executable_location != NULL)
@@ -58,7 +109,7 @@ static void	execute_command_local_dir(char **envp, char **paths,
 	exit_child_proc_with_error(command, paths);
 }
 
-static void	execute_command_from_path(char **envp, char **paths,
+void	execute_command_from_path(char **envp, char **paths,
 	t_command *command)
 {
 	int	i;
@@ -137,7 +188,7 @@ int	close_pipes_before_running_command_i(t_data *data, size_t i_command)
 	return (0);
 }
 
-static void	run_child_process_and_exit(char **envp, t_data *data, size_t com_i)
+void	run_child_process_and_exit(char **envp, t_data *data, size_t com_i)
 {
 	if (close_pipes_before_running_command_i(data, com_i) < 0)
 		exit(1);
@@ -145,14 +196,16 @@ static void	run_child_process_and_exit(char **envp, t_data *data, size_t com_i)
 		exit(1);
 	if ((data->command_arr)[com_i].argc == 0)
 		exit(0);
-	if (data->paths != NULL)
+	if (check_if_builtin(data->command_arr[com_i].argv[0]) != NOT_BUILTIN)
+		execute_command_builtin(&data->head, data, com_i);
+	else if (data->paths != NULL)
 		execute_command_from_path(envp, data->paths, &(data->command_arr)[com_i]);
 	else
 		execute_command_local_dir(envp, data->paths, &(data->command_arr)[com_i]);
 }
 
 // stores path char ** in new memory
-static char	**get_path(char **envp)
+char	**get_path(char **envp)
 {
 	int	i;
 

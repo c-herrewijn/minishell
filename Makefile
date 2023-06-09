@@ -3,14 +3,15 @@ NAME = minishell
 CFLAGS = -Wall -lreadline -g -fsanitize=address
 # CFLAGS = -Wall -lreadline
 SRC_DIR = sources
-SRCS =	b_cd.c builtin_utils.c lexer_utils.c \
+SRCS = b_cd.c builtin_utils.c lexer_utils.c \
 b_echo.c check_for_builtin.c main.c b_export_utils.c \
 b_env.c create_env.c update_pwd_env.c \
 b_exit.c debug_printing.c parser.c \
 b_export.c lexer.c parser_create_command.c \
 b_pwd.c lexer_count_tokens.c parser_syntax_validation.c \
 builtin_unset.c lexer_create_tokens.c parser_free_commands.c \
-executer_redirections.c executer.c heredoc.c command_utils.c
+executer_redirections.c executer.c heredoc.c command_utils.c \
+single_builtin.c single_command.c
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
