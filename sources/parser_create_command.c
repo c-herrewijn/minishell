@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 16:40:56 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/05/30 16:28:48 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/07 17:41:55 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,7 @@ int	create_command(t_data *data, size_t command_nr)
 		}
 		i_token++;
 	}
+	if (add_heredoc(data, command_nr) < 0)
+		return (-1);
 	return (0);
 }
