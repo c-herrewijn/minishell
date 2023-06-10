@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/09 19:35:51 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 14:11:32 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ void	run_child_process_and_exit(char **envp, t_data *data, size_t com_i);
 char	**get_path(char **envp);
 int		close_all_pipes(t_data *data);
 int		wait_for_child_processes(t_data *data);
+int		create_envp_from_ll_env(t_node **head, char ***envp);
 int		execute_commands(t_data *data);
 void	print_child_errors(t_data *data);
 

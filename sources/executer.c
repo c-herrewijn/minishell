@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/10 14:06:34 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 14:14:08 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,15 +301,14 @@ int	execute_commands(t_data *data)
 {
 	pid_t	new_pid;
 	size_t	i;
-	extern char **environ;  // debug
-	char **envp;
+	char	**envp;
 
 	envp = NULL;
 	if (create_envp_from_ll_env(&data->head, &envp) == -1)
 		return (-1);
-	printf("\nDEBUG : before envp print\n\n");
-	print_2d_array(envp);
-	printf("\nDEBUG : after envp print\n\n");
+	// printf("\nDEBUG : before envp print\n\n");
+	// print_2d_array(envp);
+	// printf("\nDEBUG : after envp print\n\n");
 	if (data->nr_commands == 0)
 		return (0);
 	data->nr_pipes = data->nr_commands - 1;
