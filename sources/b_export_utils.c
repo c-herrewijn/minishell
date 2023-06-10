@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 20:47:48 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/08 13:30:37 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 17:12:23 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,22 +82,16 @@ int		b_export_concat_inplace(char *str, t_node **head, int spot)
 int	concat_helper(int argc, char **argv, t_node **head, char *without_plus)
 {
 	int spot;
-	char *cpy;
 
-	spot = is_in_env(argc, argv, head);
-	cpy = ft_substr(without_plus, 0, ft_strlen(without_plus));
-	free(argv[1]);
-	free(argv);
-	if (cpy == NULL)
-		return (-1);
+	spot = index_in_env(argv[0], without_plus, head);
 	if (spot == -1)
 	{
-		printf("concat : spot == -1 : %s\n", cpy);
-		if (list_append(head, cpy) == -1)
+		printf("concat : spot == -1 : %s\n", without_plus);
+		if (list_append(head, without_plus) == -1)
 			return (-1);
 		return (0);
 	}
-	if (b_export_concat_inplace(cpy, head, spot) == -1)
+	if (b_export_concat_inplace(without_plus, head, spot) == -1)
 		return (-1);
 	return (0);
 }

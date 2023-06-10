@@ -6,31 +6,22 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:34 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/09 12:32:32 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 17:06:59 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //find c in str
-//is_in_env
+//index_in_env
 static int	get_home_value(t_node **head, char **val)
 {
 	int i;
 	int spot;
-	char **arr;
 	t_node *node;
 
 	i = 0;
-	// printf("DEBUG : START GET HOME\n");
-	arr = make_is_in_env_compatible("HOME");
-	if (arr == NULL)
-		return -2;
-	// printf("DEBUG : ARR MADE\n");
-	spot = is_in_env(2, arr, head);
-	// printf("DEBUG : IS IN ENV CHECKED\n");
-	free(arr);
-	// printf("DEBUG : ARR FREED\n");
+	spot = index_in_env("test", "HOME", head);
 	if (spot == -1)
 	{
 		// printf("DEBUG : HOME NOT FOUND\n");

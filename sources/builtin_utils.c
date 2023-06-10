@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 15:53:59 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/10 15:01:06 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 17:22:17 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,24 @@ static bool		special_strcmp(char *s1, char *s2, int flag)
 	return false;
 }
 
-//can be called from PWD_update functions, unset, cd and concat_export
-
-//need to change to location_env(char **prefix, char **str_to_find, t_node **head)
-int		is_in_env(int argc, char **argv, t_node **head)
+//called from PWD_update functions, unset, cd and concat_export
+//in most cases argv[0] is prefix and argv[1] is str_to_find
+int		index_in_env(char *prefix, char *str_to_find, t_node **head)
 {
 	t_node *node;
 	int i;
 	int flag;
 	
-	if (argc <= 1)
+	if (str_to_find == NULL)
 		return -1;
 	node = *head;
 	if (node->str == NULL)
 		return -1;
 	i = 0;
-	flag = ft_strncmp("export\0", argv[0], 7);
+	flag = ft_strncmp("export\0", prefix, 7);
 	while(node != NULL)
 	{
-		if (special_strcmp(argv[1], node->str, flag) == true)
+		if (special_strcmp(str_to_find, node->str, flag) == true)
 			return i;
 		i++;
 		node = node->next;
@@ -86,17 +85,4 @@ int		b_arr_len(char **s)
 		i++;
 	}
 	return i;
-}
-
-char **make_is_in_env_compatible(char *str)
-{
-	char **arr;
-
-	arr = malloc(3 * sizeof(char *));
-	if (arr == NULL)
-		return (NULL);
-	arr[0] = "test";
-	arr[1] = str;
-	arr[2] = NULL;
-	return arr;
 }

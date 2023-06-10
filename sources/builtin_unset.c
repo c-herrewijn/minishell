@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/08 13:46:10 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 17:18:40 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	b_unset(int argc, char **argv, t_node **head)
 		printf("(*head)->str == NULL\n");
 		return;
 	}
-	i = is_in_env(argc, argv, head);
+	i = index_in_env(argv[0], argv[1], head);
 	if (i != -1)
 		list_remove_index(head, i);
 }

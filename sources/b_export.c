@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:47 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/08 13:47:43 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 17:14:06 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,19 @@
 int		b_export_concat(int argc, char **argv, t_node **head)
 {
 	char *without_plus;
-	char **arr;
 	
 	without_plus = remove_plus(argv[1]);
 	if (without_plus == NULL)
 		return (-1);
 	if (empty_list_add(head, without_plus) == true)
 		return 0;
-	arr = malloc(3 * sizeof(char *));
-	if (arr == NULL)
-	{
-		free(without_plus);
-		return (-1);
-	}
-	arr[0] = "export";
-	arr[1] = without_plus;
-	arr[2] = NULL;
-	if (concat_helper(argc, arr, head, without_plus) == -1)
+	if (concat_helper(argc, argv, head, without_plus) == -1)
 		return (-1);
 	return (0);
 }
 
 //unset then export
 //cpy is basicly same as argv[1]
-//arr[0] is 'export name'
 //argv[0] export
 //argv[1] name=value
 int		b_export(int argc, char **argv, t_node **head)

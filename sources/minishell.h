@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/10 14:11:32 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 17:17:42 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,10 +142,9 @@ int		b_export(int argc, char **argv, t_node **head);
 void	b_pwd(void);
 
 //builtin_utils.c
-int		is_in_env(int argc, char **argv, t_node **head);
+int		index_in_env(char *prefix, char *str_to_find, t_node **head);
 void	free_double_char_pointer(char **s);
 int		b_arr_len(char **s);
-char	**make_is_in_env_compatible(char *str);
 
 //builtin_unset.c
 void	unset_all(t_node **head);

@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 22:13:45 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/08 15:43:55 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 17:06:59 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,9 @@ static int	pwd_oldpwd_spot(t_node **head, int mode)
 {
 	int		pwdspot;
 	int		oldpwdspot;
-	char 	**oldpwd_argv;
-	char	**pwd_argv;
-	
-	oldpwd_argv = make_is_in_env_compatible("OLDPWD");
-	if (oldpwd_argv == NULL)
-		return (-1);
-	pwd_argv = make_is_in_env_compatible("PWD");
-	if (pwd_argv == NULL)
-	{
-		free(oldpwd_argv);
-		return (-1);
-	}
-	pwdspot = is_in_env(2, pwd_argv, head);
-	free(pwd_argv);
-	oldpwdspot = is_in_env(2, oldpwd_argv, head);
-	free(oldpwd_argv);
+
+	pwdspot = index_in_env("test", "PWD", head);
+	oldpwdspot = index_in_env("test", "OLDPWD", head);
 	if (mode == 1)
 		return pwdspot;
 	return oldpwdspot;
@@ -97,14 +84,9 @@ static int	pwd_helper(t_node **head, char *cur_dir)
 	t_node	*node;
 	int		i;
 	int		spot;
-	char	**arr;
 
-	arr = make_is_in_env_compatible("PWD");
-	if (arr == NULL)
-		return (-1);
 	node = *head;
-	spot = is_in_env(2, arr, head);
-	free(arr);
+	spot = index_in_env("test", "PWD", head);
 	i = 0;
 	while (node->next != NULL && i < spot)
 	{
@@ -154,21 +136,11 @@ returns:
 int		pwd_in_env(t_node **head)
 {
 	int total;
-	char **oldpwd;
-	char **pwd;
 
 	total = 0;
-	oldpwd = make_is_in_env_compatible("OLDPWD");
-	if (oldpwd == NULL)
-		return -1;
-	if (is_in_env(2, oldpwd, head) >= 0)
+	if (index_in_env("test", "OLDPWD", head) >= 0)
 		total += 1;
-	free(oldpwd);
-	pwd = make_is_in_env_compatible("PWD");
-	if (pwd == NULL)
-		return -1;
-	if (is_in_env(2, pwd, head) >= 0)
+	if (index_in_env("test", "PWD", head) >= 0)
 		total += 2;
-	free(pwd);
 	return total;
 }
