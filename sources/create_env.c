@@ -6,12 +6,13 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 17:53:35 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/02 19:06:06 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 11:39:52 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//loop through ll env, returns len
 int list_len(t_node *head)
 {
 	t_node *node;

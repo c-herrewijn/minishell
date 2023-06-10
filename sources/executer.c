@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/09 19:15:47 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 14:06:34 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,19 +264,58 @@ int	wait_for_child_processes(t_data *data)
 	return (0);
 }
 
+//allocate listlen + 1 * sizeof(char *) to envp
+//loop through ll env
+//alloc envp[i] with ft_substr
+int create_envp_from_ll_env(t_node **head, char ***envp)
+{
+	int listlen;
+	t_node *node;
+	int i;
+	
+	node = *head;
+	listlen = list_len(*head);
+	*envp = malloc((listlen + 1) * sizeof(char *));
+	i = 0;
+	if (*envp == NULL)
+		return (-1);
+	while (i < listlen)
+	{
+		(*envp)[i] = ft_substr(node->str, 0, ft_strlen(node->str));
+		if ((*envp)[i] == NULL)
+		{
+			free_double_char_pointer(*envp);
+			return (-1);
+		}
+		i++;
+		node = node->next;
+	}
+	(*envp)[i] = NULL;
+	return 0;
+}
+
+//maybe create a function that calls free_double_char_pointer(envp); and returns n;
+
 // contains functionality from "execute_commands_in_child_processes()"
 int	execute_commands(t_data *data)
 {
 	pid_t	new_pid;
 	size_t	i;
 	extern char **environ;  // debug
+	char **envp;
 
+	envp = NULL;
+	if (create_envp_from_ll_env(&data->head, &envp) == -1)
+		return (-1);
+	printf("\nDEBUG : before envp print\n\n");
+	print_2d_array(envp);
+	printf("\nDEBUG : after envp print\n\n");
 	if (data->nr_commands == 0)
 		return (0);
 	data->nr_pipes = data->nr_commands - 1;
 	if (create_pipes(data) < 0)
 		return (-1);
-	data->paths = get_path(environ);
+	data->paths = get_path(envp);
 	i = 0;
 	while (i < data->nr_commands)  // only do this in case there are at least 2 commands, otherwise, run single command
 	{
@@ -288,7 +327,7 @@ int	execute_commands(t_data *data)
 		}
 		if (new_pid == 0)
 		{
-			run_child_process_and_exit(environ, data, i);
+			run_child_process_and_exit(envp, data, i);
 		}
 		data->command_arr[i].pid = new_pid;
 		i++;
@@ -297,6 +336,7 @@ int	execute_commands(t_data *data)
 		return (-1);
 	if (wait_for_child_processes(data) < 0)
 		return (-1);
+	free_double_char_pointer(envp); //might need to free earlier or if something returns -1
 	return (0);
 }
 

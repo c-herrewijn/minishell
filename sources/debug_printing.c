@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/03 19:14:23 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 12:44:22 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,13 @@ void print_env_var(char *str, t_node *head)
 	}
 }
 
-// kinda useless / not used
 void print_2d_array(char **s)
 {
 	int i;
 
 	i = 0;
+	if (s[0] == NULL)
+		printf("s[0] == NULL\n");
 	while(s[i] != NULL)
 	{
 		printf("%s\n", s[i]);

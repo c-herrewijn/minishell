@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/10 11:30:17 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 11:33:34 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,13 +132,6 @@ int	main(int argc, char **argv, char **envp)
 			}
 		}
 		store_final_exit_status(&data);
-
-		// debug
-		// printf("%s\n", data.str);
-
-		// if (old_builtin_test(&data.head, &data) < 0)
-		// 	free_and_exit_with_perror(&data, &data.head);
-
 		free_data(&data);
 	}
 	return (0);
