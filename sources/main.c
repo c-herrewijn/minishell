@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/10 11:33:34 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 15:40:31 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,20 @@ static void	init_data_struct(t_data *data, int argc, char **argv, char **envp)
 
 bool single_command_check(t_data data)
 {
-	int argc;
 	char **argv;
 	t_builtin type;
-	
-	argc = data.command_arr[0].argc;
+
 	argv = data.command_arr[0].argv;
+	if (data.command_arr[0].argc <= 0)
+		return false;
 	type = check_if_builtin(argv[0]);
-	if (argc > 0 && data.nr_commands == 1 && type != NOT_BUILTIN)
+	if (data.command_arr[0].argc > 0 && data.nr_commands == 1 && type != NOT_BUILTIN)
 	{
 		if (execute_single_builtin_command(&data.head, &data) < 0)
 			free_and_exit_with_perror(&data, &data.head);
 		return true;
 	}
-	else if (argc > 0 && data.nr_commands == 1 && type == NOT_BUILTIN)
+	else if (data.command_arr[0].argc > 0 && data.nr_commands == 1 && type == NOT_BUILTIN)
 	{
 		printf("DEBUG: single non-builtin\n");
 		if (execute_single_command(&data) < 0)
@@ -123,6 +123,7 @@ int	main(int argc, char **argv, char **envp)
 		// print_commands(&data);
 		debug_env_etc(data.str, &data.head, &data);
 		// printf("DEBUG: argc %d : argv[0] : |%s|\n", data.command_arr[0].argc ,data.command_arr[0].argv[0]);
+		// printf("DEBUG: argc argv[0] : |%s| - argv[1] : |%s|\n", data.command_arr[0].argv[0], data.command_arr[0].argv[1]);
 		if (single_command_check(data) == false)
 		{
 			if (execute_commands(&data) < 0)

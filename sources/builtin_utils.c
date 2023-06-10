@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 15:53:59 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/08 17:53:50 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 15:01:06 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ static bool		special_strcmp(char *s1, char *s2, int flag)
 	return false;
 }
 
-//can be called from PWD_update functions, unset and concat_export
+//can be called from PWD_update functions, unset, cd and concat_export
+
+//need to change to location_env(char **prefix, char **str_to_find, t_node **head)
 int		is_in_env(int argc, char **argv, t_node **head)
 {
 	t_node *node;
