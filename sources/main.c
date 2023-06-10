@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/09 20:01:15 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/10 11:30:17 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,31 @@ static void	init_data_struct(t_data *data, int argc, char **argv, char **envp)
 	data->token_arr = NULL;
 }
 
+bool single_command_check(t_data data)
+{
+	int argc;
+	char **argv;
+	t_builtin type;
+	
+	argc = data.command_arr[0].argc;
+	argv = data.command_arr[0].argv;
+	type = check_if_builtin(argv[0]);
+	if (argc > 0 && data.nr_commands == 1 && type != NOT_BUILTIN)
+	{
+		if (execute_single_builtin_command(&data.head, &data) < 0)
+			free_and_exit_with_perror(&data, &data.head);
+		return true;
+	}
+	else if (argc > 0 && data.nr_commands == 1 && type == NOT_BUILTIN)
+	{
+		printf("DEBUG: single non-builtin\n");
+		if (execute_single_command(&data) < 0)
+			free_and_exit_with_perror(&data, &data.head);
+		return true;
+	}
+	return false;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -97,22 +122,14 @@ int	main(int argc, char **argv, char **envp)
 		// debug
 		// print_commands(&data);
 		debug_env_etc(data.str, &data.head, &data);
-
-		if (data.nr_commands == 1 && check_if_builtin(data.command_arr[0].argv[0]) != NOT_BUILTIN)
+		// printf("DEBUG: argc %d : argv[0] : |%s|\n", data.command_arr[0].argc ,data.command_arr[0].argv[0]);
+		if (single_command_check(data) == false)
 		{
-			if (execute_single_builtin_command(&data.head, &data) < 0)
+			if (execute_commands(&data) < 0)
+			{
+				printf("DEBUG: execute_commands() called\n");
 				free_and_exit_with_perror(&data, &data.head);
-		}
-		else if (data.nr_commands == 1 && check_if_builtin(data.command_arr[0].argv[0]) == NOT_BUILTIN)
-		{
-			printf("DEBUG: single non-builtin\n");
-			if (execute_single_command(&data) < 0)
-				free_and_exit_with_perror(&data, &data.head);
-		}
-		else if (execute_commands(&data) < 0)
-		{
-			printf("DEBUG: execute_commands() called\n");
-			free_and_exit_with_perror(&data, &data.head);
+			}
 		}
 		store_final_exit_status(&data);
 
