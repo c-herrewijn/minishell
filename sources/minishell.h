@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/12 14:48:37 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 17:07:07 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,10 @@ typedef struct s_data
 }	t_data;
 
 //update_pwd_env.c
-int		update_oldpwd(t_node **head);
 int		update_pwd(t_node **head);
-int		pwd_in_env(t_node **head);
+
+//update_oldpwd_env.c
+int		update_oldpwd(t_node **head);
 
 //b_cd.c
 int		b_cd(int argc, char **argv, t_node **head);
@@ -145,6 +146,7 @@ void	b_pwd(void);
 int		index_in_env(char *prefix, char *str_to_find, t_node **head);
 void	free_double_char_pointer(char **s);
 int		b_arr_len(char **s);
+int		pwd_in_env(t_node **head);
 
 //builtin_unset.c
 void	unset_all(t_node **head);

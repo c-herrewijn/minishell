@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 15:53:59 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 16:08:08 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 17:04:28 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,23 @@ int	b_arr_len(char **s)
 		i++;
 	}
 	return (i);
+}
+
+/*
+returns:
+0 : no OLDPWD, no PWD
+1 : yes OLDPWD, no PWD
+2 : no OLDPWD, yes PWD
+3 : yes OLDPWD, yes PWD
+*/
+int		pwd_in_env(t_node **head)
+{
+	int total;
+
+	total = 0;
+	if (index_in_env("test", "OLDPWD", head) >= 0)
+		total += 1;
+	if (index_in_env("test", "PWD", head) >= 0)
+		total += 2;
+	return total;
 }
