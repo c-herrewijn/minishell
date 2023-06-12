@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 17:12:45 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/10 14:14:12 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 16:13:27 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //will use functions from the executer
 //basicly executer without pipes
-int execute_single_command(t_data *data)
+int	execute_single_command(t_data *data)
 {
 	pid_t	new_pid;
 	char	**envp;

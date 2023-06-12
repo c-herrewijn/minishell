@@ -6,15 +6,15 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/12 14:45:33 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 14:45:53 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 16:11:44 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void single_command_check(t_data data)
+void	single_command_check(t_data data)
 {
-	t_builtin type;
+	t_builtin	type;
 
 	type = check_if_builtin(data.command_arr[0].argv[0]);
 	if (type != NOT_BUILTIN)
@@ -30,7 +30,7 @@ void single_command_check(t_data data)
 	}
 }
 
-int check_data_str(t_data *data)
+int	check_data_str(t_data *data)
 {
 	// printf("\n\ndata.str : |%s|\n\n", data.str);
 	if (data->str == NULL) //if ctrl-D is send, this will also count
@@ -43,7 +43,7 @@ int check_data_str(t_data *data)
 	{
 		printf("DEBUG: data->str[0] == 0\n");
 		free(data->str);
-		return 1;
+		return (1);
 	}
-	return 0;	
+	return (0);
 }

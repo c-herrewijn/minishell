@@ -6,21 +6,21 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 17:53:35 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/10 11:39:52 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 16:09:57 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //loop through ll env, returns len
-int list_len(t_node *head)
+int	list_len(t_node *head)
 {
-	t_node *node;
-	int i;
+	t_node	*node;
+	int		i;
 
 	node = head;
 	i = 0;
-	if (head == NULL) //  || head->str == NULL (maybe need to add)
+	if (head == NULL)
 	{
 		return (0);
 	}
@@ -33,14 +33,14 @@ int list_len(t_node *head)
 }
 
 // need to keep track of both to not lose the pointer
-void list_clear(t_node **head)
+void	list_clear(t_node **head)
 {
-	t_node *cur_node;
-	t_node *next_node;
+	t_node	*cur_node;
+	t_node	*next_node;
 
 	cur_node = *head;
 	next_node = *head;
-	while(cur_node)
+	while (cur_node)
 	{
 		next_node = cur_node->next;
 		if (cur_node->str != NULL)
@@ -54,12 +54,12 @@ void list_clear(t_node **head)
 // helper to list_create_env
 // also used in b_export
 // flag is just for debugging, need to remove later and update in minishell.h
-int list_append(t_node **head, char *str)
+int	list_append(t_node **head, char *str)
 {
-	t_node *node;
+	t_node	*node;
 
 	node = *head;
-	while(node->next != NULL)
+	while (node->next != NULL)
 		node = node->next;
 	node->next = malloc(sizeof(t_node));
 	node->next->str = NULL;
@@ -71,11 +71,11 @@ int list_append(t_node **head, char *str)
 }
 
 // main func, called from main
-int list_create_env(t_node **head, t_data data)
+int	list_create_env(t_node **head, t_data data)
 {
-	int i;
-	char *cpy;
-	int envplen;
+	int		i;
+	char	*cpy;
+	int		envplen;
 
 	i = 1;
 	envplen = b_arr_len(data.envp);
@@ -92,7 +92,7 @@ int list_create_env(t_node **head, t_data data)
 	}
 	(*head)->str = cpy;
 	(*head)->next = NULL;
-	while(data.envp[i] != NULL)
+	while (data.envp[i] != NULL)
 	{
 		cpy = ft_substr(data.envp[i], 0, ft_strlen(data.envp[i]));
 		if (list_append(head, cpy) == -1)

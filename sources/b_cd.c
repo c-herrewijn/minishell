@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:34 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 15:45:03 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 15:59:43 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,32 @@
 //use index_in_env
 static int	get_home_value(t_node **head, char **val)
 {
-	int i;
-	int spot;
-	t_node *node;
+	int		i;
+	int		spot;
+	t_node	*node;
+	size_t	h_len;
 
+	h_len = ft_strlen("HOME=");
 	i = 0;
 	spot = index_in_env("test", "HOME", head);
 	if (spot == -1)
 	{
 		// printf("DEBUG : HOME NOT FOUND\n");
-		return -1;
+		return (-1);
 	}
 	node = *head;
-	while(i < spot)
+	while (i < spot)
 	{
 		node = node->next;
 		i++;
 	}
-	*val = ft_substr(node->str, ft_strlen("HOME="), ft_strlen(node->str) - ft_strlen("HOME="));
+	*val = ft_substr(node->str, h_len, ft_strlen(node->str) - h_len);
 	if (*val == NULL)
-		return -2;
-	return 1;
+		return (-2);
+	return (1);
 }
 
-static int change_dir(int argc, char **argv, t_node **head, int *ret)
+static int	change_dir(int argc, char **argv, t_node **head, int *ret)
 {
 	char	*home_value;
 
@@ -63,14 +65,14 @@ static int change_dir(int argc, char **argv, t_node **head, int *ret)
 		if (*ret == -1)
 			printf("cd: %s: No such file or directory\n", argv[1]);
 	}
-	return 0;
+	return (0);
 }
 
 //when does cd count as succesfull, kinda depends on chdir from c
 //chdir returns -1 if something is incorrect with the passed path
-int		b_cd(int argc, char **argv, t_node **head)
+int	b_cd(int argc, char **argv, t_node **head)
 {
-	int 	ret;
+	int	ret;
 
 	ret = 0;
 	if (change_dir(argc, argv, head, &ret) == -1)
@@ -82,5 +84,5 @@ int		b_cd(int argc, char **argv, t_node **head)
 		if (update_pwd(head) == -1)
 			return (-1);
 	}
-	return 0;
+	return (0);
 }

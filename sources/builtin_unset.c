@@ -6,34 +6,34 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 13:00:40 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 16:07:13 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //debug option to quickly check how env works when its completely empty
-void unset_all(t_node **head)
+void	unset_all(t_node **head)
 {
-	int i;
-	int len;
+	int	i;
+	int	len;
 
 	i = 0;
 	len = list_len(*head);
 	while (i < len)
 	{
 		list_remove_first(head);
-		// list_remove_index(head, 1);
 		i++;
 	}
 }
 
 // pop off first
 // saves the original pointer
-void list_remove_first(t_node **head)
+void	list_remove_first(t_node **head)
 {
-	t_node *node;
-	int listlen;
+	t_node	*node;
+	int		listlen;
+
 	if (*head == NULL)
 	{
 		printf("*head == NULL it seems\n");
@@ -52,8 +52,8 @@ void list_remove_first(t_node **head)
 
 static void	list_rm_i_helper(t_node **head, t_node *node, int spot)
 {
-	int i;
-	t_node *temp;
+	int		i;
+	t_node	*temp;
 
 	i = 0;
 	temp = NULL;
@@ -62,7 +62,7 @@ static void	list_rm_i_helper(t_node **head, t_node *node, int spot)
 		list_remove_first(head);
 		return ;
 	}
-	while(i < (spot - 1))
+	while (i < (spot - 1))
 	{
 		node = node->next;
 		i++;
@@ -75,14 +75,14 @@ static void	list_rm_i_helper(t_node **head, t_node *node, int spot)
 // might be a workaround to not use temp, not sure yet
 void	list_remove_index(t_node **head, int spot)
 {
-	int listlen;
-	t_node *node;
+	int		listlen;
+	t_node	*node;
 
 	listlen = list_len(*head);
 	if (*head == NULL || spot > listlen)
 	{
 		printf("*head == NULL || spot > listlen\n");
-		return;
+		return ;
 	}
 	node = *head;
 	if (listlen == 1)
@@ -100,22 +100,22 @@ void	list_remove_index(t_node **head, int spot)
 // argv[1] name=value
 void	b_unset(int argc, char **argv, t_node **head)
 {
-	int i;
+	int	i;
 
 	if (argc > 0)
 	{
-			if (argv[1][0] == '_' && (argv[1][1] == '\0' || argv[1][1] == '='))
-		return ;
+		if (argv[1][0] == '_' && (argv[1][1] == '\0' || argv[1][1] == '='))
+			return ;
 	}
 	if (*head == NULL)
 	{
 		printf("*head == NULL\n");
-		return;
+		return ;
 	}
 	if ((*head)->str == NULL)
 	{
 		printf("(*head)->str == NULL\n");
-		return;
+		return ;
 	}
 	i = index_in_env(argv[0], argv[1], head);
 	if (i != -1)

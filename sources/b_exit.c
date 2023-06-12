@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:09 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/03 20:44:26 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 16:00:09 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ then the exit code will be the input modulo 256
 */
 void	b_exit(char *exit_status)
 {
-	int n;
+	int	n;
 
 	n = 1;
 	if (ft_isinteger(exit_status) == false)
