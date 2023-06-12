@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/12 12:46:38 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 14:48:06 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_leaks(void)
 	system("leaks minishell");
 }
 
-static void	free_data(t_data *data)
+void	free_data(t_data *data)
 {
 	free(data->str);
 	data->str = NULL;
@@ -28,7 +28,7 @@ static void	free_data(t_data *data)
 	free_commands(data);
 }
 
-static void	free_and_exit_with_perror(t_data *data, t_node **head)
+void	free_and_exit_with_perror(t_data *data, t_node **head)
 {
 	free_data(data);
 	list_clear(head);
@@ -36,7 +36,7 @@ static void	free_and_exit_with_perror(t_data *data, t_node **head)
 	exit(1);
 }
 
-static void	init_data_struct(t_data *data, int argc, char **argv, char **envp)
+void	init_data_struct(t_data *data, int argc, char **argv, char **envp)
 {
 	data->argc = argc;
 	data->argv = argv;
@@ -53,31 +53,6 @@ static void	init_data_struct(t_data *data, int argc, char **argv, char **envp)
 	data->token_arr = NULL;
 }
 
-bool single_command_check(t_data data)
-{
-	char **argv;
-	t_builtin type;
-
-	argv = data.command_arr[0].argv;
-	if (data.command_arr[0].argc <= 0)
-		return false;
-	type = check_if_builtin(argv[0]);
-	if (data.command_arr[0].argc > 0 && data.nr_commands == 1 && type != NOT_BUILTIN)
-	{
-		if (execute_single_builtin_command(&data.head, &data) < 0)
-			free_and_exit_with_perror(&data, &data.head);
-		return true;
-	}
-	if (data.command_arr[0].argc > 0 && data.nr_commands == 1 && type == NOT_BUILTIN)
-	{
-		printf("DEBUG: single non-builtin\n");
-		if (execute_single_command(&data) < 0)
-			free_and_exit_with_perror(&data, &data.head);
-		return true;
-	}
-	return false;
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -92,19 +67,8 @@ int	main(int argc, char **argv, char **envp)
 	while (true)
 	{
 		data.str = readline("minishell$ ");
-		if (data.str == NULL) //if ctrl-D is send, this will also count
-		{
-			free_data(&data);
-			write(STDOUT_FILENO, "exit\n", 5);
-			exit(0);
-		}
-		if (data.str[0] == '\0')
-		{
-			printf("DEBUG: data.str[0] == 0\n");
-			free(data.str);
+		if (check_data_str(&data) == 1)
 			continue;
-		}
-		// printf("\n\ndata.str : |%s|\n\n", data.str);
 		add_history(data.str);
 		
 		if (lexer(&data) < 0)
@@ -124,13 +88,13 @@ int	main(int argc, char **argv, char **envp)
 		debug_env_etc(data.str, &data.head, &data);
 		// printf("DEBUG: argc %d : argv[0] : |%s|\n", data.command_arr[0].argc ,data.command_arr[0].argv[0]);
 		// printf("DEBUG: argc argv[0] : |%s| - argv[1] : |%s|\n", data.command_arr[0].argv[0], data.command_arr[0].argv[1]);
-		if (single_command_check(data) == false)
+		
+		if (data.nr_commands == 1 && data.command_arr[0].argc > 0)
+			single_command_check(data);
+		else if (execute_commands(&data) < 0)
 		{
-			if (execute_commands(&data) < 0)
-			{
-				printf("DEBUG: execute_commands() called\n");
-				free_and_exit_with_perror(&data, &data.head);
-			}
+			printf("DEBUG: execute_commands() called\n");
+			free_and_exit_with_perror(&data, &data.head);
 		}
 		store_final_exit_status(&data);
 		free_data(&data);

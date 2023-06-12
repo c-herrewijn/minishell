@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/10 17:17:42 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 14:48:37 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,5 +227,14 @@ int execute_single_builtin_command(t_node **head, t_data *data);
 
 //single_command.c
 int execute_single_command(t_data *data);
+
+//extramain.c
+void single_command_check(t_data data);
+int check_data_str(t_data *data);
+
+//main.c
+void	free_data(t_data *data);
+void	free_and_exit_with_perror(t_data *data, t_node **head);
+void	init_data_struct(t_data *data, int argc, char **argv, char **envp);
 
 #endif
