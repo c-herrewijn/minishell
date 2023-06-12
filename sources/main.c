@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/12 14:48:06 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 19:50:32 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 
 	// debug
-	// atexit(check_leaks);  
+	// atexit(check_leaks);
 
 	init_data_struct(&data, argc, argv, envp);
 	if (list_create_env(&data.head, data) < 0)

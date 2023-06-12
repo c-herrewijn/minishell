@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/12 14:57:59 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 19:57:23 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,9 +297,15 @@ int create_envp_from_ll_env(t_node **head, char ***envp)
 	return 0;
 }
 
-//maybe create a function that calls free_double_char_pointer(envp); and returns n;
+//helper function for freeing envp and returning
+int free_envp_return(char ***envp, int n)
+{
+	free(*envp);
+	return (n);
+}
 
 // contains functionality from "execute_commands_in_child_processes()"
+// might need to free envp earlier if something returns -1
 int	execute_commands(t_data *data)
 {
 	pid_t	new_pid;
@@ -309,17 +315,14 @@ int	execute_commands(t_data *data)
 	envp = NULL;
 	if (create_envp_from_ll_env(&data->head, &envp) == -1)
 		return (-1);
-	// printf("\nDEBUG : before envp print\n\n");
-	// print_2d_array(envp);
-	// printf("\nDEBUG : after envp print\n\n");
 	if (data->nr_commands == 0)
-		return (0);
+		free_envp_return(&envp, 0);
 	data->nr_pipes = data->nr_commands - 1;
 	if (create_pipes(data) < 0)
-		return (-1);
+		free_envp_return(&envp, -1);
 	data->paths = get_path(envp);
 	i = 0;
-	while (i < data->nr_commands)  // only do this in case there are at least 2 commands, otherwise, run single command
+	while (i < data->nr_commands)
 	{
 		new_pid = fork();
 		if (new_pid == -1)
@@ -338,8 +341,7 @@ int	execute_commands(t_data *data)
 		return (-1);
 	if (wait_for_child_processes(data) < 0)
 		return (-1);
-	free_double_char_pointer(envp); //might need to free earlier or if something returns -1
-	return (0);
+	free_envp_return(&envp, 0);
 }
 
 void	print_child_errors(t_data *data)
