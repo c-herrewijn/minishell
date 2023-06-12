@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/10 14:14:08 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 13:05:10 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,34 @@ void	exit_child_proc_with_error(t_command *command, char **paths)
 	exit(1);
 }
 
+static void execute_export(t_node **head, t_data *data, size_t i)
+{
+	int export_format;
+	char **argv;
+
+	argv = data->command_arr[i].argv;
+	export_format = b_export_allowed_format(data->command_arr[i].argc, argv);
+	if (argv[1][0] == '_' && (argv[1][1] == '\0' || argv[1][1] == '='  || argv[1][1] == '+'))
+		return ;
+	if (export_format == 1)
+	{
+		printf("\nDEBUG : normal export\n");
+		if (b_export(data->command_arr[i].argc, argv, head) == -1)
+			return ; //-1
+	}
+	else if (export_format == 2)
+	{
+		printf("\nDEBUG : concat export\n");
+		if (b_export_concat(data->command_arr[i].argc, argv, head) == -1)
+			return ; //-1
+	}
+	else if (export_format == -1)
+	{
+		printf("incorrect format for export! >:(\n");
+	}
+	return ;
+}
+
 //how does it work with it being in a child process
 //do i exit child process with error, what about malloc fail?
 //else if chain gets messed up cuz 
@@ -72,26 +100,7 @@ void execute_command_builtin(t_node **head, t_data *data, size_t i)
 	if (type == B_EXIT)
 		b_exit(data->command_arr[i].argv[1]);
 	if (type == B_EXPORT)
-	{
-		int export_format;
-		export_format = b_export_allowed_format(data->command_arr[i].argc, data->command_arr[i].argv);
-		if (export_format == 1)
-		{
-			printf("\nDEBUG : normal export\n");
-			if (b_export(data->command_arr[i].argc, data->command_arr[i].argv, head) == -1)
-				return ; //-1
-		}
-		else if (export_format == 2)
-		{
-			printf("\nDEBUG : concat export\n");
-			if (b_export_concat(data->command_arr[i].argc, data->command_arr[i].argv, head) == -1)
-				return ; //-1
-		}
-		else if (export_format == -1)
-		{
-			printf("incorrect format for export! >:(\n");
-		}
-	}
+		execute_export(head, data, i);
 	if (type == B_UNSET)
 		b_unset(data->command_arr[i].argc, data->command_arr[i].argv, head);
 	else

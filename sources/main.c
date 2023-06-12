@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/10 15:40:31 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 12:46:38 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ bool single_command_check(t_data data)
 			free_and_exit_with_perror(&data, &data.head);
 		return true;
 	}
-	else if (data.command_arr[0].argc > 0 && data.nr_commands == 1 && type == NOT_BUILTIN)
+	if (data.command_arr[0].argc > 0 && data.nr_commands == 1 && type == NOT_BUILTIN)
 	{
 		printf("DEBUG: single non-builtin\n");
 		if (execute_single_command(&data) < 0)

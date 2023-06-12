@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/10 17:18:40 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 13:00:40 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,12 @@ void	list_remove_index(t_node **head, int spot)
 void	b_unset(int argc, char **argv, t_node **head)
 {
 	int i;
+
+	if (argc > 0)
+	{
+			if (argv[1][0] == '_' && (argv[1][1] == '\0' || argv[1][1] == '='))
+		return ;
+	}
 	if (*head == NULL)
 	{
 		printf("*head == NULL\n");
