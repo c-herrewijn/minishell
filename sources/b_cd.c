@@ -6,14 +6,13 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:34 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/10 17:06:59 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 15:45:03 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//find c in str
-//index_in_env
+//use index_in_env
 static int	get_home_value(t_node **head, char **val)
 {
 	int i;
@@ -33,21 +32,36 @@ static int	get_home_value(t_node **head, char **val)
 		node = node->next;
 		i++;
 	}
-	// printf("DEBUG : AFTER NODE LOOP\n");
 	*val = ft_substr(node->str, ft_strlen("HOME="), ft_strlen(node->str) - ft_strlen("HOME="));
 	if (*val == NULL)
 		return -2;
 	return 1;
 }
 
-static int	updating_pwd_oldpwd_env_vars(int ret, t_node **head)
+static int change_dir(int argc, char **argv, t_node **head, int *ret)
 {
-	if (ret != -1)
+	char	*home_value;
+
+	if (argc == 1)
 	{
-		if (update_oldpwd(head) == -1)
+		*ret = get_home_value(head, &home_value);
+		if (*ret == -2)
 			return (-1);
-		if (update_pwd(head) == -1)
-			return (-1);
+		if (*ret == -1)
+			printf("cd : HOME not set\n");
+		else
+		{
+			*ret = chdir(home_value);
+			if (*ret == -1)
+				printf("cd: %s: No such file or directory\n", home_value);
+			free(home_value);
+		}
+	}
+	else
+	{
+		*ret = chdir(argv[1]);
+		if (*ret == -1)
+			printf("cd: %s: No such file or directory\n", argv[1]);
 	}
 	return 0;
 }
@@ -57,30 +71,16 @@ static int	updating_pwd_oldpwd_env_vars(int ret, t_node **head)
 int		b_cd(int argc, char **argv, t_node **head)
 {
 	int 	ret;
-	char	*home_value;
-	printf("DEBUG : in b_cd\n");
+
 	ret = 0;
-	if (argc == 1)
+	if (change_dir(argc, argv, head, &ret) == -1)
+		return (-1);
+	if (ret != -1)
 	{
-		ret = get_home_value(head, &home_value);
-		if (ret == -2)
+		if (update_oldpwd(head) == -1)
 			return (-1);
-		// printf("DEBUG : home_value : %s\n", home_value);
-		if (ret == -1)
-			printf("cd : HOME not set\n");
-		else
-		{
-			ret = chdir(home_value);
-			if (ret == -1)
-				printf("cd: %s: No such file or directory\n", home_value);
-			free(home_value);
-		}
+		if (update_pwd(head) == -1)
+			return (-1);
 	}
-	else
-	{
-		ret = chdir(argv[1]);
-		if (ret == -1)
-			printf("cd: %s: No such file or directory\n", argv[1]);
-	}
-	return (updating_pwd_oldpwd_env_vars(ret, head));
+	return 0;
 }

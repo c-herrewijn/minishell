@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/12 13:05:10 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 14:57:59 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,6 @@ static void execute_export(t_node **head, t_data *data, size_t i)
 
 //how does it work with it being in a child process
 //do i exit child process with error, what about malloc fail?
-//else if chain gets messed up cuz 
-//if i do export in here, it doesnt update the linked list outside of the child process
-//do builtins even need to be in a child process?
-//builtins dont really execute when pipes are in the mix
-//for example cd ../ | ls or ls | cd ../
-//first one only prints ls, neither change the directory
 void execute_command_builtin(t_node **head, t_data *data, size_t i)
 {
 	t_builtin type;
