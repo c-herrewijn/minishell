@@ -4,4 +4,6 @@ obj/
 *.a
 infile
 outfile
+inf
+out
 *.txt
