@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 22:13:45 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 17:07:58 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 17:42:57 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	pwd_helper(t_node **head, char *cur_dir)
 	int		spot;
 
 	node = *head;
-	spot = index_in_env("test", "PWD", head);
+	spot = index_in_env("nil", "PWD", head);
 	i = 0;
 	while (node->next != NULL && i < spot)
 	{

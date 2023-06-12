@@ -6,26 +6,11 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 16:07:13 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 17:37:53 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//debug option to quickly check how env works when its completely empty
-void	unset_all(t_node **head)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = list_len(*head);
-	while (i < len)
-	{
-		list_remove_first(head);
-		i++;
-	}
-}
 
 // pop off first
 // saves the original pointer

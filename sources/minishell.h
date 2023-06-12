@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/12 17:07:07 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 17:41:35 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,9 +147,9 @@ int		index_in_env(char *prefix, char *str_to_find, t_node **head);
 void	free_double_char_pointer(char **s);
 int		b_arr_len(char **s);
 int		pwd_in_env(t_node **head);
+t_node	*get_node_from_index(t_node **head, int index);
 
 //builtin_unset.c
-void	unset_all(t_node **head);
 void	list_remove_first(t_node **head);
 void	list_remove_index(t_node **head, int spot);
 void	b_unset(int argc, char **argv, t_node **head);
@@ -175,6 +175,7 @@ void	print_2d_array(char **s);
 void	print_tokens(t_data *data);
 char	*tokens_to_string(t_data *data);
 void	print_commands(t_data *data);
+void	unset_all(t_node **head);
 void	debug_env_etc(char *str, t_node **head, t_data *data);
 
 // lexer

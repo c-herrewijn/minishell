@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/12 17:07:36 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 17:08:02 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 17:42:50 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,9 @@ static int	oldpwd_helper(t_node **head)
 {
 	t_node	*pwdnode;
 	t_node	*oldpwdnode;
-	int		i;
-	int		spot;
 
-	i = 0;
-	pwdnode = *head;
-	oldpwdnode = *head;
-	spot = index_in_env("test", "PWD", head);
-	while (pwdnode->next != NULL && i < spot)
-	{
-		pwdnode = pwdnode->next;
-		i++;
-	}
-	i = 0;
-	spot = index_in_env("test", "OLDPWD", head);
-	while (oldpwdnode->next != NULL && i < spot)
-	{
-		oldpwdnode = oldpwdnode->next;
-		i++;
-	}
+	pwdnode = get_node_from_index(head, index_in_env("nil", "PWD", head));
+	oldpwdnode = get_node_from_index(head, index_in_env("nil", "OLDPWD", head));
 	free(oldpwdnode->str);
 	oldpwdnode->str = ft_strjoin("OLD", pwdnode->str);
 	if (oldpwdnode->str == NULL)

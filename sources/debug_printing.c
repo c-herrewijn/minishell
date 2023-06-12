@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/10 12:44:22 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 17:38:00 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,21 @@ void	print_commands(t_data *data)
 			dprintf(2, " %s\n", (data->command_arr)[i].redirections[i_r]->word);
 			i_r++;
 		}
+		i++;
+	}
+}
+
+//debug option to quickly check how env works when its completely empty
+void	unset_all(t_node **head)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = list_len(*head);
+	while (i < len)
+	{
+		list_remove_first(head);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 17:53:35 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 16:09:57 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 17:40:32 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,9 @@ int	list_create_env(t_node **head, t_data data)
 {
 	int		i;
 	char	*cpy;
-	int		envplen;
 
 	i = 1;
-	envplen = b_arr_len(data.envp);
-	if (envplen == 0)
+	if (b_arr_len(data.envp) == 0)
 		return (0);
 	cpy = ft_substr(data.envp[0], 0, ft_strlen(data.envp[0]));
 	if (cpy == NULL)

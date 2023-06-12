@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 15:53:59 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 17:04:28 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/12 17:42:43 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,24 @@ int		pwd_in_env(t_node **head)
 	int total;
 
 	total = 0;
-	if (index_in_env("test", "OLDPWD", head) >= 0)
+	if (index_in_env("nil", "OLDPWD", head) >= 0)
 		total += 1;
-	if (index_in_env("test", "PWD", head) >= 0)
+	if (index_in_env("nil", "PWD", head) >= 0)
 		total += 2;
 	return total;
+}
+
+t_node *get_node_from_index(t_node **head, int index)
+{
+	t_node	*node;
+	int		x;
+
+	x = 0;
+	node = *head;
+	while (node->next != NULL && x < index)
+	{
+		node = node->next;
+		x++;
+	}	
+	return (node);
 }
