@@ -1,7 +1,9 @@
 NAME = minishell
-# CFLAGS = -Wall -Werror -Wextra -lreadline
-CFLAGS = -Wall -lreadline -g -fsanitize=address
-# CFLAGS = -Wall -lreadline
+
+IFLAGS = -Iinclude -I$(LIBFT_DIR) -I$(shell brew --prefix readline)/include
+CFLAGS = -Wall -g -fsanitize=address
+LFLAGS = -Llibft -lft -lreadline -lhistory -L$(shell brew --prefix readline)/lib
+
 SRC_DIR = sources
 SRCS = b_cd.c builtin_utils.c lexer_utils.c \
 b_echo.c check_for_builtin.c main.c b_export_utils.c \
@@ -21,11 +23,11 @@ LIBFTNAME = libft.a
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_DIR)/$(LIBFTNAME)
-	$(CC) $(CFLAGS) $^ -o $(NAME)
+	$(CC) $(CFLAGS) $(IFLAGS) $^ -o $(NAME) $(LFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $(CFLAGS) $(IFLAGS) $< -o $@
 
 $(LIBFT_DIR)/$(LIBFTNAME):
 	@$(MAKE) -C $(LIBFT_DIR) bonus

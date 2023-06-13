@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/13 17:43:50 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/13 21:00:00 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	free_data(t_data *data)
 void	free_and_exit_with_perror(t_data *data, t_node **head)
 {
 	free_data(data);
+	
 	list_clear(head);
 	perror(NULL);
 	exit(1);
@@ -80,8 +81,8 @@ int	main(int argc, char **argv, char **envp)
 		if (parser(&data) < 0)
 			free_and_exit_with_perror(&data, &data.head);
 
-		if (expander(&data) < 0)
-			free_and_exit_with_perror(&data, &data.head);
+		// if (expander(&data) < 0)
+		// 	free_and_exit_with_perror(&data, &data.head);
 
 		// debug
 		// print_commands(&data);
