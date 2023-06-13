@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/13 14:12:12 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/13 17:27:57 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,7 @@ void execute_command_builtin(t_node **head, t_data *data, size_t i)
 		execute_export(head, data, i);
 	if (type == B_UNSET)
 		b_unset(data->command_arr[i].argc, data->command_arr[i].argv, head);
-	else
-		return ;
+	exit (0) ;
 }
 
 void	execute_command_local_dir(char **envp, char **paths,
