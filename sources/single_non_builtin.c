@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   single_command.c                                   :+:    :+:            */
+/*   single_non_builtin.c                               :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 17:12:45 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 16:13:27 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/13 17:41:45 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //will use functions from the executer
 //basicly executer without pipes
-int	execute_single_command(t_data *data)
+int	execute_single_non_builtin(t_data *data)
 {
 	pid_t	new_pid;
 	char	**envp;
@@ -22,9 +22,6 @@ int	execute_single_command(t_data *data)
 	envp = NULL;
 	if (create_envp_from_ll_env(&data->head, &envp) == -1)
 		return (-1);
-	// printf("\nDEBUG : before envp print\n\n");
-	// print_2d_array(envp);
-	// printf("\nDEBUG : after envp print\n\n");
 	data->paths = get_path(envp);
 	new_pid = fork();
 	if (new_pid == -1)

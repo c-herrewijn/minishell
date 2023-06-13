@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/13 14:43:13 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/13 17:40:54 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,14 +226,14 @@ void	print_child_errors(t_data *data);
 int		apply_redirections(t_data *data, size_t i_command);
 
 //single_builtin.c
-int execute_single_builtin_command(t_node **head, t_data *data);
+int		execute_single_builtin(t_node **head, t_data *data);
 
-//single_command.c
-int execute_single_command(t_data *data);
+//single_non_builtin.c
+int		execute_single_non_builtin(t_data *data);
 
 //extramain.c
-void single_command_check(t_data data);
-int check_data_str(t_data *data);
+void	execute_single_command(t_data data);
+int		check_data_str(t_data *data);
 
 //main.c
 void	free_data(t_data *data);

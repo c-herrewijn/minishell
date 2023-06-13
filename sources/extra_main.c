@@ -6,26 +6,25 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/12 14:45:33 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 16:11:44 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/13 17:43:10 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	single_command_check(t_data data)
+void	execute_single_command(t_data data)
 {
 	t_builtin	type;
 
 	type = check_if_builtin(data.command_arr[0].argv[0]);
 	if (type != NOT_BUILTIN)
 	{
-		if (execute_single_builtin_command(&data.head, &data) < 0)
+		if (execute_single_builtin(&data.head, &data) < 0)
 			free_and_exit_with_perror(&data, &data.head);
 	}
 	if (type == NOT_BUILTIN)
 	{
-		printf("DEBUG: single non-builtin\n");
-		if (execute_single_command(&data) < 0)
+		if (execute_single_non_builtin(&data) < 0)
 			free_and_exit_with_perror(&data, &data.head);
 	}
 }
@@ -41,7 +40,6 @@ int	check_data_str(t_data *data)
 	}
 	if (data->str[0] == '\0')
 	{
-		printf("DEBUG: data->str[0] == 0\n");
 		free(data->str);
 		return (1);
 	}

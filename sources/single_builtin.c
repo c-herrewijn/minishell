@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 17:12:43 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 16:12:12 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/13 17:42:05 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,11 @@ static int	single_export(t_node **head, t_data *data)
 		return (0);
 	if (export_format == 1)
 	{
-		printf("\nDEBUG : normal export\n");
 		if (b_export(data->command_arr[0].argc, argv, head) == -1)
 			return (-1);
 	}
 	else if (export_format == 2)
 	{
-		printf("\nDEBUG : concat export\n");
 		if (b_export_concat(data->command_arr[0].argc, argv, head) == -1)
 			return (-1);
 	}
@@ -41,11 +39,10 @@ static int	single_export(t_node **head, t_data *data)
 	return (0);
 }
 
-int	execute_single_builtin_command(t_node **head, t_data *data)
+int	execute_single_builtin(t_node **head, t_data *data)
 {
 	t_builtin	type;
 
-	printf("DEBUG: IN execute_single_builtin_command()\n");
 	type = check_if_builtin(data->command_arr[0].argv[0]);
 	if (type == B_ECHO)
 		b_echo(data->command_arr[0].argc, data->command_arr[0].argv);

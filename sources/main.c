@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/12 19:50:32 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/13 17:43:50 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,11 @@ int	main(int argc, char **argv, char **envp)
 		// debug
 		// print_commands(&data);
 		debug_env_etc(data.str, &data.head, &data);
-		// printf("DEBUG: argc %d : argv[0] : |%s|\n", data.command_arr[0].argc ,data.command_arr[0].argv[0]);
-		// printf("DEBUG: argc argv[0] : |%s| - argv[1] : |%s|\n", data.command_arr[0].argv[0], data.command_arr[0].argv[1]);
 		
 		if (data.nr_commands == 1 && data.command_arr[0].argc > 0)
-			single_command_check(data);
+			execute_single_command(data);
 		else if (execute_commands(&data) < 0)
-		{
-			printf("DEBUG: execute_commands() called\n");
 			free_and_exit_with_perror(&data, &data.head);
-		}
 		store_final_exit_status(&data);
 		free_data(&data);
 	}

@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:34 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 17:43:09 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/13 17:42:59 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	get_home_value(t_node **head, char **val)
 	spot = index_in_env("nil", "HOME", head);
 	if (spot == -1)
 	{
-		// printf("DEBUG : HOME NOT FOUND\n");
 		return (-1);
 	}
 	node = *head;

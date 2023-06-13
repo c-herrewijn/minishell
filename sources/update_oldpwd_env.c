@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/12 17:07:36 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 17:42:50 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/13 17:43:55 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ int	update_oldpwd(t_node **head)
 
 	total = pwd_in_env(head);
 	if (total <= 2)
-	{
-		printf("DEBUG : no PWD or OLDPWD present in env : total = %d\n", total);
 		return 0;
-	}
 	if (oldpwd_helper(head) == -1)
 		return (-1);
 	return (0);

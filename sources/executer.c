@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/13 17:27:57 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/13 17:44:06 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,10 +280,7 @@ int create_envp_from_ll_env(t_node **head, char ***envp)
 	*envp = malloc((listlen + 1) * sizeof(char *));
 	i = 0;
 	if (*envp == NULL)
-	{
-		printf("DEBUG : *envp == NULL\n");
 		return (-1);
-	}
 	while (i < listlen)
 	{
 		(*envp)[i] = ft_substr(node->str, 0, ft_strlen(node->str));
