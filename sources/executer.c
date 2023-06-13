@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/12 19:57:23 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/13 14:12:12 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,7 +281,10 @@ int create_envp_from_ll_env(t_node **head, char ***envp)
 	*envp = malloc((listlen + 1) * sizeof(char *));
 	i = 0;
 	if (*envp == NULL)
+	{
+		printf("DEBUG : *envp == NULL\n");
 		return (-1);
+	}
 	while (i < listlen)
 	{
 		(*envp)[i] = ft_substr(node->str, 0, ft_strlen(node->str));
@@ -316,10 +319,10 @@ int	execute_commands(t_data *data)
 	if (create_envp_from_ll_env(&data->head, &envp) == -1)
 		return (-1);
 	if (data->nr_commands == 0)
-		free_envp_return(&envp, 0);
+		return (free_envp_return(&envp, 0));
 	data->nr_pipes = data->nr_commands - 1;
 	if (create_pipes(data) < 0)
-		free_envp_return(&envp, -1);
+		return (free_envp_return(&envp, -1));
 	data->paths = get_path(envp);
 	i = 0;
 	while (i < data->nr_commands)
@@ -341,7 +344,7 @@ int	execute_commands(t_data *data)
 		return (-1);
 	if (wait_for_child_processes(data) < 0)
 		return (-1);
-	free_envp_return(&envp, 0);
+	return (free_envp_return(&envp, 0));
 }
 
 void	print_child_errors(t_data *data)

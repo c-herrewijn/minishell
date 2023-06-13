@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 17:38:00 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/13 16:21:59 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ void	unset_all(t_node **head)
 
 	i = 0;
 	len = list_len(*head);
-	while (i < len)
+	while (i < len - 1)
 	{
 		list_remove_first(head);
 		i++;

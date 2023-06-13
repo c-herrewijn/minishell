@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/12 19:54:29 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/13 14:43:13 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,6 @@ void	b_unset(int argc, char **argv, t_node **head);
 int			index_of_c_in_str(char *str, char c);
 int			b_export_allowed_format(int argc, char **argv);
 t_builtin	check_if_builtin(char *str);
-int			old_builtin_test(t_node **head, t_data *data);
 
 //create_env.c
 int		list_len(t_node *head);
