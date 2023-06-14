@@ -22,6 +22,25 @@
 # include <curses.h>
 # include <term.h>
 
+/*
+Expander States:
+- SCANNING = 'normal' parsing of characters
+  - state changes to READING_VAR_NAME after $ char
+  - state changes to LITERAL_SCANNING after single quote
+- LITERAL_SCANNING = inside single quotes
+  - state changes to SCANNING after closing single quote
+- READING_VAR_NAME = $ has been read 
+  - state changes to SCANNING after " or <blank> char
+  - state changes to LITERAL_SCANNING after single quote
+  - after '\0', $, single quote, double quote, or blank, the variable is expanded 
+*/
+typedef enum e_expander_state {
+	SCANNING,
+	LITERAL_SCANNING,
+	READING_VAR_NAME
+}	t_expander_state;
+
+
 typedef enum e_lexer_state {
 	DELIMITED,
 	READING_WORD,
@@ -228,25 +247,161 @@ int	find_str_in_environment(t_node *env, char *str)
 	return (-1);
 }
 
+size_t var_len(char *var_name)
+{
+	return (100);  // todo
+}
+
+/*
+NOTE: 
+- trailing and leading blanks have already been stripped in tokenizing / parsing
+- exception: '$' followed by a double quote, blank, '\0' or '$' is literally printed
+*/
+size_t expanded_str_len(char *in_str, t_node *env_node)
+{
+	t_expander_state	expander_state;
+	size_t				i;
+	size_t				len;
+	size_t				var_start_index;
+	char				*var_name;
+
+
+	expander_state = SCANNING;
+	i = 0;
+	len = 0;
+	var_start_index = 0;
+	while(true)
+	{
+		if (expander_state == SCANNING)
+		{
+			if (in_str[i] == '\'')
+			{
+				expander_state = LITERAL_SCANNING;
+			}
+			else if (in_str[i] == '\"')
+			{
+				;
+			}
+			else if (in_str[i] == '$')
+			{
+				if (in_str[i + 1] == '\"' || ft_isblank(in_str[i + 1]) || in_str[i + 1] == '\0' || in_str[i + 1] == '$')
+				{
+					len+=1;
+				}
+				else
+				{
+					expander_state = READING_VAR_NAME;
+					var_start_index = i + 1;
+				}
+			}
+			// else if (ft_isblank(in_str[i]))
+			// {
+
+			// }
+			else if (in_str[i] == '\0')
+			{
+				break;
+			}
+			else	// normal chars incl. blanks
+			{
+				len+=1;
+			}
+		}
+		if (expander_state == LITERAL_SCANNING)
+		{
+			if (in_str[i] == '\'')
+			{
+				expander_state = SCANNING;
+			}
+			else if (in_str[i] == '\0')  // should not happen, since quotes always need to be terminated
+			{
+				break;
+			}
+			else
+			{
+				len+=1;
+			}
+		}
+		// state READING_VAR_NAME is only used in scenarios where $ is followed by a char other than:
+		// - single quote
+		// - double quote
+		// - another $ sign
+		// - blank (i.e. space or tab)
+		// - '\0'
+		if (expander_state == READING_VAR_NAME)
+		{
+
+			if (in_str[i] == '\'')
+			{
+				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
+				len += var_len(var_name);
+				expander_state = LITERAL_SCANNING;
+			}
+			else if (in_str[i] == '\"')
+			{
+				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
+				len += var_len(var_name);
+				expander_state = SCANNING;
+			}
+			else if (in_str[i] == '$')
+			{
+				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
+				len += var_len(var_name);
+				expander_state = READING_VAR_NAME;
+				var_start_index = i + 1;
+			}
+			else if (ft_isblank(in_str[i]))
+			{
+				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
+				len += var_len(var_name);
+				expander_state = SCANNING;
+			}
+			else if (in_str[i] == '\0')
+			{
+				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
+				len += var_len(var_name);
+				break;
+			}
+			else	// normal chars incl. blanks
+			{
+				len+=1;
+			}			
+		}
+		i++;
+	}
+	return (len);
+}
+
 // work in progress:
 
 
 int main(int argc, char **argv, char **envp)
 {
-	t_node *env_llist;
+	t_node	*env_llist;
 	int		env_index;
+	size_t	expanded_length;
 
 	list_create_env(&env_llist, envp);
 
-	printf("first env_llist %s\n", env_llist->str);
+	
+	char *test_str = "hello world $HOME";
 
-	env_index = find_str_in_environment(env_llist, "HOME");
-	printf("env_index: %d\n", env_index);
-	env_index = find_str_in_environment(env_llist, "TERM_PROGRAM");
-	printf("env_index: %d\n", env_index);
-	env_index = find_str_in_environment(env_llist, "SHELL");
-	printf("env_index: %d\n", env_index);
-	env_index = find_str_in_environment(env_llist, "HOMEAAA");
-	printf("env_index: %d\n", env_index);
+	expanded_length = expanded_str_len(test_str, env_llist);
+	printf("len: %zu\n", expanded_length);
+
+
+	// printf("first env_llist %s\n", env_llist->str);
+
+	// env_index = find_str_in_environment(env_llist, "HOME");
+	// printf("env_index: %d\n", env_index);
+	// env_index = find_str_in_environment(env_llist, "TERM_PROGRAM");
+	// printf("env_index: %d\n", env_index);
+	// env_index = find_str_in_environment(env_llist, "SHELL");
+	// printf("env_index: %d\n", env_index);
+	// env_index = find_str_in_environment(env_llist, "HOMEAAA");
+	// printf("env_index: %d\n", env_index);
 }
+
+
+
 
