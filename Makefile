@@ -23,21 +23,21 @@ LIBFTNAME = libft.a
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_DIR)/$(LIBFTNAME)
-	$(CC) $(CFLAGS) $(IFLAGS) $^ -o $(NAME) $(LFLAGS)
+	@$(CC) $(CFLAGS) $(IFLAGS) $^ -o $(NAME) $(LFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) -c $(CFLAGS) $(CFLAGS) $(IFLAGS) $< -o $@
+	@$(CC) -c $(CFLAGS) $(CFLAGS) $(IFLAGS) $< -o $@
 
 $(LIBFT_DIR)/$(LIBFTNAME):
 	@$(MAKE) -C $(LIBFT_DIR) bonus
 
 clean:
-	rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all

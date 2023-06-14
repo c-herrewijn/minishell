@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:09 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 16:00:09 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/14 18:24:02 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ the input given has to be a number between 0-255
 if input is a number but in not range 0-255
 then the exit code will be the input modulo 256
 */
-void	b_exit(char *exit_status)
+int		b_exit(char *exit_status)
 {
 	int	n;
 
@@ -38,4 +38,5 @@ void	b_exit(char *exit_status)
 		exit(n);
 	}
 	exit(0);
+	return (0);
 }

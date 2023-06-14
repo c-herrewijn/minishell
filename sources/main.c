@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/13 21:00:00 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/13 22:17:57 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_data(t_data *data)
 void	free_and_exit_with_perror(t_data *data, t_node **head)
 {
 	free_data(data);
-	
+	//rl_clear_history here i think
 	list_clear(head);
 	perror(NULL);
 	exit(1);

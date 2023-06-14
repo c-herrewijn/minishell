@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/13 17:40:54 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/14 18:28:39 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,13 @@ int		update_oldpwd(t_node **head);
 int		b_cd(int argc, char **argv, t_node **head);
 
 //b_echo.c
-void	b_echo(int argc, char **argv);
+int		b_echo(int argc, char **argv);
 
 //b_env.c
-void	b_env(t_node *head);
+int		b_env(t_node *head);
 
 //b_exit.c
-void	b_exit(char *exit_status);
+int		b_exit(char *exit_status);
 
 //b_export_utils.c
 bool	empty_list_add(t_node **head, char *str);
@@ -140,7 +140,7 @@ int		b_export_concat(int argc, char **argv, t_node **head);
 int		b_export(int argc, char **argv, t_node **head);
 
 //b_pwd.c
-void	b_pwd(void);
+int		b_pwd(void);
 
 //builtin_utils.c
 int		index_in_env(char *prefix, char *str_to_find, t_node **head);
@@ -151,8 +151,8 @@ t_node	*get_node_from_index(t_node **head, int index);
 
 //builtin_unset.c
 void	list_remove_first(t_node **head);
-void	list_remove_index(t_node **head, int spot);
-void	b_unset(int argc, char **argv, t_node **head);
+int		list_remove_index(t_node **head, int spot);
+int		b_unset(int argc, char **argv, t_node **head);
 
 //check_for_builtin.c
 int			index_of_c_in_str(char *str, char c);
@@ -205,7 +205,7 @@ bool	command_has_heredoc(t_data *data, size_t command_nr);
 
 // executer.c
 char	*combine_command_path(char *path, char *cmd);
-void	exit_child_proc_with_error(t_command *command, char **paths);
+void	exit_child_proc_with_error(t_command *command, char **paths, char ***envp);
 void	execute_command_builtin(t_node **head, t_data *data, size_t i);
 void	execute_command_local_dir(char **envp, char **paths,
 	t_command *command);
@@ -219,6 +219,7 @@ int		close_all_pipes(t_data *data);
 int		wait_for_child_processes(t_data *data);
 int		create_envp_from_ll_env(t_node **head, char ***envp);
 int		free_envp_return(char ***envp, int n);
+int		execute_commands_loop(t_data *data, char **envp);
 int		execute_commands(t_data *data);
 void	print_child_errors(t_data *data);
 

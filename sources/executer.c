@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/13 17:44:06 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/14 16:46:51 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ char	*combine_command_path(char *path, char *cmd)
 }
 
 // exits child process with error
-void	exit_child_proc_with_error(t_command *command, char **paths)
+void	exit_child_proc_with_error(t_command *command, char **paths, char ***envp)
 {
 	extern int	errno;
 
+	free_double_char_pointer(*envp);
 	if (errno == EACCES)
 	{
 		perror(command->executable_location);
@@ -75,16 +76,19 @@ static void execute_export(t_node **head, t_data *data, size_t i)
 	return ;
 }
 
+// use exit_child_proc_with_error(command, paths); ?
+
 //how does it work with it being in a child process
 //do i exit child process with error, what about malloc fail?
 void execute_command_builtin(t_node **head, t_data *data, size_t i)
 {
 	t_builtin type;
-
+	//store ret 
+	//so then all builtins need to have an int return
 	type = check_if_builtin(data->command_arr[i].argv[0]);
 	if (type == B_ECHO)
 		b_echo(data->command_arr[i].argc, data->command_arr[i].argv);
-	if (type == B_CD)
+	if (type == B_CD) //return -1 chain?
 		if (b_cd(data->command_arr[i].argc, data->command_arr[i].argv, head) < 0)
 			return ; //-1
 	if (type == B_PWD)
@@ -108,7 +112,7 @@ void	execute_command_local_dir(char **envp, char **paths,
 	command->executable_location = ft_strdup(command->argv[0]);
 	if (command->executable_location != NULL)
 		execve(command->executable_location, command->argv, envp);
-	exit_child_proc_with_error(command, paths);
+	exit_child_proc_with_error(command, paths, &envp);
 }
 
 void	execute_command_from_path(char **envp, char **paths,
@@ -125,7 +129,7 @@ void	execute_command_from_path(char **envp, char **paths,
 		command->executable_location
 			= combine_command_path(paths[i], command->argv[0]);
 		if (command->executable_location == NULL)
-			exit_child_proc_with_error(command, paths);
+			exit_child_proc_with_error(command, paths, &envp);
 		execve(command->executable_location, command->argv, envp);
 		i++;
 	}
@@ -135,7 +139,7 @@ void	execute_command_from_path(char **envp, char **paths,
 	}
 	else
 	{
-		exit_child_proc_with_error(command, paths);
+		exit_child_proc_with_error(command, paths, &envp);
 	}
 }
 
@@ -285,10 +289,7 @@ int create_envp_from_ll_env(t_node **head, char ***envp)
 	{
 		(*envp)[i] = ft_substr(node->str, 0, ft_strlen(node->str));
 		if ((*envp)[i] == NULL)
-		{
-			free_double_char_pointer(*envp);
-			return (-1);
-		}
+			return (free_envp_return(envp, -1));
 		i++;
 		node = node->next;
 	}
@@ -299,16 +300,38 @@ int create_envp_from_ll_env(t_node **head, char ***envp)
 //helper function for freeing envp and returning
 int free_envp_return(char ***envp, int n)
 {
-	free(*envp);
+	free_double_char_pointer(*envp);
 	return (n);
+}
+
+int execute_commands_loop(t_data *data, char **envp)
+{
+	size_t	i;
+	pid_t	new_pid;
+
+	i = 0;
+	while (i < data->nr_commands)
+	{
+		new_pid = fork();
+		if (new_pid == -1)
+		{
+			perror(NULL);
+			return (free_envp_return(&envp, -1));
+		}
+		if (new_pid == 0)
+		{
+			run_child_process_and_exit(envp, data, i);
+		}
+		data->command_arr[i].pid = new_pid;
+		i++;
+	}
+	return (0);
 }
 
 // contains functionality from "execute_commands_in_child_processes()"
 // might need to free envp earlier if something returns -1
 int	execute_commands(t_data *data)
 {
-	pid_t	new_pid;
-	size_t	i;
 	char	**envp;
 
 	envp = NULL;
@@ -320,26 +343,12 @@ int	execute_commands(t_data *data)
 	if (create_pipes(data) < 0)
 		return (free_envp_return(&envp, -1));
 	data->paths = get_path(envp);
-	i = 0;
-	while (i < data->nr_commands)
-	{
-		new_pid = fork();
-		if (new_pid == -1)
-		{
-			perror(NULL);
-			return (-1);
-		}
-		if (new_pid == 0)
-		{
-			run_child_process_and_exit(envp, data, i);
-		}
-		data->command_arr[i].pid = new_pid;
-		i++;
-	}
+	if (execute_commands_loop(data, envp) == -1)
+		return (-1);
 	if (close_all_pipes(data) < 0)
-		return (-1);
+		return (free_envp_return(&envp, -1));
 	if (wait_for_child_processes(data) < 0)
-		return (-1);
+		return (free_envp_return(&envp, -1));
 	return (free_envp_return(&envp, 0));
 }
 

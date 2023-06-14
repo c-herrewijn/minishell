@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:40 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 15:57:36 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/14 18:23:30 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static bool	is_dash_n(char *s)
 	return (true);
 }
 
-void	b_echo(int argc, char **argv)
+int		b_echo(int argc, char **argv)
 {
 	int	i;
 	int	nlflag;
@@ -41,7 +41,7 @@ void	b_echo(int argc, char **argv)
 	if (argc == 1)
 	{
 		printf("\n");
-		return ;
+		return (0);
 	}
 	nlflag = true;
 	i = 1;
@@ -59,4 +59,5 @@ void	b_echo(int argc, char **argv)
 	}
 	if (nlflag == true)
 		printf("\n");
+	return (0);
 }

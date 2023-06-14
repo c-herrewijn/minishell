@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 17:37:53 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/14 18:28:59 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ void	list_remove_first(t_node **head)
 	int		listlen;
 
 	if (*head == NULL)
-	{
-		printf("*head == NULL it seems\n");
 		return ;
-	}
 	listlen = list_len(*head);
 	if (listlen == 1)
 	{
@@ -58,17 +55,14 @@ static void	list_rm_i_helper(t_node **head, t_node *node, int spot)
 }
 
 // might be a workaround to not use temp, not sure yet
-void	list_remove_index(t_node **head, int spot)
+int		list_remove_index(t_node **head, int spot)
 {
 	int		listlen;
 	t_node	*node;
 
 	listlen = list_len(*head);
 	if (*head == NULL || spot > listlen)
-	{
-		printf("*head == NULL || spot > listlen\n");
-		return ;
-	}
+		return 1;
 	node = *head;
 	if (listlen == 1)
 	{
@@ -76,33 +70,29 @@ void	list_remove_index(t_node **head, int spot)
 			free(node->str);
 		node->str = NULL;
 		node->next = NULL;
-		return ;
+		return 0;
 	}
 	list_rm_i_helper(head, node, spot);
+	return (0);
 }
 
 // argv[0] export or unset
 // argv[1] name=value
-void	b_unset(int argc, char **argv, t_node **head)
+int	b_unset(int argc, char **argv, t_node **head)
 {
 	int	i;
 
 	if (argc > 0)
 	{
 		if (argv[1][0] == '_' && (argv[1][1] == '\0' || argv[1][1] == '='))
-			return ;
+			return (1);
 	}
 	if (*head == NULL)
-	{
-		printf("*head == NULL\n");
-		return ;
-	}
+		return (1);
 	if ((*head)->str == NULL)
-	{
-		printf("(*head)->str == NULL\n");
-		return ;
-	}
+		return (1);
 	i = index_in_env(argv[0], argv[1], head);
 	if (i != -1)
 		list_remove_index(head, i);
+	return (0);
 }
