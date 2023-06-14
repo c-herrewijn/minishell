@@ -1,5 +1,5 @@
 // compile:
-// gcc ms_poc/expander_poc.c ./libft/libft.a
+// gcc -g ms_poc/expander_poc.c ./libft/libft.a
 
 
 # include "../libft/libft.h"
@@ -237,7 +237,7 @@ int	find_str_in_environment(t_node *env, char *str)
 	int	i;
 
 	i = 0;
-	while(env != NULL)
+	while (env != NULL)
 	{
 		if (ft_strncmp(str, env->str, ft_strlen(str)) == 0)
 			return (i);
@@ -247,9 +247,55 @@ int	find_str_in_environment(t_node *env, char *str)
 	return (-1);
 }
 
-size_t var_len(char *var_name)
+char *get_value_from_env(t_node *env, char *str)
 {
-	return (100);  // todo
+	int	i;
+
+	i = 0;
+	while (env != NULL)
+	{
+		if (ft_strncmp(str, env->str, ft_strlen(str)) == 0)
+			return(env->str + ft_strlen(str) + 1);
+		i++;
+		env = env->next;
+	}
+	return (NULL);
+}
+
+// probally will need some error checking
+// void print_env_var(char *str, t_node *head)
+// {
+// 	t_node *node;
+// 	int str_len;
+
+// 	node = head;
+// 	str_len = (int)ft_strlen(str);
+// 	while(node != NULL)
+// 	{
+// 		if (ft_strncmp(str + 1, node->str, str_len - 1) == 0)
+// 		{
+// 			printf("%s\n", (node->str) + str_len);
+// 			return ;
+// 		}
+// 		node = node->next;
+// 	}
+// }
+
+
+size_t var_len(char *var_name, t_node *head)
+{
+	char 	*value;
+	size_t	len;
+
+	value = get_value_from_env(head, var_name);
+	len = ft_strlen(value);
+	
+	printf("val name: %s\n", var_name);
+	printf("val value: %s\n", value);
+	printf("val length: %zu\n", len);
+	
+	return (len);
+	// return ft_strlen(get_value_from_env(head, var_name));
 }
 
 /*
@@ -307,7 +353,7 @@ size_t expanded_str_len(char *in_str, t_node *env_node)
 				len+=1;
 			}
 		}
-		if (expander_state == LITERAL_SCANNING)
+		else if (expander_state == LITERAL_SCANNING)
 		{
 			if (in_str[i] == '\'')
 			{
@@ -328,43 +374,43 @@ size_t expanded_str_len(char *in_str, t_node *env_node)
 		// - another $ sign
 		// - blank (i.e. space or tab)
 		// - '\0'
-		if (expander_state == READING_VAR_NAME)
+		else if (expander_state == READING_VAR_NAME)
 		{
 
 			if (in_str[i] == '\'')
 			{
 				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
-				len += var_len(var_name);
+				len += var_len(var_name, env_node);
 				expander_state = LITERAL_SCANNING;
 			}
 			else if (in_str[i] == '\"')
 			{
 				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
-				len += var_len(var_name);
+				len += var_len(var_name, env_node);
 				expander_state = SCANNING;
 			}
 			else if (in_str[i] == '$')
 			{
 				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
-				len += var_len(var_name);
+				len += var_len(var_name, env_node);
 				expander_state = READING_VAR_NAME;
 				var_start_index = i + 1;
 			}
 			else if (ft_isblank(in_str[i]))
 			{
 				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
-				len += var_len(var_name);
+				len += var_len(var_name, env_node);
 				expander_state = SCANNING;
 			}
 			else if (in_str[i] == '\0')
 			{
 				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
-				len += var_len(var_name);
+				len += var_len(var_name, env_node);
 				break;
 			}
 			else	// normal chars incl. blanks
 			{
-				len+=1;
+				;
 			}			
 		}
 		i++;
@@ -384,7 +430,7 @@ int main(int argc, char **argv, char **envp)
 	list_create_env(&env_llist, envp);
 
 	
-	char *test_str = "hello world $HOME";
+	char *test_str = "$SHLVL";
 
 	expanded_length = expanded_str_len(test_str, env_llist);
 	printf("len: %zu\n", expanded_length);
