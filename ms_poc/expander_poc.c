@@ -21,6 +21,7 @@
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
+# include <assert.h>
 
 /*
 Expander States:
@@ -29,7 +30,7 @@ Expander States:
   - state changes to LITERAL_SCANNING after single quote
 - LITERAL_SCANNING = inside single quotes
   - state changes to SCANNING after closing single quote
-- READING_VAR_NAME = $ has been read 
+- READING_VAR_NAME = $ has been read (not followed by single quote, double quote, blank, '\0' or $)
   - state changes to SCANNING after " or <blank> char
   - state changes to LITERAL_SCANNING after single quote
   - after '\0', $, single quote, double quote, or blank, the variable is expanded 
@@ -290,9 +291,9 @@ size_t var_len(char *var_name, t_node *head)
 	value = get_value_from_env(head, var_name);
 	len = ft_strlen(value);
 	
-	printf("val name: %s\n", var_name);
-	printf("val value: %s\n", value);
-	printf("val length: %zu\n", len);
+	// printf("val name: %s\n", var_name);
+	// printf("val value: %s\n", value);
+	// printf("val length: %zu\n", len);
 	
 	return (len);
 	// return ft_strlen(get_value_from_env(head, var_name));
@@ -301,7 +302,7 @@ size_t var_len(char *var_name, t_node *head)
 /*
 NOTE: 
 - trailing and leading blanks have already been stripped in tokenizing / parsing
-- exception: '$' followed by a double quote, blank, '\0' or '$' is literally printed
+- exception: '$' followed by a blank, '\0' or '$' is literally printed
 */
 size_t expanded_str_len(char *in_str, t_node *env_node)
 {
@@ -311,6 +312,7 @@ size_t expanded_str_len(char *in_str, t_node *env_node)
 	size_t				var_start_index;
 	char				*var_name;
 
+	char				c; // debug
 
 	expander_state = SCANNING;
 	i = 0;
@@ -318,6 +320,7 @@ size_t expanded_str_len(char *in_str, t_node *env_node)
 	var_start_index = 0;
 	while(true)
 	{
+		c = in_str[i];  // debug
 		if (expander_state == SCANNING)
 		{
 			if (in_str[i] == '\'')
@@ -330,9 +333,13 @@ size_t expanded_str_len(char *in_str, t_node *env_node)
 			}
 			else if (in_str[i] == '$')
 			{
-				if (in_str[i + 1] == '\"' || ft_isblank(in_str[i + 1]) || in_str[i + 1] == '\0' || in_str[i + 1] == '$')
+				if (ft_isblank(in_str[i + 1]) || in_str[i + 1] == '\0' || in_str[i + 1] == '$')
 				{
 					len+=1;
+				}
+				else if (in_str[i + 1] == '\"' || in_str[i + 1] == '\'')
+				{
+					i++;	// skip
 				}
 				else
 				{
@@ -399,7 +406,7 @@ size_t expanded_str_len(char *in_str, t_node *env_node)
 			else if (ft_isblank(in_str[i]))
 			{
 				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
-				len += var_len(var_name, env_node);
+				len += var_len(var_name, env_node) + 1;
 				expander_state = SCANNING;
 			}
 			else if (in_str[i] == '\0')
@@ -421,6 +428,68 @@ size_t expanded_str_len(char *in_str, t_node *env_node)
 // work in progress:
 
 
+// USER=cherrewi
+void	test_expanded_str_len(t_node *env_llist)
+{
+	// no substitution / invalid substitution cases
+	char *str1 = "hello";
+	assert(expanded_str_len(str1, env_llist) == 5);
+	
+	char *str2 = "$\"U\"SER";
+	assert(expanded_str_len(str2, env_llist) == 4);
+
+	char *str3 = "$\"USER\"";
+	assert(expanded_str_len(str3, env_llist) == 4);
+
+	char *str4 = "USERtest$";
+	assert(expanded_str_len(str4, env_llist) == 9);
+
+	char *str4b = "$";
+	assert(expanded_str_len(str4b, env_llist) == 1);
+	
+	char *str5 = "USER\"$USERtest\"";
+	assert(expanded_str_len(str5, env_llist) == 4);
+
+	char *str6 = "'$USER''$test'";
+	assert(expanded_str_len(str6, env_llist) == 10);
+
+	char *str7 = "USER \"test\"";
+	assert(expanded_str_len(str7, env_llist) == 9);
+
+	// regular cases
+	char *str10 = "$USER";
+	assert(expanded_str_len(str10, env_llist) == 8);
+
+	char *str11 = "USER\"test$USER\"";
+	assert(expanded_str_len(str11, env_llist) == 16);
+
+	char *str12 = "USER\"$USER test\"";
+	assert(expanded_str_len(str12, env_llist) == 17);
+	
+	char *str13 = "$USER'$test'";
+	assert(expanded_str_len(str13, env_llist) == 13);
+
+	char *str14 = "USER$USER\"test$USER\"";	// 24
+	assert(expanded_str_len(str14, env_llist) == 24);
+	
+	char *str15 = "$USERUSER\"test$USER\"";	// 12
+	assert(expanded_str_len(str15, env_llist) == 12);
+	
+	char *str16 = "'$USER'USER$USER\"test$USER\""; //29
+	assert(expanded_str_len(str16, env_llist) == 29);
+	
+	char *str17 = "bb$USER"; //10
+	assert(expanded_str_len(str17, env_llist) == 10);
+	
+	char *str18 = "$USER$USER"; //16
+	assert(expanded_str_len(str18, env_llist) == 16);
+	
+	char *str19 = "$USER$"; //9
+	printf("str19: %s\n", str19);
+	printf("len: %zu\n", expanded_str_len(str19, env_llist));
+	assert(expanded_str_len(str19, env_llist) == 9);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	t_node	*env_llist;
@@ -429,11 +498,8 @@ int main(int argc, char **argv, char **envp)
 
 	list_create_env(&env_llist, envp);
 
-	
-	char *test_str = "$SHLVL";
+	test_expanded_str_len(env_llist);
 
-	expanded_length = expanded_str_len(test_str, env_llist);
-	printf("len: %zu\n", expanded_length);
 
 
 	// printf("first env_llist %s\n", env_llist->str);
@@ -447,7 +513,3 @@ int main(int argc, char **argv, char **envp)
 	// env_index = find_str_in_environment(env_llist, "HOMEAAA");
 	// printf("env_index: %d\n", env_index);
 }
-
-
-
-
