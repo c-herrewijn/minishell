@@ -6,17 +6,17 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/15 18:00:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/15 18:03:13 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 18:10:15 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void execute_command_builtin(t_node **head, t_data *data, size_t i)
+void	execute_command_builtin(t_node **head, t_data *data, size_t i)
 {
-	t_builtin type;
-	int ret;
-	
+	t_builtin	type;
+	int			ret;
+
 	type = check_if_builtin(data->command_arr[i].argv[0]);
 	if (type == B_ECHO)
 		ret = b_echo(data->command_arr[i].argc, data->command_arr[i].argv);
@@ -31,7 +31,8 @@ void execute_command_builtin(t_node **head, t_data *data, size_t i)
 	if (type == B_EXPORT)
 		ret = execute_export(head, data, i);
 	if (type == B_UNSET)
-		ret = b_unset(data->command_arr[i].argc, data->command_arr[i].argv, head);
+		ret = b_unset(data->command_arr[i].argc,
+				data->command_arr[i].argv, head);
 	if (ret != 0)
 		exit (1);
 	exit(0);

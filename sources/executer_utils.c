@@ -6,14 +6,15 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/15 17:50:29 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/15 17:55:58 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 18:10:54 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // exits child process with error
-void	exit_child_proc_with_error(t_command *command, char **paths, char ***envp)
+void	exit_child_proc_with_error(t_command *command, char **paths,
+			char ***envp)
 {
 	extern int	errno;
 
@@ -53,12 +54,12 @@ char	**get_path(char **envp)
 //allocate listlen + 1 * sizeof(char *) to envp
 //loop through ll env
 //alloc envp[i] with ft_substr
-int create_envp_from_ll_env(t_node **head, char ***envp)
+int	create_envp_from_ll_env(t_node **head, char ***envp)
 {
-	int listlen;
-	t_node *node;
-	int i;
-	
+	int		listlen;
+	t_node	*node;
+	int		i;
+
 	node = *head;
 	listlen = list_len(*head);
 	*envp = malloc((listlen + 1) * sizeof(char *));
@@ -74,11 +75,11 @@ int create_envp_from_ll_env(t_node **head, char ***envp)
 		node = node->next;
 	}
 	(*envp)[i] = NULL;
-	return 0;
+	return (0);
 }
 
 //helper function for freeing envp and returning
-int free_envp_return(char ***envp, int n)
+int	free_envp_return(char ***envp, int n)
 {
 	free_double_char_pointer(*envp);
 	return (n);

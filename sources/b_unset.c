@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   builtin_unset.c                                    :+:    :+:            */
+/*   b_unset.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/15 17:02:59 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 18:14:10 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ static void	list_rm_i_helper(t_node **head, t_node *node, int spot)
 }
 
 // might be a workaround to not use temp, not sure yet
-int		list_remove_index(t_node **head, int spot)
+int	list_remove_index(t_node **head, int spot)
 {
 	int		listlen;
 	t_node	*node;
 
 	listlen = list_len(*head);
 	if (*head == NULL || spot > listlen)
-		return 1;
+		return (1);
 	node = *head;
 	if (listlen == 1)
 	{
@@ -70,7 +70,7 @@ int		list_remove_index(t_node **head, int spot)
 			free(node->str);
 		node->str = NULL;
 		node->next = NULL;
-		return 0;
+		return (0);
 	}
 	list_rm_i_helper(head, node, spot);
 	return (0);

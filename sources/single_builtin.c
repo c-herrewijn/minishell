@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 17:12:43 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/15 17:02:49 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 18:30:40 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	execute_single_builtin(t_node **head, t_data *data)
 {
-	t_builtin type;
-	int ret;
+	t_builtin	type;
+	int			ret;
 
 	type = check_if_builtin(data->command_arr[0].argv[0]);
 	if (type == B_ECHO)
@@ -31,7 +31,8 @@ void	execute_single_builtin(t_node **head, t_data *data)
 	if (type == B_EXPORT)
 		ret = execute_export(head, data, 0);
 	if (type == B_UNSET)
-		ret = b_unset(data->command_arr[0].argc, data->command_arr[0].argv, head);
+		ret = b_unset(data->command_arr[0].argc,
+				data->command_arr[0].argv, head);
 	if (ret == 0)
 		data->previous_exit_status = 0;
 	if (ret != 0)

@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 22:13:45 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/13 17:43:59 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 18:31:37 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ int	update_pwd(t_node **head)
 
 	total = pwd_in_env(head);
 	if (total <= 1)
-		return 0;
+		return (0);
 	if (getcwd(cur_dir, sizeof(cur_dir)) == NULL)
 	{
 		printf("ERROR : getcwd fail\n");
-		return 0;
+		return (0);
 	}
 	if (pwd_helper(head, cur_dir) == -1)
 		return (-1);

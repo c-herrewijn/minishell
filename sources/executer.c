@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 18:03:20 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 18:09:43 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,21 @@ void	run_child_process_and_exit(char **envp, t_data *data, size_t com_i)
 {
 	if (close_pipes_before_running_command_i(data, com_i) < 0)
 		exit(1);
-	if (apply_redirections(data, com_i) < 0)  
+	if (apply_redirections(data, com_i) < 0)
 		exit(1);
 	if ((data->command_arr)[com_i].argc == 0)
 		exit(0);
 	if (check_if_builtin(data->command_arr[com_i].argv[0]) != NOT_BUILTIN)
 		execute_command_builtin(&data->head, data, com_i);
 	else if (data->paths != NULL)
-		execute_command_from_path(envp, data->paths, &(data->command_arr)[com_i]);
+		execute_command_from_path(envp,
+			data->paths, &(data->command_arr)[com_i]);
 	else
-		execute_command_local_dir(envp, data->paths, &(data->command_arr)[com_i]);
+		execute_command_local_dir(envp,
+			data->paths, &(data->command_arr)[com_i]);
 }
 
-int execute_commands_loop(t_data *data, char **envp)
+int	execute_commands_loop(t_data *data, char **envp)
 {
 	size_t	i;
 	pid_t	new_pid;

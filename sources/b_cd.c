@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:34 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/15 15:06:03 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 18:12:13 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,15 @@ static int	cdir_argc_one(t_node **head, int *ret)
 	if (*ret == -1)
 	{
 		perror("cd");
-		return (1);			
+		return (1);
 	}
-	return 0;
+	return (0);
 }
 
 static int	change_dir(int argc, char **argv, t_node **head, int *ret)
 {
-	int cdir_ret;
+	int	cdir_ret;
+
 	cdir_ret = 0;
 	if (argc == 1)
 	{
@@ -88,8 +89,8 @@ static int	change_dir(int argc, char **argv, t_node **head, int *ret)
 int	b_cd(int argc, char **argv, t_node **head)
 {
 	int	ret;
-	int cdir;
-	
+	int	cdir;
+
 	ret = 0;
 	cdir = change_dir(argc, argv, head, &ret);
 	if (cdir != 0)
