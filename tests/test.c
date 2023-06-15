@@ -102,10 +102,82 @@ void	test_syntax_validation(void)
 	puts("testing syntax_validation OK");
 }
 
+// USER=cherrewi
+void	test_expanded_str_len(void)
+{
+	t_data		data;
+	extern char	**environ;
+	t_node		*env_llist;
+
+	data.envp = environ;
+	list_create_env(&env_llist, data);
+
+	// no substitution / invalid substitution cases
+	char *str1 = "hello";
+	// printf("str1: %s\n", str1);
+	// printf("len: %zu\n", expanded_str_len(str1, env_llist));
+	assert(expanded_str_len(str1, env_llist) == 5);
+	
+	char *str2 = "$\"U\"SER";
+	assert(expanded_str_len(str2, env_llist) == 4);
+
+	char *str3 = "$\"USER\"";
+	assert(expanded_str_len(str3, env_llist) == 4);
+
+	char *str4 = "USERtest$";
+	assert(expanded_str_len(str4, env_llist) == 9);
+
+	char *str4b = "$";
+	assert(expanded_str_len(str4b, env_llist) == 1);
+	
+	char *str5 = "USER\"$USERtest\"";
+	assert(expanded_str_len(str5, env_llist) == 4);
+
+	char *str6 = "'$USER''$test'";
+	assert(expanded_str_len(str6, env_llist) == 10);
+
+	char *str7 = "USER \"test\"";
+	assert(expanded_str_len(str7, env_llist) == 9);
+
+	// regular cases
+	char *str10 = "$USER";
+	assert(expanded_str_len(str10, env_llist) == 8);
+
+	char *str11 = "USER\"test$USER\"";
+	assert(expanded_str_len(str11, env_llist) == 16);
+
+	char *str12 = "USER\"$USER test\"";
+	assert(expanded_str_len(str12, env_llist) == 17);
+	
+	char *str13 = "$USER'$test'";
+	assert(expanded_str_len(str13, env_llist) == 13);
+
+	char *str14 = "USER$USER\"test$USER\"";	// 24
+	assert(expanded_str_len(str14, env_llist) == 24);
+	
+	char *str15 = "$USERUSER\"test$USER\"";	// 12
+	assert(expanded_str_len(str15, env_llist) == 12);
+	
+	char *str16 = "'$USER'USER$USER\"test$USER\""; //29
+	assert(expanded_str_len(str16, env_llist) == 29);
+	
+	char *str17 = "bb$USER"; //10
+	assert(expanded_str_len(str17, env_llist) == 10);
+	
+	char *str18 = "$USER$USER"; //16
+	assert(expanded_str_len(str18, env_llist) == 16);
+	
+	char *str19 = "$USER$"; //9
+	assert(expanded_str_len(str19, env_llist) == 9);
+
+	puts("testing expanded_str_len: OK");
+}
+
 int main(void)
 {
 	test_count_tokens();
 	test_create_tokens();
 	test_syntax_validation();
+	test_expanded_str_len();
 	exit(0);
 }

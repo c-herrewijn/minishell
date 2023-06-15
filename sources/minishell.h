@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/14 18:28:39 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 14:19:52 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,24 @@ typedef enum e_token_type {
 	REDIRECT_OUTPUT,
 	REDIRECT_OUTPUT_APPEND,
 }	t_token_type;
+
+/*
+Expander States:
+- SCANNING = 'normal' parsing of characters
+  - state changes to READING_VAR_NAME after $ char
+  - state changes to LITERAL_SCANNING after single quote
+- LITERAL_SCANNING = inside single quotes
+  - state changes to SCANNING after closing single quote
+- READING_VAR_NAME = $ has been read (not followed by single quote, double quote, blank, '\0' or $)
+  - state changes to SCANNING after " or <blank> char
+  - state changes to LITERAL_SCANNING after single quote
+  - after '\0', $, single quote, double quote, or blank, the variable is expanded 
+*/
+typedef enum e_expander_state {
+	SCANNING,
+	LITERAL_SCANNING,
+	READING_VAR_NAME
+}	t_expander_state;
 
 typedef enum e_builtin
 {
@@ -197,6 +215,7 @@ void	free_commands(t_data *data);
 
 // expander
 int		expander(t_data *data);
+size_t	expanded_str_len(char *in_str, t_node *env_node);
 void	store_final_exit_status(t_data *data);
 
 // heredoc
