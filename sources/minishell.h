@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 18:36:12 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 19:26:46 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,15 @@ Expander States:
 - SCANNING = 'normal' parsing of characters
   - state changes to READING_VAR_NAME after $ char
   - state changes to LITERAL_SCANNING after single quote
+  - single and double quotes are stripped
+  - other chars, incl. blanks are printed
 - LITERAL_SCANNING = inside single quotes
   - state changes to SCANNING after closing single quote
-- READING_VAR_NAME = $ has been read (not followed by single quote, double quote, blank, '\0' or $)
+- READING_VAR_NAME = $ has been read
   - state changes to SCANNING after " or <blank> char
   - state changes to LITERAL_SCANNING after single quote
-  - after '\0', $, single quote, double quote, or blank, the variable is expanded 
+  - after '\0', $, single quote, double quote, or blank, the variable is expanded
+  - in case the $ char is directly followed by $, blank, or '\0', the $ char is literally printed
 */
 typedef enum e_expander_state {
 	SCANNING,
