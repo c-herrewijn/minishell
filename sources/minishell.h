@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 17:38:18 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 18:00:48 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,24 +224,31 @@ int		add_heredoc(t_data *data, size_t command_nr);
 bool	command_has_heredoc(t_data *data, size_t command_nr);
 
 // executer.c
+int		wait_for_child_processes(t_data *data);
+void	run_child_process_and_exit(char **envp, t_data *data, size_t com_i);
+int		execute_commands_loop(t_data *data, char **envp);
+int		execute_commands(t_data *data);
+
+// executer_commands.c
 char	*combine_command_path(char *path, char *cmd);
-void	exit_child_proc_with_error(t_command *command, char **paths, char ***envp);
 void	execute_command_builtin(t_node **head, t_data *data, size_t i);
 void	execute_command_local_dir(char **envp, char **paths,
 	t_command *command);
 void	execute_command_from_path(char **envp, char **paths,
 	t_command *command);
+
+// executer_pipes.c
 int		create_pipes(t_data *data);
 int		close_pipes_before_running_command_i(t_data *data, size_t i_command);
-void	run_child_process_and_exit(char **envp, t_data *data, size_t com_i);
-char	**get_path(char **envp);
 int		close_all_pipes(t_data *data);
-int		wait_for_child_processes(t_data *data);
+
+// executer_utils.c
+void	exit_child_proc_with_error(t_command *command, char **paths, char ***envp);
+char	**get_path(char **envp);
 int		create_envp_from_ll_env(t_node **head, char ***envp);
 int		free_envp_return(char ***envp, int n);
-int		execute_commands_loop(t_data *data, char **envp);
-int		execute_commands(t_data *data);
 void	print_child_errors(t_data *data);
+
 
 //executer_redirections.c
 int		apply_redirections(t_data *data, size_t i_command);

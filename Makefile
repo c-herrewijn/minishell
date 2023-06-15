@@ -12,8 +12,9 @@ b_exit.c debug_printing.c parser.c \
 b_export.c lexer.c parser_create_command.c \
 b_pwd.c lexer_count_tokens.c parser_syntax_validation.c \
 b_unset.c lexer_create_tokens.c parser_free_commands.c \
-executer_redirections.c executer.c heredoc.c command_utils.c \
-single_builtin.c expander.c main_utils.c
+executer_redirections.c  heredoc.c command_utils.c \
+single_builtin.c expander.c main_utils.c \
+executer.c executer_pipes.c executer_commands.c executer_utils.c
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
