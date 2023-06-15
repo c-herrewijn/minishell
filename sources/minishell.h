@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 18:00:48 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 18:18:42 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ void	free_commands(t_data *data);
 int		expander(t_data *data);
 size_t	expanded_str_len(char *in_str, t_node *env_node);
 void	store_final_exit_status(t_data *data);
+size_t	env_var_len(char *var_name, t_node *head);
 
 // heredoc
 int		add_heredoc(t_data *data, size_t command_nr);

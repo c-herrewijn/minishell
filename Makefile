@@ -14,7 +14,8 @@ b_pwd.c lexer_count_tokens.c parser_syntax_validation.c \
 b_unset.c lexer_create_tokens.c parser_free_commands.c \
 executer_redirections.c  heredoc.c command_utils.c \
 single_builtin.c expander.c main_utils.c \
-executer.c executer_pipes.c executer_commands.c executer_utils.c
+executer.c executer_pipes.c executer_commands.c executer_utils.c \
+expander_length.c
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
@@ -58,9 +59,11 @@ FUNCTION_SRCS = b_cd.c builtin_utils.c lexer_utils.c \
 		b_exit.c debug_printing.c parser.c \
 		b_export.c lexer.c parser_create_command.c \
 		b_pwd.c lexer_count_tokens.c parser_syntax_validation.c \
-		builtin_unset.c lexer_create_tokens.c parser_free_commands.c \
-		executer_redirections.c executer.c heredoc.c command_utils.c \
-		single_builtin.c single_non_builtin.c expander.c extra_main.c main_utils.c
+		b_unset.c lexer_create_tokens.c parser_free_commands.c \
+		executer_redirections.c  heredoc.c command_utils.c \
+		single_builtin.c expander.c main_utils.c \
+		executer.c executer_pipes.c executer_commands.c executer_utils.c \
+		expander_length.c
 
 test: $(NAME)
 	@$(CC) -g $(FLAGS) $(addprefix tests/, $(TEST_SRCS)) $(addprefix sources/, $(FUNCTION_SRCS)) $(LIBFT_DIR)/$(LIBFTNAME) -o test.out
