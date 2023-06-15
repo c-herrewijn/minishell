@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 20:47:48 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 16:01:30 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 15:10:18 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int	concat_helper(int argc, char **argv, t_node **head, char *without_plus)
 	spot = index_in_env(argv[0], without_plus, head);
 	if (spot == -1)
 	{
-		printf("concat : spot == -1 : %s\n", without_plus);
 		if (list_append(head, without_plus) == -1)
 			return (-1);
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/12 14:45:33 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/13 17:43:10 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 14:42:55 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,4 @@ void	execute_single_command(t_data data)
 		if (execute_single_non_builtin(&data) < 0)
 			free_and_exit_with_perror(&data, &data.head);
 	}
-}
-
-int	check_data_str(t_data *data)
-{
-	// printf("\n\ndata.str : |%s|\n\n", data.str);
-	if (data->str == NULL) //if ctrl-D is send, this will also count
-	{
-		free_data(data);
-		write(STDOUT_FILENO, "exit\n", 5);
-		exit(0);
-	}
-	if (data->str[0] == '\0')
-	{
-		free(data->str);
-		return (1);
-	}
-	return (0);
 }

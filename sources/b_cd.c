@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:34 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/14 18:43:21 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 15:06:03 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ static int	cdir_argc_one(t_node **head, int *ret)
 	if (*ret == 1)
 	{
 		if (write(2, "cd: HOME not set\n", 17) == -1)
-		{
-			perror(NULL);
 			return (-1);
-		}
 		return (1);
 	}
 	*ret = chdir(home_value);

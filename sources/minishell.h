@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 14:19:52 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/15 14:50:30 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,7 @@ bool	command_has_heredoc(t_data *data, size_t command_nr);
 // executer.c
 char	*combine_command_path(char *path, char *cmd);
 void	exit_child_proc_with_error(t_command *command, char **paths, char ***envp);
+int		execute_export(t_node **head, t_data *data, size_t i);
 void	execute_command_builtin(t_node **head, t_data *data, size_t i);
 void	execute_command_local_dir(char **envp, char **paths,
 	t_command *command);
@@ -253,11 +254,11 @@ int		execute_single_non_builtin(t_data *data);
 
 //extramain.c
 void	execute_single_command(t_data data);
-int		check_data_str(t_data *data);
 
-//main.c
+//main_utils.c
 void	free_data(t_data *data);
 void	free_and_exit_with_perror(t_data *data, t_node **head);
 void	init_data_struct(t_data *data, int argc, char **argv, char **envp);
+int		check_data_str(t_data *data);
 
 #endif

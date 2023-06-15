@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/14 16:46:51 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 15:07:46 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,60 +48,56 @@ void	exit_child_proc_with_error(t_command *command, char **paths, char ***envp)
 	exit(1);
 }
 
-static void execute_export(t_node **head, t_data *data, size_t i)
+int execute_export(t_node **head, t_data *data, size_t i)
 {
 	int export_format;
 	char **argv;
-
+	int ret;
+	
+	ret = 0;
 	argv = data->command_arr[i].argv;
 	export_format = b_export_allowed_format(data->command_arr[i].argc, argv);
 	if (argv[1][0] == '_' && (argv[1][1] == '\0' || argv[1][1] == '='  || argv[1][1] == '+'))
-		return ;
+		return ret;
 	if (export_format == 1)
-	{
-		printf("\nDEBUG : normal export\n");
-		if (b_export(data->command_arr[i].argc, argv, head) == -1)
-			return ; //-1
-	}
+		ret = b_export(data->command_arr[i].argc, argv, head);
 	else if (export_format == 2)
+		ret = b_export_concat(data->command_arr[i].argc, argv, head);
+	else
 	{
-		printf("\nDEBUG : concat export\n");
-		if (b_export_concat(data->command_arr[i].argc, argv, head) == -1)
-			return ; //-1
+		ret = write(2, "export: `", 9);
+		ret = write(2, argv[1], ft_strlen(argv[1]));
+		ret = write(2, "': not a valid identifier\n", 26);
+		if (ret == -1)
+			return (-1);
+		ret = 1;
 	}
-	else if (export_format == -1)
-	{
-		printf("incorrect format for export! >:(\n");
-	}
-	return ;
+	return ret;
 }
-
-// use exit_child_proc_with_error(command, paths); ?
 
 //how does it work with it being in a child process
 //do i exit child process with error, what about malloc fail?
 void execute_command_builtin(t_node **head, t_data *data, size_t i)
 {
 	t_builtin type;
-	//store ret 
-	//so then all builtins need to have an int return
+	int ret;
+	
 	type = check_if_builtin(data->command_arr[i].argv[0]);
 	if (type == B_ECHO)
-		b_echo(data->command_arr[i].argc, data->command_arr[i].argv);
-	if (type == B_CD) //return -1 chain?
-		if (b_cd(data->command_arr[i].argc, data->command_arr[i].argv, head) < 0)
-			return ; //-1
+		ret = b_echo(data->command_arr[i].argc, data->command_arr[i].argv);
+	if (type == B_CD)
+		ret = b_cd(data->command_arr[i].argc, data->command_arr[i].argv, head);
 	if (type == B_PWD)
-		b_pwd();
+		ret = b_pwd();
 	if (type == B_ENV)
-		b_env(*head);
+		ret = b_env(*head);
 	if (type == B_EXIT)
-		b_exit(data->command_arr[i].argv[1]);
+		ret = b_exit(data->command_arr[i].argv[1]);
 	if (type == B_EXPORT)
-		execute_export(head, data, i);
+		ret = execute_export(head, data, i);
 	if (type == B_UNSET)
-		b_unset(data->command_arr[i].argc, data->command_arr[i].argv, head);
-	exit (0) ;
+		ret = b_unset(data->command_arr[i].argc, data->command_arr[i].argv, head);
+	exit(ret);
 }
 
 void	execute_command_local_dir(char **envp, char **paths,

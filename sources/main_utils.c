@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/15 13:52:14 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 13:54:33 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/15 14:42:52 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,21 @@ void	init_data_struct(t_data *data, int argc, char **argv, char **envp)
 	data->previous_exit_status = 0;
 	data->str = NULL;
 	data->token_arr = NULL;
+}
+
+int	check_data_str(t_data *data)
+{
+	// printf("\n\ndata.str : |%s|\n\n", data.str);
+	if (data->str == NULL) //if ctrl-D is send, this will also count
+	{
+		free_data(data);
+		write(STDOUT_FILENO, "exit\n", 5);
+		exit(0);
+	}
+	if (data->str[0] == '\0')
+	{
+		free(data->str);
+		return (1);
+	}
+	return (0);
 }
