@@ -61,7 +61,7 @@ FUNCTION_SRCS = b_cd.c builtin_utils.c lexer_utils.c \
 		b_pwd.c lexer_count_tokens.c parser_syntax_validation.c \
 		b_unset.c lexer_create_tokens.c parser_free_commands.c \
 		executer_redirections.c  heredoc.c command_utils.c \
-		single_builtin.c expander.c main_utils.c \
+		single_builtin.c expander.c main_utils.c index_in_env.c \
 		executer.c executer_pipes.c executer_commands.c executer_utils.c \
 		expander_length.c
 
