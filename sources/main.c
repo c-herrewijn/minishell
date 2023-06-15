@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 13:54:49 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/15 17:04:05 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **envp)
 		if (check_data_str(&data) == 1)
 			continue;
 		add_history(data.str);
-		
+
 		if (lexer(&data) < 0)
 			free_and_exit_with_perror(&data, &data.head);
 		
@@ -51,11 +51,13 @@ int	main(int argc, char **argv, char **envp)
 		// debug
 		// print_commands(&data);
 		debug_env_etc(data.str, &data.head, &data);
-		
-		if (data.nr_commands == 1 && data.command_arr[0].argc > 0)
-			execute_single_command(data);
+
+		if (data.nr_commands == 1 && data.command_arr[0].argc > 0 
+				&& check_if_builtin(data.command_arr[0].argv[0]) != NOT_BUILTIN)
+			execute_single_builtin(&data.head, &data);
 		else if (execute_commands(&data) < 0)
 			free_and_exit_with_perror(&data, &data.head);
+		// printf("exit status: %d\n", data.previous_exit_status);
 		store_final_exit_status(&data);
 		free_data(&data);
 	}

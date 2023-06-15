@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/13 16:21:59 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 16:58:24 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ void	print_commands(t_data *data)
 	i = 0;
 	while (i < data->nr_commands)
 	{
+		printf("argc : %d\n", data->command_arr[i].argc);
 		puts("argv:");
 		i_argv = 0;
 		while ((data->command_arr)[i].argv[i_argv] != NULL)

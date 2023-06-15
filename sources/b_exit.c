@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:09 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/14 18:24:02 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 15:53:57 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,20 @@ the input given has to be a number between 0-255
 if input is a number but in not range 0-255
 then the exit code will be the input modulo 256
 */
-int		b_exit(char *exit_status)
+void	b_exit(char *exit_status)
 {
 	int	n;
 
 	n = 1;
+	if (exit_status == NULL)
+		exit(0);
 	if (ft_isinteger(exit_status) == false)
-		exit(n);
+	{
+		write(2, "exit : ", 7);
+		write(2, exit_status, ft_strlen(exit_status));
+		write(2, ": numeric argument required\n", 28);
+		exit(255);
+	}
 	n = ft_atoi(exit_status);
 	if (n < 0 || n > 255)
 	{
@@ -38,5 +45,4 @@ int		b_exit(char *exit_status)
 		exit(n);
 	}
 	exit(0);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/18 16:50:05 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/14 18:28:59 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 17:02:59 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,10 @@ int	b_unset(int argc, char **argv, t_node **head)
 {
 	int	i;
 
-	if (argc > 0)
-	{
-		if (argv[1][0] == '_' && (argv[1][1] == '\0' || argv[1][1] == '='))
-			return (1);
-	}
+	if (argc <= 1)
+		return (1);
+	if (argv[1][0] == '_' && (argv[1][1] == '\0' || argv[1][1] == '='))
+		return (1);
 	if (*head == NULL)
 		return (1);
 	if ((*head)->str == NULL)

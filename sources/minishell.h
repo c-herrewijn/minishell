@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 14:50:30 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 16:34:06 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int		b_echo(int argc, char **argv);
 int		b_env(t_node *head);
 
 //b_exit.c
-int		b_exit(char *exit_status);
+void	b_exit(char *exit_status);
 
 //b_export_utils.c
 bool	empty_list_add(t_node **head, char *str);
@@ -247,13 +247,7 @@ void	print_child_errors(t_data *data);
 int		apply_redirections(t_data *data, size_t i_command);
 
 //single_builtin.c
-int		execute_single_builtin(t_node **head, t_data *data);
-
-//single_non_builtin.c
-int		execute_single_non_builtin(t_data *data);
-
-//extramain.c
-void	execute_single_command(t_data data);
+void	execute_single_builtin(t_node **head, t_data *data);
 
 //main_utils.c
 void	free_data(t_data *data);

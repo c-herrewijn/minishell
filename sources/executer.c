@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 15:07:46 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 16:49:30 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,19 @@ int execute_export(t_node **head, t_data *data, size_t i)
 	ret = 0;
 	argv = data->command_arr[i].argv;
 	export_format = b_export_allowed_format(data->command_arr[i].argc, argv);
+	if (export_format < 0)
+	{
+		write(2, "export: `", 9);
+		write(2, argv[1], ft_strlen(argv[1]));
+		write(2, "': not a valid identifier\n", 26);
+		return (1);
+	}
 	if (argv[1][0] == '_' && (argv[1][1] == '\0' || argv[1][1] == '='  || argv[1][1] == '+'))
 		return ret;
 	if (export_format == 1)
 		ret = b_export(data->command_arr[i].argc, argv, head);
 	else if (export_format == 2)
 		ret = b_export_concat(data->command_arr[i].argc, argv, head);
-	else
-	{
-		ret = write(2, "export: `", 9);
-		ret = write(2, argv[1], ft_strlen(argv[1]));
-		ret = write(2, "': not a valid identifier\n", 26);
-		if (ret == -1)
-			return (-1);
-		ret = 1;
-	}
 	return ret;
 }
 
@@ -92,12 +90,14 @@ void execute_command_builtin(t_node **head, t_data *data, size_t i)
 	if (type == B_ENV)
 		ret = b_env(*head);
 	if (type == B_EXIT)
-		ret = b_exit(data->command_arr[i].argv[1]);
+		b_exit(data->command_arr[i].argv[1]);
 	if (type == B_EXPORT)
 		ret = execute_export(head, data, i);
 	if (type == B_UNSET)
 		ret = b_unset(data->command_arr[i].argc, data->command_arr[i].argv, head);
-	exit(ret);
+	if (ret != 0)
+		exit (1);
+	exit(0);
 }
 
 void	execute_command_local_dir(char **envp, char **paths,
