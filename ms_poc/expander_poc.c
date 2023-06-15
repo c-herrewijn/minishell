@@ -1,5 +1,6 @@
 // compile:
 // gcc -g ms_poc/expander_poc.c ./libft/libft.a
+// gcc -g ms_poc/expander_poc.c -L./libft -lft
 
 
 # include "../libft/libft.h"
@@ -263,26 +264,6 @@ char *get_value_from_env(t_node *env, char *str)
 	return (NULL);
 }
 
-// probally will need some error checking
-// void print_env_var(char *str, t_node *head)
-// {
-// 	t_node *node;
-// 	int str_len;
-
-// 	node = head;
-// 	str_len = (int)ft_strlen(str);
-// 	while(node != NULL)
-// 	{
-// 		if (ft_strncmp(str + 1, node->str, str_len - 1) == 0)
-// 		{
-// 			printf("%s\n", (node->str) + str_len);
-// 			return ;
-// 		}
-// 		node = node->next;
-// 	}
-// }
-
-
 size_t var_len(char *var_name, t_node *head)
 {
 	char 	*value;
@@ -333,19 +314,8 @@ size_t expanded_str_len(char *in_str, t_node *env_node)
 			}
 			else if (in_str[i] == '$')
 			{
-				if (ft_isblank(in_str[i + 1]) || in_str[i + 1] == '\0' || in_str[i + 1] == '$')
-				{
-					len+=1;
-				}
-				else if (in_str[i + 1] == '\"' || in_str[i + 1] == '\'')
-				{
-					i++;	// skip
-				}
-				else
-				{
-					expander_state = READING_VAR_NAME;
-					var_start_index = i + 1;
-				}
+				expander_state = READING_VAR_NAME;
+				var_start_index = i + 1;
 			}
 			// else if (ft_isblank(in_str[i]))
 			// {
@@ -392,47 +362,65 @@ size_t expanded_str_len(char *in_str, t_node *env_node)
 			}
 			else if (in_str[i] == '\"')
 			{
-				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
-				len += var_len(var_name, env_node);
+				if (i != var_start_index)
+				{
+					var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
+					len += var_len(var_name, env_node);
+				}
 				expander_state = SCANNING;
 			}
 			else if (in_str[i] == '$')
 			{
-				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
-				len += var_len(var_name, env_node);
+				if (i == var_start_index)
+					len++;		// literally print $ char
+				else
+				{
+					var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
+					len += var_len(var_name, env_node);
+				}
 				expander_state = READING_VAR_NAME;
 				var_start_index = i + 1;
 			}
 			else if (ft_isblank(in_str[i]))
 			{
-				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
-				len += var_len(var_name, env_node) + 1;
+				if (i == var_start_index)
+					len++;		// literally print $ char
+				else
+				{
+					var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
+					len += var_len(var_name, env_node);
+				}
+				len++;		// print blank
 				expander_state = SCANNING;
 			}
 			else if (in_str[i] == '\0')
 			{
-				var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
-				len += var_len(var_name, env_node);
+				if (i == var_start_index)
+					len++;		// literally print $ char
+				else
+				{
+					var_name = ft_substr(in_str, var_start_index, i - var_start_index); // todo malloc protection
+					len += var_len(var_name, env_node);
+				}
 				break;
 			}
-			else	// normal chars incl. blanks
+			else	// normal chars
 			{
 				;
-			}			
+			}	
 		}
 		i++;
 	}
 	return (len);
 }
 
-// work in progress:
-
-
 // USER=cherrewi
 void	test_expanded_str_len(t_node *env_llist)
 {
 	// no substitution / invalid substitution cases
 	char *str1 = "hello";
+	// printf("str1: %s\n", str1);
+	// printf("len: %zu\n", expanded_str_len(str1, env_llist));
 	assert(expanded_str_len(str1, env_llist) == 5);
 	
 	char *str2 = "$\"U\"SER";
@@ -485,9 +473,9 @@ void	test_expanded_str_len(t_node *env_llist)
 	assert(expanded_str_len(str18, env_llist) == 16);
 	
 	char *str19 = "$USER$"; //9
-	printf("str19: %s\n", str19);
-	printf("len: %zu\n", expanded_str_len(str19, env_llist));
 	assert(expanded_str_len(str19, env_llist) == 9);
+
+	puts("testing expanded_str_len: OK");
 }
 
 int main(int argc, char **argv, char **envp)
