@@ -170,7 +170,9 @@ void	test_expanded_str_len(void)
 	char *str19 = "$USER$"; //9
 	assert(expanded_str_len(str19, env_llist) == 9);
 
-	puts("testing expanded_str_len: OK");
+	char *str20 = "$$USER"; //9  NOTE this is different from bash, because bash has special purpose for '$$'
+	assert(expanded_str_len(str20, env_llist) == 9);
+	puts("testing expanded_str_len OK");
 }
 
 int main(void)
