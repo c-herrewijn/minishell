@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 19:26:46 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/15 20:26:09 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,13 @@ typedef struct s_redirection
 	t_token_type	redirection_type;
 	char			*word;
 }	t_redirection;
+
+typedef struct s_expander_data
+{
+	t_expander_state	state;
+	size_t				i;
+	size_t				var_start_index;
+}	t_expander_data;
 
 /*
 simple command as described by the shell grammar
