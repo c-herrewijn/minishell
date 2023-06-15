@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 16:34:06 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/15 17:38:18 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,9 +156,15 @@ int		concat_helper(int argc, char **argv, t_node **head, char *without_plus);
 //b_export.c
 int		b_export_concat(int argc, char **argv, t_node **head);
 int		b_export(int argc, char **argv, t_node **head);
+int		execute_export(t_node **head, t_data *data, size_t i);
 
 //b_pwd.c
 int		b_pwd(void);
+
+//b_unset.c
+void	list_remove_first(t_node **head);
+int		list_remove_index(t_node **head, int spot);
+int		b_unset(int argc, char **argv, t_node **head);
 
 //builtin_utils.c
 int		index_in_env(char *prefix, char *str_to_find, t_node **head);
@@ -166,11 +172,6 @@ void	free_double_char_pointer(char **s);
 int		b_arr_len(char **s);
 int		pwd_in_env(t_node **head);
 t_node	*get_node_from_index(t_node **head, int index);
-
-//builtin_unset.c
-void	list_remove_first(t_node **head);
-int		list_remove_index(t_node **head, int spot);
-int		b_unset(int argc, char **argv, t_node **head);
 
 //check_for_builtin.c
 int			index_of_c_in_str(char *str, char c);
@@ -225,7 +226,6 @@ bool	command_has_heredoc(t_data *data, size_t command_nr);
 // executer.c
 char	*combine_command_path(char *path, char *cmd);
 void	exit_child_proc_with_error(t_command *command, char **paths, char ***envp);
-int		execute_export(t_node **head, t_data *data, size_t i);
 void	execute_command_builtin(t_node **head, t_data *data, size_t i);
 void	execute_command_local_dir(char **envp, char **paths,
 	t_command *command);
