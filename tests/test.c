@@ -142,6 +142,12 @@ void	test_expanded_str_len(void)
 	// regular cases
 	char *str10 = "$USER";
 	assert(expanded_str_len(str10, env_llist) == 8);
+	
+	char *str10a = "$USE";
+	assert(expanded_str_len(str10a, env_llist) == 0);
+	
+	char *str10b = "a$USE";
+	assert(expanded_str_len(str10b, env_llist) == 1);
 
 	char *str11 = "USER\"test$USER\"";
 	assert(expanded_str_len(str11, env_llist) == 16);

@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 14:28:40 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 16:55:21 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/16 11:48:30 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,32 @@ int	find_str_in_environment(t_node *env, char *str)
 	return (-1);
 }
 
-char *get_value_from_env(t_node *env, char *str)
+char *get_value_from_env(t_node *env, char *key_str, size_t key_len)
 {
 	int	i;
 
 	i = 0;
 	while (env != NULL)
 	{
-		if (ft_strncmp(str, env->str, ft_strlen(str)) == 0)
-			return(env->str + ft_strlen(str) + 1);
+		if (ft_strncmp(key_str, env->str, key_len) == 0 && env->str[key_len] == '=')
+			return(env->str + key_len + 1);
 		i++;
 		env = env->next;
 	}
 	return (NULL);
 }
 
-size_t env_var_len(char *var_name, t_node *head)
-{
-	char 	*value;
-	size_t	len;
 
-	value = get_value_from_env(head, var_name);
-	len = ft_strlen(value);
-	return (len);
+size_t expander_var_len(char *in_str, t_expander_data *exp_data, t_node *head)
+{
+	size_t	key_len;
+	size_t	value_len;
+	char	*value;
+
+	key_len = exp_data->i - exp_data->var_start_index;
+	value = get_value_from_env(head, in_str + exp_data->i - key_len, key_len);
+	value_len = ft_strlen(value);
+	return (value_len);
 }
 
 int	expander(t_data *data)

@@ -6,13 +6,11 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/15 16:51:21 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 20:30:01 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/16 11:49:28 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-	
 
 /*
 processes 1 char at a time:
@@ -65,21 +63,19 @@ size_t	get_length_state_literal_scanning(char *in_str,
 size_t	get_length_reading_var_name(char *in_str, t_node *env_node,
 	t_expander_data *exp_data)
 {
-	char *var_name;
+	size_t env_var_len;
 	
 	if (in_str[exp_data->i] == '\'')
 	{
 		exp_data->state = LITERAL_SCANNING;
-		var_name = ft_substr(in_str, exp_data->var_start_index, exp_data->i - exp_data->var_start_index); // todo: FREE and malloc protection
-		return (env_var_len(var_name, env_node));
+		return (expander_var_len(in_str, exp_data, env_node));
 	}
 	else if (in_str[exp_data->i] == '\"')
 	{
 		exp_data->state = SCANNING;
 		if (exp_data->i != exp_data->var_start_index)
 		{
-			var_name = ft_substr(in_str, exp_data->var_start_index, exp_data->i - exp_data->var_start_index); // todo: FREE and malloc protection
-			return (env_var_len(var_name, env_node));
+			return (expander_var_len(in_str, exp_data, env_node));
 		}
 		return (0);
 	}
@@ -93,9 +89,9 @@ size_t	get_length_reading_var_name(char *in_str, t_node *env_node,
 		}
 		else
 		{
-			var_name = ft_substr(in_str, exp_data->var_start_index, exp_data->i - exp_data->var_start_index); // todo: FREE and malloc protection
+			env_var_len = expander_var_len(in_str, exp_data, env_node);
 			exp_data->var_start_index = exp_data->i + 1;
-			return (env_var_len(var_name, env_node));
+			return (env_var_len);
 		}
 	}
 	else if (ft_isblank(in_str[exp_data->i]))
@@ -105,8 +101,7 @@ size_t	get_length_reading_var_name(char *in_str, t_node *env_node,
 			return (1);		// literally print $ char
 		else
 		{
-			var_name = ft_substr(in_str, exp_data->var_start_index, exp_data->i - exp_data->var_start_index); // todo: FREE and malloc protection
-			return (env_var_len(var_name, env_node) + 1);
+			return (expander_var_len(in_str, exp_data, env_node) + 1);
 		}
 	}
 	else if (in_str[exp_data->i] == '\0')
@@ -115,15 +110,13 @@ size_t	get_length_reading_var_name(char *in_str, t_node *env_node,
 			return (1);		// literally print $ char
 		else
 		{
-			var_name = ft_substr(in_str, exp_data->var_start_index, exp_data->i - exp_data->var_start_index); // todo: FREE and malloc protection
-			return (env_var_len(var_name, env_node));
+			return (expander_var_len(in_str, exp_data, env_node));
 		}
 	}
 	else	// normal chars
 	{
 		return (0);
-	}	
-
+	}
 }
 
 /*
