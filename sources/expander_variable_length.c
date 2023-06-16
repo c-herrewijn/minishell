@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 11:57:22 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 12:18:11 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/16 15:16:35 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 size_t	len_squote(char *in_str, t_node *env_node, t_expander_data *exp_data)
 {
-	exp_data->state = LITERAL_SCANNING;
+	exp_data->state = SQUOTE_SCANNING;
 	return (expander_var_len(in_str, exp_data, env_node));
 }
 

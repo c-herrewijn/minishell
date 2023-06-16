@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 13:19:14 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 14:19:25 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/16 15:17:44 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,22 @@ void append_str_with_char(char *str, char c)
 	str[i + 1] = '\0';
 }
 
+void exp_state_literal_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
+{
+	if (in_str[exp_data->i] == '\'')
+	{
+		exp_data->state = SCANNING;
+	}
+	else
+		append_str_with_char(exp_str, in_str[exp_data->i]);
+}
+
+
 void exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
 {
 	if (in_str[exp_data->i] == '\'')
 	{
-		exp_data->state = LITERAL_SCANNING;
+		exp_data->state = SQUOTE_SCANNING;
 	}
 	else if (in_str[exp_data->i] == '\"')
 	{
@@ -44,8 +55,6 @@ void exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
 	else
 		append_str_with_char(exp_str, in_str[exp_data->i]);
 }
-
-
 
 // todo: check: can in_str be NULL?
 char *malloc_expand_str(char *in_str, t_expander_data *exp_data, t_node *env_node)
@@ -82,9 +91,9 @@ char	*create_expanded_str(char *in_str, t_node *env_node)
 		{
 			exp_state_scanning(in_str, exp_str, &exp_data);
 		}
-		else if (exp_data.state == LITERAL_SCANNING)
+		else if (exp_data.state == SQUOTE_SCANNING)
 		{
-			;
+			exp_state_literal_scanning(in_str, exp_str, &exp_data);
 			// len += len_state_literal_scanning(in_str, &exp_data);
 		}
 		else if (exp_data.state == READING_VAR_NAME)

@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 14:13:07 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/16 15:16:15 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,21 @@ typedef enum e_token_type {
 Expander States:
 - SCANNING = 'normal' parsing of characters
   - state changes to READING_VAR_NAME after $ char
-  - state changes to LITERAL_SCANNING after single quote
+  - state changes to SQUOTE_SCANNING after single quote
   - single and double quotes are stripped
   - other chars, incl. blanks are printed
-- LITERAL_SCANNING = inside single quotes
+- SQUOTE_SCANNING = inside single quotes
   - state changes to SCANNING after closing single quote
 - READING_VAR_NAME = $ has been read
   - state changes to SCANNING after " or <blank> char
-  - state changes to LITERAL_SCANNING after single quote
+  - state changes to SQUOTE_SCANNING after single quote
   - after '\0', $, single quote, double quote, blank -> variable is expanded
   - in case the $ char is directly followed by $, blank, or '\0' -> 
       the $ char is literally printed
 */
 typedef enum e_expander_state {
 	SCANNING,
-	LITERAL_SCANNING,
+	SQUOTE_SCANNING,
 	READING_VAR_NAME
 }	t_expander_state;
 

@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/15 16:51:21 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 12:17:23 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/16 15:18:59 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ processes 1 char at a time:
 - normal chars and blanks are copied
 - single and double quotes are stripped
 - '$' switches to state READING_VAR_NAME
-- single quote switches to state LITERAL_SCANNING
+- single quote switches to state SQUOTE_SCANNING
 */
 size_t	len_state_scanning(char *in_str, t_expander_data *exp_data)
 {
 	if (in_str[exp_data->i] == '\'')
 	{
-		exp_data->state = LITERAL_SCANNING;
+		exp_data->state = SQUOTE_SCANNING;
 		return (0);
 	}
 	else if (in_str[exp_data->i] == '\"')
@@ -93,7 +93,7 @@ size_t	expanded_str_len(char *in_str, t_node *env_node)
 	{
 		if (exp_data.state == SCANNING)
 			len += len_state_scanning(in_str, &exp_data);
-		else if (exp_data.state == LITERAL_SCANNING)
+		else if (exp_data.state == SQUOTE_SCANNING)
 			len += len_state_literal_scanning(in_str, &exp_data);
 		else if (exp_data.state == READING_VAR_NAME)
 			len += len_state_reading_var_name(in_str, env_node, &exp_data);
