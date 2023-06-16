@@ -6,11 +6,23 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/15 16:51:21 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 15:18:59 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/16 17:12:11 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	update_quote_state(t_expander_data *exp_data, char c)
+{
+	if (c == '\'' && exp_data->quote_state == OUT_OF_QUOTES)
+		exp_data->quote_state = IN_SQUOTE;
+	else if (c == '\'' && exp_data->quote_state == IN_SQUOTE)
+		exp_data->quote_state = OUT_OF_QUOTES;
+	else if (c == '\"' && exp_data->quote_state == OUT_OF_QUOTES)
+		exp_data->quote_state = IN_DQUOTE;
+	else if (c == '\"' && exp_data->quote_state == IN_DQUOTE)
+		exp_data->quote_state = OUT_OF_QUOTES;
+}
 
 /*
 processes 1 char at a time:
@@ -21,43 +33,27 @@ processes 1 char at a time:
 */
 size_t	len_state_scanning(char *in_str, t_expander_data *exp_data)
 {
-	if (in_str[exp_data->i] == '\'')
-	{
-		exp_data->state = SQUOTE_SCANNING;
-		return (0);
-	}
-	else if (in_str[exp_data->i] == '\"')
-		return (0);
+	size_t	len;
+
+	len = 0;
+	if (in_str[exp_data->i] == '\'' && exp_data->quote_state == IN_DQUOTE)
+		len = 1;
+	if (in_str[exp_data->i] == '\"' && exp_data->quote_state == IN_SQUOTE)
+		len = 1;
 	else if (in_str[exp_data->i] == '$')
 	{
-		exp_data->state = READING_VAR_NAME;
-		exp_data->var_start_index = exp_data->i + 1;
-		return (0);
+		if (exp_data->quote_state == IN_SQUOTE)
+			len = 1;
+		else
+		{
+			exp_data->state = READING_VAR_NAME;
+			exp_data->var_start_index = exp_data->i + 1;
+		}
 	}
-	else if (in_str[exp_data->i] == '\0')
-		return (0);
-	else
-		return (1);
-}
-
-/*
-processes 1 char at a time:
-- a single quote closes the literal string -> state is set to SCANNING
-- '\0' should normally not happen, since that implies a dangling single quote
-- other chars (incl. double quotes, pipes, $ sign etc) are processed literally
-*/
-size_t	len_state_literal_scanning(char *in_str,
-	t_expander_data *exp_data)
-{
-	if (in_str[exp_data->i] == '\'')
-	{
-		exp_data->state = SCANNING;
-		return (0);
-	}
-	else if (in_str[exp_data->i] == '\0')
-		return (0);
-	else
-		return (1);
+	if (in_str[exp_data->i] != '\0' && in_str[exp_data->i] != '\''
+			&& in_str[exp_data->i] != '\"' && in_str[exp_data->i] != '$')
+		len = 1;
+	return (len);
 }
 
 size_t	len_state_reading_var_name(char *in_str, t_node *env_node,
@@ -89,16 +85,16 @@ size_t	expanded_str_len(char *in_str, t_node *env_node)
 	exp_data.state = SCANNING;
 	exp_data.i = 0;
 	exp_data.var_start_index = 0;
+	exp_data.quote_state = OUT_OF_QUOTES;
 	while (true)
 	{
 		if (exp_data.state == SCANNING)
 			len += len_state_scanning(in_str, &exp_data);
-		else if (exp_data.state == SQUOTE_SCANNING)
-			len += len_state_literal_scanning(in_str, &exp_data);
-		else if (exp_data.state == READING_VAR_NAME)
+		if (exp_data.state == READING_VAR_NAME)
 			len += len_state_reading_var_name(in_str, env_node, &exp_data);
 		if (in_str[exp_data.i] == '\0')
 			break ;
+		update_quote_state(&exp_data, in_str[exp_data.i]);
 		(exp_data.i)++;
 	}
 	return (len);

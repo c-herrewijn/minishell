@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 13:19:14 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 15:17:44 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/16 17:16:39 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,33 +26,24 @@ void append_str_with_char(char *str, char c)
 	str[i + 1] = '\0';
 }
 
-void exp_state_literal_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
-{
-	if (in_str[exp_data->i] == '\'')
-	{
-		exp_data->state = SCANNING;
-	}
-	else
-		append_str_with_char(exp_str, in_str[exp_data->i]);
-}
-
-
 void exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
 {
-	if (in_str[exp_data->i] == '\'')
-	{
-		exp_data->state = SQUOTE_SCANNING;
-	}
-	else if (in_str[exp_data->i] == '\"')
-	{
-		;
-	}
+	if (in_str[exp_data->i] == '\'' && exp_data->quote_state == IN_DQUOTE)
+		append_str_with_char(exp_str, in_str[exp_data->i]);
+	if (in_str[exp_data->i] == '\"' && exp_data->quote_state == IN_SQUOTE)
+		append_str_with_char(exp_str, in_str[exp_data->i]);
 	else if (in_str[exp_data->i] == '$')
 	{
-		exp_data->state = READING_VAR_NAME;
-		exp_data->var_start_index = exp_data->i + 1;
+		if (exp_data->quote_state == IN_SQUOTE)
+			append_str_with_char(exp_str, in_str[exp_data->i]);
+		else
+		{
+			exp_data->state = READING_VAR_NAME;
+			exp_data->var_start_index = exp_data->i + 1;
+		}
 	}
-	else
+	if (in_str[exp_data->i] != '\0' && in_str[exp_data->i] != '\''
+			&& in_str[exp_data->i] != '\"' && in_str[exp_data->i] != '$')
 		append_str_with_char(exp_str, in_str[exp_data->i]);
 }
 
@@ -84,25 +75,21 @@ char	*create_expanded_str(char *in_str, t_node *env_node)
 	exp_data.state = SCANNING;
 	exp_data.i = 0;
 	exp_data.var_start_index = 0;
-	exp_str = malloc_expand_str(in_str, &exp_data, env_node);
-	while (in_str[exp_data.i] != '\0')
+	exp_str = malloc_expand_str(in_str, &exp_data, env_node);  // todo FREE
+	exp_data.quote_state = OUT_OF_QUOTES;
+	while (true)
 	{
 		if (exp_data.state == SCANNING)
 		{
 			exp_state_scanning(in_str, exp_str, &exp_data);
 		}
-		else if (exp_data.state == SQUOTE_SCANNING)
+		if (exp_data.state == READING_VAR_NAME)
 		{
-			exp_state_literal_scanning(in_str, exp_str, &exp_data);
-			// len += len_state_literal_scanning(in_str, &exp_data);
-		}
-		else if (exp_data.state == READING_VAR_NAME)
-		{
-			;
-			// len += len_state_reading_var_name(in_str, env_node, &exp_data);
+			;  // todo;
 		}
 		if (in_str[exp_data.i] == '\0')
 			break ;
+		update_quote_state(&exp_data, in_str[exp_data.i]);
 		(exp_data.i)++;
 	}
 	return (exp_str);

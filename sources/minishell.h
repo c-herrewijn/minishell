@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 15:16:15 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/16 16:56:03 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,32 @@ typedef enum e_token_type {
 
 /*
 Expander States:
-- SCANNING = 'normal' parsing of characters
-  - state changes to READING_VAR_NAME after $ char
-  - state changes to SQUOTE_SCANNING after single quote
-  - single and double quotes are stripped
-  - other chars, incl. blanks are printed
-- SQUOTE_SCANNING = inside single quotes
-  - state changes to SCANNING after closing single quote
+- SCANNING (default) = 'normal' parsing of characters
+  - state changes:
+    - after $: if quote state != IN_SQUOTE: expander state -> READING_VAR_NAME 
+  - creating expanded string:
+	- squotes are only added if quote state == IN_DQUOTE
+	- dquotes are only added if quote state == IN_SQUOTE
+	- dollar symbol are only added if quote state == IN_SQUOTE
+    - other chars, incl. blanks are always added
 - READING_VAR_NAME = $ has been read
-  - state changes to SCANNING after " or <blank> char
-  - state changes to SQUOTE_SCANNING after single quote
-  - after '\0', $, single quote, double quote, blank -> variable is expanded
-  - in case the $ char is directly followed by $, blank, or '\0' -> 
-      the $ char is literally printed
+  - state changes:
+  	- state changes to SCANNING after squote, dquotes, or <blank> char
+  - creating expanded string:
+    - after '\0', $, single quote, double quote, blank -> variable is expanded
+    - in case the $ char is directly followed by $, blank, or '\0' -> 
+        the $ char is literally printed
 */
 typedef enum e_expander_state {
 	SCANNING,
-	SQUOTE_SCANNING,
 	READING_VAR_NAME
 }	t_expander_state;
+
+typedef enum e_quote_state {
+	OUT_OF_QUOTES,
+	IN_SQUOTE,
+	IN_DQUOTE,
+}	t_quote_state;
 
 typedef enum e_builtin
 {
@@ -103,6 +110,7 @@ typedef struct s_redirection
 typedef struct s_expander_data
 {
 	t_expander_state	state;
+	t_quote_state		quote_state;
 	size_t				i;
 	size_t				var_start_index;
 }	t_expander_data;
@@ -245,6 +253,7 @@ size_t	len_blank(char *in_str, t_node *env_node,
 size_t	len_terminator(char *in_str, t_node *env_node,
 			t_expander_data *exp_data);
 char	*create_expanded_str(char *in_str, t_node *env_node);
+void	update_quote_state(t_expander_data *exp_data, char c);
 
 // heredoc
 int			add_heredoc(t_data *data, size_t command_nr);

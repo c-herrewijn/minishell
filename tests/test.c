@@ -116,30 +116,37 @@ void	test_expanded_str_len(void)
 	// no substitution / invalid substitution cases
 	char *str1 = "hello";
 	assert(expanded_str_len(str1, env_llist) == 5);
+	// printf("%s\n", str1);
+	// printf("%s\n", exp_str);
+	// printf("len: %zu\n", expanded_str_len(str1, env_llist));
+	
 	exp_str = create_expanded_str(str1, env_llist);
-	printf("%s\n", str1);
-	printf("%s\n", exp_str);
-	printf("len: %zu\n", expanded_str_len(str1, env_llist));
 	assert(ft_strlen(str1) == ft_strlen(exp_str));
 	assert(ft_strncmp(str1, exp_str, ft_strlen(str1)) == 0);
 
-	
 	char *str1b = "h'ell'o";
-	printf("len: %zu\n", expanded_str_len(str1b, env_llist));
-	assert(expanded_str_len(str1b, env_llist) == 7);
+	assert(expanded_str_len(str1b, env_llist) == 5);
 	
 	char *str1c = "'hell'o";
-	assert(expanded_str_len(str1c, env_llist) == 7);
+	assert(expanded_str_len(str1c, env_llist) == 5);
 	
 	char *str1d = "'hello'";
-	assert(expanded_str_len(str1d, env_llist) == 7);
+	assert(expanded_str_len(str1d, env_llist) == 5);
 	
 	char *str1e = "h'ello'";
-	assert(expanded_str_len(str1e, env_llist) == 7);
-
-
-
-
+	assert(expanded_str_len(str1e, env_llist) == 5);
+	
+	char *str1f = "\"h'ell'o\"";
+	assert(expanded_str_len(str1f, env_llist) == 7);
+	
+	char *str1g = "\"'hell'o\"";
+	assert(expanded_str_len(str1g, env_llist) == 7);
+	
+	char *str1h = "\"'hello'\"";
+	assert(expanded_str_len(str1h, env_llist) == 7);
+	
+	char *str1i = "\"h'ello'\"";
+	assert(expanded_str_len(str1i, env_llist) == 7);
 	
 	char *str2 = "$\"U\"SER";
 	assert(expanded_str_len(str2, env_llist) == 4);
@@ -203,9 +210,6 @@ void	test_expanded_str_len(void)
 	assert(expanded_str_len(str20, env_llist) == 9);
 	puts("testing expanded_str_len OK");
 }
-
-
-
 
 int main(void)
 {

@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 11:57:22 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 15:16:35 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/16 16:45:11 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 
 size_t	len_squote(char *in_str, t_node *env_node, t_expander_data *exp_data)
 {
-	exp_data->state = SQUOTE_SCANNING;
-	return (expander_var_len(in_str, exp_data, env_node));
+	exp_data->state = SCANNING;
+	if (exp_data->i != exp_data->var_start_index)
+	{
+		return (expander_var_len(in_str, exp_data, env_node));
+	}
+	return (0);
 }
 
 size_t	len_dquote(char *in_str, t_node *env_node, t_expander_data *exp_data)
@@ -51,7 +55,7 @@ size_t	len_dollar(char *in_str, t_node *env_node, t_expander_data *exp_data)
 // if blank is directly after $ sign -> literally print $ char
 size_t	len_blank(char *in_str, t_node *env_node, t_expander_data *exp_data)
 {
-	exp_data->state = SCANNING;
+	exp_data->state = SCANNING;	
 	if (exp_data->i == exp_data->var_start_index)
 		return (1);
 	else
