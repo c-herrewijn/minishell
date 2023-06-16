@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 17:09:22 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/16 18:31:23 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,9 @@ void	check_leaks(void)
 	system("leaks minishell");
 }
 
-// debug
-// atexit(check_leaks);
-// printf("data.str = %s\n", data.str);
-// print_tokens(&data);
-// print_commands(&data);
-int	main(int argc, char **argv, char **envp)
+//prob want to somehow split this up into smaller chunks
+void main_loop(t_data data)
 {
-	t_data	data;
-
-	signumber = 0;
-	init_data_struct(&data, argc, argv, envp);
-	if (list_create_env(&data.head, data) < 0)
-		free_and_exit_with_perror(&data, &data.head);
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
 	while (true)
 	{
 		data.str = readline("minishell$ ");
@@ -65,6 +53,23 @@ int	main(int argc, char **argv, char **envp)
 		store_final_exit_status(&data);
 		free_data(&data);
 	}
-	rl_clear_history();
+}
+
+// debug
+// atexit(check_leaks);
+// printf("data.str = %s\n", data.str);
+// print_tokens(&data);
+// print_commands(&data);
+int	main(int argc, char **argv, char **envp)
+{
+	t_data	data;
+
+	signumber = 0;
+	init_data_struct(&data, argc, argv, envp);
+	if (list_create_env(&data.head, data) < 0)
+		free_and_exit_with_perror(&data, &data.head);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	main_loop(data);
 	return (0);
 }
