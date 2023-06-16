@@ -8,14 +8,14 @@ SRC_DIR = sources
 SRCS = b_cd.c builtin_utils.c lexer_utils.c \
 b_echo.c check_for_builtin.c main.c b_export_utils.c \
 b_env.c create_env.c update_pwd_env.c update_oldpwd_env.c\
-b_exit.c debug_printing.c parser.c \
+b_exit.c debug_printing.c parser.c signalhandling.c \
 b_export.c lexer.c parser_create_command.c \
 b_pwd.c lexer_count_tokens.c parser_syntax_validation.c \
 b_unset.c lexer_create_tokens.c parser_free_commands.c \
 executer_redirections.c  heredoc.c command_utils.c \
 single_builtin.c expander.c main_utils.c index_in_env.c \
 executer.c executer_pipes.c executer_commands.c executer_utils.c \
-expander_length.c expander_variable_length.c signalhandling.c
+expander_length.c expander_variable_length.c expander_build_str.c
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
@@ -63,7 +63,7 @@ FUNCTION_SRCS = b_cd.c builtin_utils.c lexer_utils.c \
 		executer_redirections.c  heredoc.c command_utils.c \
 		single_builtin.c expander.c main_utils.c index_in_env.c \
 		executer.c executer_pipes.c executer_commands.c executer_utils.c \
-		expander_length.c expander_variable_length.c
+		expander_length.c expander_variable_length.c expander_build_str.c
 
 test: $(NAME)
 	@$(CC) -g $(FLAGS) $(addprefix tests/, $(TEST_SRCS)) $(addprefix sources/, $(FUNCTION_SRCS)) $(LIBFT_DIR)/$(LIBFTNAME) -o test.out

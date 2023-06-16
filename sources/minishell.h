@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 17:09:11 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/16 18:22:53 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,32 @@ typedef enum e_token_type {
 
 /*
 Expander States:
-- SCANNING = 'normal' parsing of characters
-  - state changes to READING_VAR_NAME after $ char
-  - state changes to LITERAL_SCANNING after single quote
-  - single and double quotes are stripped
-  - other chars, incl. blanks are printed
-- LITERAL_SCANNING = inside single quotes
-  - state changes to SCANNING after closing single quote
+- SCANNING (default) = 'normal' parsing of characters
+  - state changes:
+    - after $: if quote state != IN_SQUOTE: expander state -> READING_VAR_NAME 
+  - creating expanded string:
+	- squotes are only added if quote state == IN_DQUOTE
+	- dquotes are only added if quote state == IN_SQUOTE
+	- dollar symbol are only added if quote state == IN_SQUOTE
+    - other chars, incl. blanks are always added
 - READING_VAR_NAME = $ has been read
-  - state changes to SCANNING after " or <blank> char
-  - state changes to LITERAL_SCANNING after single quote
-  - after '\0', $, single quote, double quote, blank -> variable is expanded
-  - in case the $ char is directly followed by $, blank, or '\0' -> 
-      the $ char is literally printed
+  - state changes:
+  	- state changes to SCANNING after squote, dquotes, or <blank> char
+  - creating expanded string:
+    - after '\0', $, single quote, double quote, blank -> variable is expanded
+    - in case the $ char is directly followed by $, blank, or '\0' -> 
+        the $ char is literally printed
 */
 typedef enum e_expander_state {
 	SCANNING,
-	LITERAL_SCANNING,
 	READING_VAR_NAME
 }	t_expander_state;
+
+typedef enum e_quote_state {
+	OUT_OF_QUOTES,
+	IN_SQUOTE,
+	IN_DQUOTE,
+}	t_quote_state;
 
 typedef enum e_builtin
 {
@@ -105,6 +112,7 @@ typedef struct s_redirection
 typedef struct s_expander_data
 {
 	t_expander_state	state;
+	t_quote_state		quote_state;
 	size_t				i;
 	size_t				var_start_index;
 }	t_expander_data;
@@ -231,21 +239,23 @@ int			command_count_arguments(t_data *data, size_t command_nr);
 void		free_commands(t_data *data);
 
 // expander
-int			expander(t_data *data);
-size_t		expanded_str_len(char *in_str, t_node *env_node);
-void		store_final_exit_status(t_data *data);
-size_t		expander_var_len(char *in_str, t_expander_data *exp_data,
-				t_node *head);
-size_t		len_squote(char *in_str, t_node *env_node,
-				t_expander_data *exp_data);
-size_t		len_dquote(char *in_str, t_node *env_node,
-				t_expander_data *exp_data);
-size_t		len_dollar(char *in_str, t_node *env_node,
-				t_expander_data *exp_data);
-size_t		len_blank(char *in_str, t_node *env_node,
-				t_expander_data *exp_data);
-size_t		len_terminator(char *in_str, t_node *env_node,
-				t_expander_data *exp_data);
+int		expander(t_data *data);
+size_t	expanded_str_len(char *in_str, t_node *env_node);
+void	store_final_exit_status(t_data *data);
+size_t	expander_var_len(char *in_str, t_expander_data *exp_data,
+			t_node *head);
+size_t	len_squote(char *in_str, t_node *env_node,
+			t_expander_data *exp_data);
+size_t	len_dquote(char *in_str, t_node *env_node,
+			t_expander_data *exp_data);
+size_t	len_dollar(char *in_str, t_node *env_node,
+			t_expander_data *exp_data);
+size_t	len_blank(char *in_str, t_node *env_node,
+			t_expander_data *exp_data);
+size_t	len_terminator(char *in_str, t_node *env_node,
+			t_expander_data *exp_data);
+char	*create_expanded_str(char *in_str, t_node *env_node);
+void	update_quote_state(t_expander_data *exp_data, char c);
 
 // heredoc
 int			add_heredoc(t_data *data, size_t command_nr);
