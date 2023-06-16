@@ -108,14 +108,19 @@ void	test_expanded_str_len(void)
 	t_data		data;
 	extern char	**environ;
 	t_node		*env_llist;
+	char		*exp_str;
 
 	data.envp = environ;
 	list_create_env(&env_llist, data);
 
 	// no substitution / invalid substitution cases
 	char *str1 = "hello";
-	// printf("str1: %s\n", str1);
-	// printf("len: %zu\n", expanded_str_len(str1, env_llist));
+	printf("str1: %s\n", str1);
+	printf("len: %zu\n", expanded_str_len(str1, env_llist));
+
+	exp_str = create_expanded_str(str1, env_llist);
+	printf("exp_str: %s\n", exp_str);
+
 	assert(expanded_str_len(str1, env_llist) == 5);
 	
 	char *str2 = "$\"U\"SER";
@@ -180,6 +185,9 @@ void	test_expanded_str_len(void)
 	assert(expanded_str_len(str20, env_llist) == 9);
 	puts("testing expanded_str_len OK");
 }
+
+
+
 
 int main(void)
 {

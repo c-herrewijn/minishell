@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 14:28:40 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 11:48:30 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/16 14:09:28 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ char *get_value_from_env(t_node *env, char *key_str, size_t key_len)
 }
 
 
-size_t expander_var_len(char *in_str, t_expander_data *exp_data, t_node *head)
+size_t expander_var_len(char *in_str, t_expander_data *exp_data, t_node *env)
 {
 	size_t	key_len;
 	size_t	value_len;
 	char	*value;
 
 	key_len = exp_data->i - exp_data->var_start_index;
-	value = get_value_from_env(head, in_str + exp_data->i - key_len, key_len);
+	value = get_value_from_env(env, in_str + exp_data->i - key_len, key_len);
 	value_len = ft_strlen(value);
 	return (value_len);
 }
