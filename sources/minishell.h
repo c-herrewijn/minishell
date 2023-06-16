@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 12:20:38 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/16 17:09:11 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
+
+int signumber;
 
 typedef enum e_lexer_state {
 	DELIMITED,
@@ -288,5 +290,9 @@ void		free_data(t_data *data);
 void		free_and_exit_with_perror(t_data *data, t_node **head);
 void		init_data_struct(t_data *data, int argc, char **argv, char **envp);
 int			check_data_str(t_data *data);
+
+//signalhandling.c
+void		signal_handler(int signum);
+int			signumber_check(t_data *data);
 
 #endif

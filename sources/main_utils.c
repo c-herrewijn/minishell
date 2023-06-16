@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/15 13:52:14 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 18:29:26 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/16 14:08:57 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_data(t_data *data)
 void	free_and_exit_with_perror(t_data *data, t_node **head)
 {
 	free_data(data);
-	//rl_clear_history here i think
+	rl_clear_history();
 	list_clear(head);
 	perror(NULL);
 	exit(1);
@@ -55,7 +55,7 @@ int	check_data_str(t_data *data)
 	{
 		free_data(data);
 		write(STDOUT_FILENO, "exit\n", 5);
-		exit(0);
+		exit(1);
 	}
 	if (data->str[0] == '\0')
 	{
