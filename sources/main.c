@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 18:31:23 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/17 18:12:26 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,26 @@ void main_loop(t_data data)
 	}
 }
 
+/*
+increment shlvl, find node and change it, ft_atoi
+after some testing and googling, the cap of SHLVL is at 999
+
+* set to SHLVL=0
+	- lvl > INT_MIN && lvl < 0
+	- lvl doesnt exist
+* set to SHLVL=1
+	- lvl < INT_MIN || lvl > 999
+	- non whitespice infront of lvl
+	- non whitespice after last connected number
+* set to SHLVL=
+	- lvl is 999
+*/
+int	update_shlvl(t_node **head, t_data data)
+{
+	
+	return (0);
+}
+
 // debug
 // atexit(check_leaks);
 // printf("data.str = %s\n", data.str);
@@ -67,6 +87,8 @@ int	main(int argc, char **argv, char **envp)
 	signumber = 0;
 	init_data_struct(&data, argc, argv, envp);
 	if (list_create_env(&data.head, data) < 0)
+		free_and_exit_with_perror(&data, &data.head);
+	if (update_shlvl(&data.head, data) < 0)
 		free_and_exit_with_perror(&data, &data.head);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);

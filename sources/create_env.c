@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 17:53:35 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/12 17:40:32 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/17 17:59:48 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ int	list_append(t_node **head, char *str)
 	while (node->next != NULL)
 		node = node->next;
 	node->next = malloc(sizeof(t_node));
-	node->next->str = NULL;
 	if (node->next == NULL)
 		return (-1);
+	node->next->str = NULL;
 	node->next->str = str;
 	node->next->next = NULL;
 	return (0);

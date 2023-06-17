@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 18:22:53 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/17 16:57:46 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@
 # include <curses.h>
 # include <term.h>
 
+//this is the global i choose because
+//it needs to be able to update from the signalhandler
+//which can only take one parameter
 int signumber;
 
 typedef enum e_lexer_state {
