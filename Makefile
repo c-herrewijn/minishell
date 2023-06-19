@@ -9,7 +9,7 @@ SRCS = b_cd.c builtin_utils.c lexer_utils.c \
 b_echo.c check_for_builtin.c main.c b_export_utils.c \
 b_env.c create_env.c update_pwd_env.c update_oldpwd_env.c\
 b_exit.c debug_printing.c parser.c signalhandling.c \
-b_export.c lexer.c parser_create_command.c \
+b_export.c lexer.c parser_create_command.c update_shlvl.c \
 b_pwd.c lexer_count_tokens.c parser_syntax_validation.c \
 b_unset.c lexer_create_tokens.c parser_free_commands.c \
 executer_redirections.c  heredoc.c command_utils.c \
