@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 20:42:35 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/19 21:21:17 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/19 21:29:04 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@
 all good : ret start of num
 SHLVL needs to be set to 1 : ret 1
 */
-static int shlvl_check(char *str)
+static int	shlvl_check(char *str)
 {
-	int i;
-	int loc;
+	int	i;
+	int	loc;
 
 	loc = 0;
 	i = 0;
-	printf("DEBUG shlvl_check() : str : %s\n", str);	
 	if (str[i] == '\0')
 		return (-2);
 	while (str[i] != '\0' && ft_isspace(str[i]))
@@ -31,27 +30,23 @@ static int shlvl_check(char *str)
 	if (str[i] == '-' || str[i] == '+')
 		i++;
 	loc = i;
-	printf("DEBUG shlvl_check() : i : %d, str[i] : %c\n", i, str[i]);
 	if (!ft_isdigit(str[i]))
 		return (-2);
-	printf("DEBUG shlvl_check() : i : %d, str[i] : %c\n", i, str[i]);
 	while (str[i] != '\0' && ft_isdigit(str[i]))
 		i++;
-	while(str[i] != '\0')
+	while (str[i] != '\0')
 	{
 		if (!ft_isspace(str[i]))
 			return (-2);
 		i++;
 	}
-	printf("DEBUG shlvl_check() : i : %d, str[i] : %c\n", i, str[i]);
 	return (loc);
 }
 
-static int set_shlvl(t_node *node, char *val, bool to_free)
+static int	set_shlvl(t_node *node, char *val, bool to_free)
 {
-	char *str;
-	
-	printf("DEBUG set_shlvl() : val : %s\n", val);	
+	char	*str;
+
 	str = ft_strjoin("SHLVL=", val);
 	if (to_free == true)
 		free(val);
@@ -59,37 +54,36 @@ static int set_shlvl(t_node *node, char *val, bool to_free)
 		return (-1);
 	free(node->str);
 	node->str = str;
-	printf("DEBUG set_shlvl() : str : %s, node->str : %s\n", str, node->str);
 	return (0);
 }
 
-static int increment_shlvl(t_node *node, char *str, int loc)
+static int	increment_shlvl(t_node *node, char *str, int loc)
 {
-	long long n;
-	int i;
+	long long	n;
+	int			i;
 
 	n = 0;
 	i = loc;
-	while(str[i] != '\0' && ft_isdigit(str[i]))
+	while (str[i] != '\0' && ft_isdigit(str[i]))
 	{
 		n = n * 10;
 		n = n + (str[i] - '0');
 		i++;
 		if ((i - loc) > 12)
-			break;
+			break ;
 	}
 	if (loc == 0)
 		loc++;
-	if (str[loc-1] == '-')
+	if (str[loc - 1] == '-')
 		n = n * -1;
 	if (n > INT_MIN && n < 0)
-		return(set_shlvl(node, "0", false));
+		return (set_shlvl(node, "0", false));
 	if (n == 999)
-		return(set_shlvl(node, "", false));
+		return (set_shlvl(node, "", false));
 	if (n < INT_MIN || n == 0 || n > 999)
-		return(set_shlvl(node, "1", false));
+		return (set_shlvl(node, "1", false));
 	n = n + 1;
-	return(set_shlvl(node, ft_itoa(n), true));
+	return (set_shlvl(node, ft_itoa(n), true));
 }
 
 /*
@@ -117,7 +111,6 @@ int	update_shlvl(t_node **head, t_data data)
 	index = index_in_env("none", "SHLVL", head);
 	if (index == -1)
 	{
-		printf("DEBUG : NO SHLVL FOUND\n");	
 		str = ft_strjoin("SHLVL=", "1");
 		if (str == NULL)
 			return (-1);
@@ -128,12 +121,8 @@ int	update_shlvl(t_node **head, t_data data)
 	node = get_node_from_index(head, index);
 	ret = shlvl_check(node->str + ft_strlen("SHLVL="));
 	if (ret == -2)
-	{
-		printf("DEBUG : INVALID SHLVL, setting back to 1\n");	
-		return(set_shlvl(node, "1", false));
-	}
+		return (set_shlvl(node, "1", false));
 	if (increment_shlvl(node, node->str + ft_strlen("SHLVL="), ret) == -1)
 		return (-1);
-	printf("DEBUG : node->str : %s\n", node->str);
 	return (0);
 }
