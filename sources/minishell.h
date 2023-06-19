@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/17 16:57:46 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/19 20:45:38 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,5 +307,8 @@ int			check_data_str(t_data *data);
 //signalhandling.c
 void		signal_handler(int signum);
 int			signumber_check(t_data *data);
+
+//update_shlvl.c
+int	update_shlvl(t_node **head, t_data data);
 
 #endif
