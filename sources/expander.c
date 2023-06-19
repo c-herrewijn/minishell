@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 14:28:40 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 14:09:28 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/19 17:11:45 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,16 @@ char *get_value_from_env(t_node *env, char *key_str, size_t key_len)
 	return (NULL);
 }
 
-
+/*
+Input parameters:
+- in_str: string that contains (somewhere in the string) a $ sign followed by
+    an environmental variable keyword) 
+- exp_data: data struct with following attributes:
+  - exp_data->var_start_index: index of the start of the env variable name
+     (directly after the $ sign)
+  - exp_data->i: index of the character following the last character of the
+     variable name
+*/
 size_t expander_var_len(char *in_str, t_expander_data *exp_data, t_node *env)
 {
 	size_t	key_len;
@@ -52,7 +61,8 @@ size_t expander_var_len(char *in_str, t_expander_data *exp_data, t_node *env)
 	char	*value;
 
 	key_len = exp_data->i - exp_data->var_start_index;
-	value = get_value_from_env(env, in_str + exp_data->i - key_len, key_len);
+	value = get_value_from_env(env, in_str + exp_data->var_start_index,
+				key_len);
 	value_len = ft_strlen(value);
 	return (value_len);
 }
