@@ -27,7 +27,6 @@ void	test_count_tokens(void)
 void	test_create_tokens(void)
 {
 	t_data	data;
-	char	*token_str;
 
 	data.token_arr = malloc(100 * sizeof(t_token));
 	

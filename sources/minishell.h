@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/19 20:45:38 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/19 21:32:14 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ Expander States:
     - other chars, incl. blanks are always added
 - READING_VAR_NAME = $ has been read
   - state changes:
-  	- state changes to SCANNING after squote, dquotes, or <blank> char
+  	- state changes back to SCANNING after squote, dquote, or <blank> char
   - creating expanded string:
     - after '\0', $, single quote, double quote, blank -> variable is expanded
     - in case the $ char is directly followed by $, blank, or '\0' -> 
