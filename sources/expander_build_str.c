@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 13:19:14 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 17:16:39 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/19 22:28:20 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,17 @@ void exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
 		append_str_with_char(exp_str, in_str[exp_data->i]);
 }
 
-// todo: check: can in_str be NULL?
 char *malloc_expand_str(char *in_str, t_expander_data *exp_data, t_node *env_node)
 {
+	// todo: check: can in_str be NULL?
 	size_t	expanded_len;
 	char	*expanded_str;
 
 	expanded_len = expanded_str_len(in_str, env_node);
-	expanded_str = malloc((expanded_len + 1) * sizeof(char));
+	expanded_str = malloc((expanded_len + 1) * sizeof(char));	// TODO: free malloc / error handling
 	if (expanded_str == NULL)
 		return (NULL);
+	expanded_str[0] = '\0';
 	return (expanded_str);
 }
 
@@ -75,8 +76,8 @@ char	*create_expanded_str(char *in_str, t_node *env_node)
 	exp_data.state = SCANNING;
 	exp_data.i = 0;
 	exp_data.var_start_index = 0;
-	exp_str = malloc_expand_str(in_str, &exp_data, env_node);  // todo FREE
 	exp_data.quote_state = OUT_OF_QUOTES;
+	exp_str = malloc_expand_str(in_str, &exp_data, env_node);  // todo FREE
 	while (true)
 	{
 		if (exp_data.state == SCANNING)
