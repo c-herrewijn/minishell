@@ -2,6 +2,12 @@
 #include "../sources/minishell.h"
 #include <assert.h>
 
+// static void	str_new_value(char **str_loc, char *new_str)
+// {
+// 	free(*str_loc);
+// 	*str_loc = new_str;
+// }
+
 void	test_count_tokens(void)
 {
 	assert(count_tokens("cat infile") == 2);
@@ -112,40 +118,16 @@ void	test_expanded_str_len(void)
 	data.envp = environ;
 	list_create_env(&env_llist, data);
 
-	// no substitution / invalid substitution cases
-	char *str1 = "hello";
-	assert(expanded_str_len(str1, env_llist) == 5);
 	// printf("%s\n", str1);
 	// printf("%s\n", exp_str);
 	// printf("len: %zu\n", expanded_str_len(str1, env_llist));
 	
+	// no substitution / invalid substitution cases
+	char *str1 = "hello";
 	exp_str = create_expanded_str(str1, env_llist);
-	assert(ft_strlen(str1) == ft_strlen(exp_str));
+	assert(expanded_str_len(str1, env_llist) == 5);
 	assert(ft_strncmp(str1, exp_str, ft_strlen(str1)) == 0);
-
-	char *str1b = "h'ell'o";
-	assert(expanded_str_len(str1b, env_llist) == 5);
-	
-	char *str1c = "'hell'o";
-	assert(expanded_str_len(str1c, env_llist) == 5);
-	
-	char *str1d = "'hello'";
-	assert(expanded_str_len(str1d, env_llist) == 5);
-	
-	char *str1e = "h'ello'";
-	assert(expanded_str_len(str1e, env_llist) == 5);
-	
-	char *str1f = "\"h'ell'o\"";
-	assert(expanded_str_len(str1f, env_llist) == 7);
-	
-	char *str1g = "\"'hell'o\"";
-	assert(expanded_str_len(str1g, env_llist) == 7);
-	
-	char *str1h = "\"'hello'\"";
-	assert(expanded_str_len(str1h, env_llist) == 7);
-	
-	char *str1i = "\"h'ello'\"";
-	assert(expanded_str_len(str1i, env_llist) == 7);
+	free(exp_str);
 	
 	char *str2 = "$\"U\"SER";
 	assert(expanded_str_len(str2, env_llist) == 4);
@@ -168,7 +150,63 @@ void	test_expanded_str_len(void)
 	char *str7 = "USER \"test\"";
 	assert(expanded_str_len(str7, env_llist) == 9);
 
-	// regular cases
+
+	// quote removal cases
+	char *str1a = "\"h'ello\"";
+	exp_str = create_expanded_str(str1a, env_llist);
+	assert(ft_strlen(exp_str) == 6);
+	assert(ft_strncmp("h'ello", exp_str, ft_strlen(exp_str)) == 0);
+	free(exp_str);
+
+	char *str1b = "h'ell'o";
+	exp_str = create_expanded_str(str1b, env_llist);
+	assert(ft_strlen(exp_str) == 5);
+	assert(ft_strncmp("hello", exp_str, ft_strlen(exp_str)) == 0);
+	free(exp_str);
+	
+	char *str1c = "'hell'o";
+	exp_str = create_expanded_str(str1c, env_llist);
+	assert(ft_strlen(exp_str) == 5);
+	assert(ft_strncmp("hello", exp_str, ft_strlen(exp_str)) == 0);
+	free(exp_str);
+	
+	char *str1d = "'hello'";
+	exp_str = create_expanded_str(str1d, env_llist);
+	assert(ft_strlen(exp_str) == 5);
+	assert(ft_strncmp("hello", exp_str, ft_strlen(exp_str)) == 0);
+	free(exp_str);
+	
+	char *str1e = "h'ello'";
+	exp_str = create_expanded_str(str1e, env_llist);
+	assert(ft_strlen(exp_str) == 5);
+	assert(ft_strncmp("hello", exp_str, ft_strlen(exp_str)) == 0);
+	free(exp_str);
+	
+	char *str1f = "\"h'ell'o\"";
+	exp_str = create_expanded_str(str1f, env_llist);
+	assert(ft_strlen(exp_str) == 7);
+	assert(ft_strncmp("h'ell'o", exp_str, ft_strlen(exp_str)) == 0);
+	free(exp_str);
+	
+	char *str1g = "\"'hell'o\"";
+	exp_str = create_expanded_str(str1g, env_llist);
+	assert(ft_strlen(exp_str) == 7);
+	assert(ft_strncmp("'hell'o", exp_str, ft_strlen(exp_str)) == 0);
+	free(exp_str);
+	
+	char *str1h = "\"'hello'\"";
+	exp_str = create_expanded_str(str1h, env_llist);
+	assert(ft_strlen(exp_str) == 7);
+	assert(ft_strncmp("'hello'", exp_str, ft_strlen(exp_str)) == 0);
+	free(exp_str);
+	
+	char *str1i = "\"h'ello'\"";
+	exp_str = create_expanded_str(str1i, env_llist);
+	assert(ft_strlen(exp_str) == 7);
+	assert(ft_strncmp("h'ello'", exp_str, ft_strlen(exp_str)) == 0);
+	free(exp_str);
+
+	// variable expansion cases
 	char *str10 = "$USER";
 	assert(expanded_str_len(str10, env_llist) == 8);
 	
