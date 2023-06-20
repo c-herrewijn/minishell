@@ -248,11 +248,70 @@ void	test_expanded_str_len(void)
 	puts("testing expanded_str_len OK");
 }
 
+void test_cd_pwd(void)
+{
+	//mkdir testyep
+	//cd testyep
+	//rm -rf ../testyep
+
+}
+
+void test_env_export_unset(void)
+{
+
+}
+
+void test_echo(void) //run the executioner from bash when using system
+{
+	t_data		data;
+	extern char	**environ;
+	t_node		*env_llist;
+
+	data.envp = environ;
+	list_create_env(&env_llist, data);
+	int argc = 4;
+	char *argv[] = {"echo", "-nnnnnnnnn", "-nnnbnn", "testyep"};
+	assert(b_echo(argc, argv) == 0);
+	// system("echo -nnnnnnnnn -nnnbnn testyep");
+	printf("\n");
+	int pid = fork();
+	if(pid == 0)
+	{
+		char *cmd = "/bin/echo";
+		char *args[] = {"echo -nnnnnnnnn", "-nnnbnn", "testyep", NULL};
+		execve(cmd, args, NULL);
+		_exit(1);
+	}
+	/*
+	---updates infile
+	$>echo -n yep > infile
+
+	---does not update infile
+	/Users/kkroon/codam/minishell % ./minishell
+	minishell$ echo -n ok > infile
+	okminishell$
+	*/
+}
+
+void test_exit(void)
+{
+	//exits cleanly
+	//correct exit status?
+}
+
+void test_random(void)
+{
+	//maybe like shlvl and stuff
+	//test awk
+	//test executer
+}
+
 int main(void)
 {
 	test_count_tokens();
 	test_create_tokens();
 	test_syntax_validation();
 	test_expanded_str_len();
+	// test_echo();
 	exit(0);
 }
