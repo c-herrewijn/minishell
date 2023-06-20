@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/15 18:15:43 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/20 15:05:43 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ returns
 1 for normal name=value syntax
 2 for concat name+=value syntax
 */
-int	b_export_allowed_format(int argc, char **argv)
+int	b_export_allowed_format(char **argv)
 {
 	int	i;
 	int	equals;

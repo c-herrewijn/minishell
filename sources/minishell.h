@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 12:37:28 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 15:10:51 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,11 +175,10 @@ void		b_exit(char *exit_status);
 bool		empty_list_add(t_node **head, char *str);
 char		*remove_plus(char *str);
 int			b_export_concat_inplace(char *str, t_node **head, int spot);
-int			concat_helper(int argc, char **argv, t_node **head,
-				char *without_plus);
+int			concat_helper(char **argv, t_node **head, char *without_plus);
 
 //b_export.c
-int			b_export_concat(int argc, char **argv, t_node **head);
+int			b_export_concat(char **argv, t_node **head);
 int			b_export(int argc, char **argv, t_node **head);
 int			execute_export(t_node **head, t_data *data, size_t i);
 
@@ -202,7 +201,7 @@ int			index_in_env(char *prefix, char *str_to_find, t_node **head);
 
 //check_for_builtin.c
 int			index_of_c_in_str(char *str, char c);
-int			b_export_allowed_format(int argc, char **argv);
+int			b_export_allowed_format(char **argv);
 t_builtin	check_if_builtin(char *str);
 
 //create_env.c
@@ -221,7 +220,7 @@ void		print_tokens(t_data *data);
 char		*tokens_to_string(t_data *data);
 void		print_commands(t_data *data);
 void		unset_all(t_node **head);
-void		debug_env_etc(char *str, t_node **head, t_data *data);
+void		debug_env_etc(char *str, t_node **head);
 
 // lexer
 int			lexer(t_data *data);
@@ -317,6 +316,6 @@ void		signal_handler(int signum);
 int			signumber_check(t_data *data);
 
 //update_shlvl.c
-int	update_shlvl(t_node **head, t_data data);
+int	update_shlvl(t_node **head);
 
 #endif

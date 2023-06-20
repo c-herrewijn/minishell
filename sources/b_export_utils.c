@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 20:47:48 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/15 15:10:18 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/20 15:07:10 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	b_export_concat_inplace(char *str, t_node **head, int spot)
 	return (0);
 }
 
-int	concat_helper(int argc, char **argv, t_node **head, char *without_plus)
+int	concat_helper(char **argv, t_node **head, char *without_plus)
 {
 	int	spot;
 

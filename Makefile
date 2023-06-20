@@ -1,6 +1,7 @@
 NAME = minishell
 
 IFLAGS = -Iinclude -I$(LIBFT_DIR) -I$(shell brew --prefix readline)/include
+# CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 CFLAGS = -Wall -g -fsanitize=address
 LFLAGS = -Llibft -lft -lreadline -lhistory -L$(shell brew --prefix readline)/lib
 

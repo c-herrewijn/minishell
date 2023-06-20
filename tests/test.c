@@ -335,9 +335,10 @@ void test_random(void)
 
 int main(void)
 {
-	test_count_tokens();
-	test_create_tokens();
-	test_syntax_validation();
-	test_expander();
+	// test_count_tokens();
+	// test_create_tokens();
+	// test_syntax_validation();
+	// test_expander();
+	test_echo();
 	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:26:47 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/15 18:13:37 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/20 15:07:49 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //if in, concat inplace
 //if not in, append to the env linked list
-int	b_export_concat(int argc, char **argv, t_node **head)
+int	b_export_concat(char **argv, t_node **head)
 {
 	char	*without_plus;
 
@@ -23,7 +23,7 @@ int	b_export_concat(int argc, char **argv, t_node **head)
 		return (-1);
 	if (empty_list_add(head, without_plus) == true)
 		return (0);
-	if (concat_helper(argc, argv, head, without_plus) == -1)
+	if (concat_helper(argv, head, without_plus) == -1)
 		return (-1);
 	return (0);
 }
@@ -60,7 +60,7 @@ int	execute_export(t_node **head, t_data *data, size_t i)
 
 	ret = 0;
 	argv = data->command_arr[i].argv;
-	export_format = b_export_allowed_format(data->command_arr[i].argc, argv);
+	export_format = b_export_allowed_format(argv);
 	if (export_format < 0)
 	{
 		write(2, "export: `", 9);
@@ -74,6 +74,6 @@ int	execute_export(t_node **head, t_data *data, size_t i)
 	if (export_format == 1)
 		ret = b_export(data->command_arr[i].argc, argv, head);
 	else if (export_format == 2)
-		ret = b_export_concat(data->command_arr[i].argc, argv, head);
+		ret = b_export_concat(argv, head);
 	return (ret);
 }

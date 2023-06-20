@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 20:42:35 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/19 21:29:04 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/20 15:10:44 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ after some testing and googling, the cap of SHLVL is at 999
 * set to SHLVL=
 	- value is 999
 */
-int	update_shlvl(t_node **head, t_data data)
+int	update_shlvl(t_node **head)
 {
 	t_node	*node;
 	int		index;

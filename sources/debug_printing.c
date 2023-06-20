@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/15 16:58:24 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/20 15:10:05 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void print_2d_array(char **s)
 
 void	print_tokens(t_data *data)
 {
-	int				i;
+	size_t			i;
 	t_token_type	type;
 
 	i = 0;
@@ -232,7 +232,7 @@ void	unset_all(t_node **head)
 	}
 }
 
-void debug_env_etc(char *str, t_node **head, t_data *data)
+void debug_env_etc(char *str, t_node **head)
 {
 	// for (int x = 0; x < data->nr_commands; x++)
 	// 	for (int y = 0; data->command_arr[x].argv[y] != NULL; y++)
