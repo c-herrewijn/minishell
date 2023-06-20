@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/19 20:49:39 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/20 13:25:57 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void main_loop(t_data data)
 			free_and_exit_with_perror(&data, &data.head);
 		if (signumber_check(&data) == 1)
 			continue;
-		// if (expander(&data) < 0)
-		// 	free_and_exit_with_perror(&data, &data.head);
+		if (expander(&data) < 0)
+			free_and_exit_with_perror(&data, &data.head);
 		debug_env_etc(data.str, &data.head, &data);
 		if (data.nr_commands == 1 && data.command_arr[0].argc > 0 
 				&& check_if_builtin(data.command_arr[0].argv[0]) != NOT_BUILTIN)
