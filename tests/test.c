@@ -302,6 +302,46 @@ void	test_expander(void)
 	assert(expanded_str_len(str24, env_llist) == 12);
 	assert(ft_strncmp("aacherrewi+\n", exp_str, 12) == 0);	
 
+	// $? case
+	data.previous_exit_status = 42;
+
+	char *str25 = "$?";
+	exp_str = create_expanded_str(str25, env_llist);
+	assert(expanded_str_len(str25, env_llist) == 1);
+	assert(ft_strncmp("42", exp_str, 2) == 0);	
+	
+	char *str26 = "$USER?";
+	exp_str = create_expanded_str(str26, env_llist);
+	assert(expanded_str_len(str26, env_llist) == 9);
+	assert(ft_strncmp("cherrewi?", exp_str, 9) == 0);	
+	
+	char *str27 = "$?$USER";
+	exp_str = create_expanded_str(str27, env_llist);
+	assert(expanded_str_len(str27, env_llist) == 10);
+	assert(ft_strncmp("42cherrewi", exp_str, 10) == 0);	
+
+	char *str28 = "aa$?bb";
+	exp_str = create_expanded_str(str28, env_llist);
+	assert(expanded_str_len(str28, env_llist) == 6);
+	assert(ft_strncmp("aa42bb", exp_str, 6) == 0);	
+
+	char *str29 = "aa$?\n";
+	exp_str = create_expanded_str(str29, env_llist);
+	assert(expanded_str_len(str29, env_llist) == 5);
+	assert(ft_strncmp("aa42\n", exp_str, 5) == 0);	
+
+	data.previous_exit_status = 0;
+	char *str29b = "aa$?\n";
+	exp_str = create_expanded_str(str29b, env_llist);
+	assert(expanded_str_len(str29b, env_llist) == 5);
+	assert(ft_strncmp("aa0\n", exp_str, 4) == 0);	
+
+	data.previous_exit_status = 127;
+	char *str29c = "aa$?\n";
+	exp_str = create_expanded_str(str29c, env_llist);
+	assert(expanded_str_len(str29c, env_llist) == 5);
+	assert(ft_strncmp("aa127\n", exp_str, 6) == 0);	
+
 	puts("testing expander OK");
 }
 
@@ -310,7 +350,6 @@ void test_cd_pwd(void)
 	//mkdir testyep
 	//cd testyep
 	//rm -rf ../testyep
-
 }
 
 void test_env_export_unset(void)
