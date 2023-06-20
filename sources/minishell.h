@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 15:10:51 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/20 17:31:34 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,7 +252,7 @@ size_t	len_dquote(char *in_str, t_node *env_node,
 			t_expander_data *exp_data);
 size_t	len_dollar(char *in_str, t_node *env_node,
 			t_expander_data *exp_data);
-size_t	len_blank(char *in_str, t_node *env_node,
+size_t	len_var_non_valid_char(char *in_str, t_node *env_node,
 			t_expander_data *exp_data);
 size_t	len_terminator(char *in_str, t_node *env_node,
 			t_expander_data *exp_data);
@@ -262,7 +262,7 @@ void	append_variable(char *in_str, char *exp_str, t_node *env_node, t_expander_d
 void	exp_var_squote(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
 void	exp_var_dquote(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
 void	exp_var_dollar(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
-void	exp_var_blank(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
+void	exp_var_non_valid_char(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
 void	exp_var_terminator(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
 void	append_str_with_char(char *str, char c);
 char	*get_value_from_env(t_node *env, char *key_str, size_t key_len);
@@ -270,6 +270,7 @@ char	*get_value_from_env(t_node *env, char *key_str, size_t key_len);
 // heredoc
 int			add_heredoc(t_data *data, size_t command_nr);
 bool		command_has_heredoc(t_data *data, size_t command_nr);
+int			expand_here_str(char **here_str, t_node *env);
 
 // executer.c
 int			wait_for_child_processes(t_data *data);

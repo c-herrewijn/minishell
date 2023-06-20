@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/20 11:25:02 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 12:02:41 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 20:01:23 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,19 @@ void	exp_var_dollar(char *in_str, char *exp_str, t_node *env_node, t_expander_da
 }
 
 // if blank is directly after $ sign -> literally print $ char
-void	exp_var_blank(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data)
+void	exp_var_non_valid_char(char *in_str, char *exp_str, t_node *env_node,
+	t_expander_data *exp_data)
 {
 	exp_data->state = SCANNING;	
 	if (exp_data->i == exp_data->var_start_index)
+	{
 		append_str_with_char(exp_str, '$');
+		append_str_with_char(exp_str, in_str[exp_data->i]);
+	}
 	else
 	{
 		append_variable(in_str, exp_str, env_node, exp_data);
-		append_str_with_char(exp_str, ' ');  // adding space, but blank can also be tab!?
+		append_str_with_char(exp_str, in_str[exp_data->i]);
 	}
 }
 

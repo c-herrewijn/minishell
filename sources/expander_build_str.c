@@ -6,12 +6,11 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 13:19:14 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 12:36:19 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 20:03:24 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 // NOTE: unprotected string append!!
 // enough space should be malloced so the char can be appended
@@ -49,10 +48,10 @@ void exp_state_reading_var_name(char *in_str, char *exp_str, t_expander_data *ex
 		exp_var_dquote(in_str, exp_str, env_node, exp_data);
 	else if (in_str[exp_data->i] == '$')
 		exp_var_dollar(in_str, exp_str, env_node, exp_data);
-	else if (ft_isblank(in_str[exp_data->i]))
-		exp_var_blank(in_str, exp_str, env_node, exp_data);
 	else if (in_str[exp_data->i] == '\0')
 		exp_var_terminator(in_str, exp_str, env_node, exp_data);
+	else if (!ft_isalnum(in_str[exp_data->i]) && in_str[exp_data->i] != '_')
+		exp_var_non_valid_char(in_str, exp_str, env_node, exp_data);
 }
 
 void exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)

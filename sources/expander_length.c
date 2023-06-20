@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/15 16:51:21 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 17:12:11 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 20:03:49 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ size_t	len_state_reading_var_name(char *in_str, t_node *env_node,
 		return (len_dquote(in_str, env_node, exp_data));
 	else if (in_str[exp_data->i] == '$')
 		return (len_dollar(in_str, env_node, exp_data));
-	else if (ft_isblank(in_str[exp_data->i]))
-		return (len_blank(in_str, env_node, exp_data));
 	else if (in_str[exp_data->i] == '\0')
 		return (len_terminator(in_str, env_node, exp_data));
+	else if (!ft_isalnum(in_str[exp_data->i]) && in_str[exp_data->i] != '_')
+		return (len_var_non_valid_char(in_str, env_node, exp_data));
 	return (0);
 }
 

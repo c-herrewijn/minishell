@@ -231,6 +231,11 @@ void	test_expander(void)
 	assert(expanded_str_len(str12, env_llist) == 17);
 	exp_str = create_expanded_str(str12, env_llist);
 	assert(ft_strncmp("USERcherrewi test", exp_str, 17) == 0);	
+
+	char *str12a = "USER\"$USER\ttest\"";
+	assert(expanded_str_len(str12a, env_llist) == 17);
+	exp_str = create_expanded_str(str12a, env_llist);
+	assert(ft_strncmp("USERcherrewi\ttest", exp_str, 17) == 0);	
 	
 	char *str13 = "$USER'$test'";
 	assert(expanded_str_len(str13, env_llist) == 13);
@@ -272,7 +277,32 @@ void	test_expander(void)
 	assert(expanded_str_len(str20, env_llist) == 9);
 	assert(ft_strncmp("$cherrewi", exp_str, 9) == 0);	
 	
-	puts("testing expanded_str_len OK");
+	// heredoc cases, ending with newline
+	
+	char *str21 = "aa$USER\n";
+	exp_str = create_expanded_str(str21, env_llist);
+	printf("%s\n", str21);
+	printf("%s\n", exp_str);
+	printf("len: %zu\n", expanded_str_len(str21, env_llist));
+	assert(expanded_str_len(str21, env_llist) == 11);
+	assert(ft_strncmp("aacherrewi\n", exp_str, 11) == 0);	
+	
+	char *str22 = "aa$USER$\n";
+	exp_str = create_expanded_str(str22, env_llist);
+	assert(expanded_str_len(str22, env_llist) == 12);
+	assert(ft_strncmp("aacherrewi$\n", exp_str, 12) == 0);	
+	
+	char *str23 = "aa$USER \n";
+	exp_str = create_expanded_str(str23, env_llist);
+	assert(expanded_str_len(str23, env_llist) == 12);
+	assert(ft_strncmp("aacherrewi \n", exp_str, 12) == 0);	
+	
+	char *str24 = "aa$USER+\n";
+	exp_str = create_expanded_str(str24, env_llist);
+	assert(expanded_str_len(str24, env_llist) == 12);
+	assert(ft_strncmp("aacherrewi+\n", exp_str, 12) == 0);	
+
+	puts("testing expander OK");
 }
 
 void test_cd_pwd(void)
@@ -335,10 +365,10 @@ void test_random(void)
 
 int main(void)
 {
-	// test_count_tokens();
-	// test_create_tokens();
-	// test_syntax_validation();
-	// test_expander();
-	test_echo();
+	test_count_tokens();
+	test_create_tokens();
+	test_syntax_validation();
+	test_expander();
+	// test_echo();
 	exit(0);
 }
