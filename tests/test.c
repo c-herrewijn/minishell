@@ -108,7 +108,7 @@ void	test_syntax_validation(void)
 }
 
 // USER=cherrewi
-void	test_expanded_str_len(void)
+void	test_expander(void)
 {
 	t_data		data;
 	extern char	**environ;
@@ -208,43 +208,70 @@ void	test_expanded_str_len(void)
 
 	// variable expansion cases
 	char *str10 = "$USER";
+	exp_str = create_expanded_str(str10, env_llist);
 	assert(expanded_str_len(str10, env_llist) == 8);
+	assert(ft_strncmp("cherrewi", exp_str, 8) == 0);
 	
 	char *str10a = "$USE";
+	exp_str = create_expanded_str(str10a, env_llist);
 	assert(expanded_str_len(str10a, env_llist) == 0);
+	assert(exp_str[0] == '\0');
 	
 	char *str10b = "a$USE";
+	exp_str = create_expanded_str(str10b, env_llist);
 	assert(expanded_str_len(str10b, env_llist) == 1);
+	assert(ft_strncmp("a", exp_str, 1) == 0);
 
 	char *str11 = "USER\"test$USER\"";
+	exp_str = create_expanded_str(str11, env_llist);
 	assert(expanded_str_len(str11, env_llist) == 16);
+	assert(ft_strncmp("USERtestcherrewi", exp_str, 16) == 0);	
 
 	char *str12 = "USER\"$USER test\"";
 	assert(expanded_str_len(str12, env_llist) == 17);
+	exp_str = create_expanded_str(str12, env_llist);
+	assert(ft_strncmp("USERcherrewi test", exp_str, 17) == 0);	
 	
 	char *str13 = "$USER'$test'";
 	assert(expanded_str_len(str13, env_llist) == 13);
+	exp_str = create_expanded_str(str13, env_llist);
+	assert(ft_strncmp("cherrewi$test", exp_str, 13) == 0);	
 
 	char *str14 = "USER$USER\"test$USER\"";	// 24
+	exp_str = create_expanded_str(str14, env_llist);
 	assert(expanded_str_len(str14, env_llist) == 24);
+	assert(ft_strncmp("USERcherrewitestcherrewi", exp_str, 24) == 0);	
 	
 	char *str15 = "$USERUSER\"test$USER\"";	// 12
+	exp_str = create_expanded_str(str15, env_llist);
 	assert(expanded_str_len(str15, env_llist) == 12);
+	assert(ft_strncmp("testcherrewi", exp_str, 12) == 0);	
 	
 	char *str16 = "'$USER'USER$USER\"test$USER\""; //29
+	exp_str = create_expanded_str(str16, env_llist);
 	assert(expanded_str_len(str16, env_llist) == 29);
+	assert(ft_strncmp("$USERUSERcherrewitestcherrewi", exp_str, 29) == 0);	
 	
 	char *str17 = "bb$USER"; //10
+	exp_str = create_expanded_str(str17, env_llist);
 	assert(expanded_str_len(str17, env_llist) == 10);
+	assert(ft_strncmp("bbcherrewi", exp_str, 10) == 0);	
 	
 	char *str18 = "$USER$USER"; //16
+	exp_str = create_expanded_str(str18, env_llist);
 	assert(expanded_str_len(str18, env_llist) == 16);
+	assert(ft_strncmp("cherrewicherrewi", exp_str, 16) == 0);	
 	
 	char *str19 = "$USER$"; //9
+	exp_str = create_expanded_str(str19, env_llist);
 	assert(expanded_str_len(str19, env_llist) == 9);
+	assert(ft_strncmp("cherrewi$", exp_str, 9) == 0);	
 
 	char *str20 = "$$USER"; //9  NOTE this is different from bash, because bash has special purpose for '$$'
+	exp_str = create_expanded_str(str20, env_llist);
 	assert(expanded_str_len(str20, env_llist) == 9);
+	assert(ft_strncmp("$cherrewi", exp_str, 9) == 0);	
+	
 	puts("testing expanded_str_len OK");
 }
 
@@ -311,7 +338,6 @@ int main(void)
 	test_count_tokens();
 	test_create_tokens();
 	test_syntax_validation();
-	test_expanded_str_len();
-	// test_echo();
+	test_expander();
 	exit(0);
 }

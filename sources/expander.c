@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 14:28:40 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/19 17:11:45 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 13:45:11 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,40 @@ size_t expander_var_len(char *in_str, t_expander_data *exp_data, t_node *env)
 
 int	expander(t_data *data)
 {
-	if (data == NULL)  // dummy
-		return (-1);  // dummy
-	
+	size_t 	i;
+	size_t 	j;
+	char	*exp_str;
+
+	i = 0;
+	while (i < data->nr_commands)
+	{
+		j = 0;
+		while (j < data->command_arr[i].argc)
+		{
+			exp_str = create_expanded_str(data->command_arr[i].argv[j], data->head);
+			if (exp_str == NULL)
+				return (-1);
+			free (data->command_arr[i].argv[j]);
+			data->command_arr[i].argv[j] = exp_str;
+			j++;
+		}
+		j = 0;
+		while (data->command_arr[i].redirections[j] != NULL)
+		{
+			if (data->command_arr[i].redirections[j]->redirection_type != HEREDOC)	// todo: remove quotes from heredoc delimiter
+			{
+				exp_str = create_expanded_str(data->command_arr[i].argv[j], data->head);
+				if (exp_str == NULL)
+					return (-1);
+				free (data->command_arr[i].redirections[j]->word);
+				data->command_arr[i].redirections[j]->word = exp_str;
+			}
+			j++;
+		}
+		i++;
+	}
 	return (0);
 }
-
 
 // NOTE: if no command is executed (e.g. empty line), the exit status of the
 //   previous command remains in memory
