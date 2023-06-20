@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 17:31:34 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 21:29:03 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,7 @@ void		free_commands(t_data *data);
 
 // expander
 int		expander(t_data *data);
-size_t	expanded_str_len(char *in_str, t_node *env_node);
+size_t	expanded_str_len(char *in_str, t_node *env_node, t_data *data);
 void	store_final_exit_status(t_data *data);
 size_t	expander_var_len(char *in_str, t_expander_data *exp_data,
 			t_node *head);
@@ -256,7 +256,9 @@ size_t	len_var_non_valid_char(char *in_str, t_node *env_node,
 			t_expander_data *exp_data);
 size_t	len_terminator(char *in_str, t_node *env_node,
 			t_expander_data *exp_data);
-char	*create_expanded_str(char *in_str, t_node *env_node);
+size_t	len_exit_status(char *in_str, t_node *env_node,
+			t_expander_data *exp_data, t_data *data);
+char	*create_expanded_str(char *in_str, t_node *env_node, t_data *data);
 void	update_quote_state(t_expander_data *exp_data, char c);
 void	append_variable(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
 void	exp_var_squote(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
@@ -270,7 +272,7 @@ char	*get_value_from_env(t_node *env, char *key_str, size_t key_len);
 // heredoc
 int			add_heredoc(t_data *data, size_t command_nr);
 bool		command_has_heredoc(t_data *data, size_t command_nr);
-int			expand_here_str(char **here_str, t_node *env);
+int			expand_here_str(char **here_str, t_node *env, t_data *data);
 
 // executer.c
 int			wait_for_child_processes(t_data *data);

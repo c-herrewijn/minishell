@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 14:28:40 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 16:24:51 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 21:24:42 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	expander(t_data *data)
 		j = 0;
 		while (j < data->command_arr[i].argc)
 		{
-			exp_str = create_expanded_str(data->command_arr[i].argv[j], data->head);
+			exp_str = create_expanded_str(data->command_arr[i].argv[j], data->head, data);
 			if (exp_str == NULL)
 				return (-1);
 			free (data->command_arr[i].argv[j]);
@@ -91,7 +91,7 @@ int	expander(t_data *data)
 		{
 			if (data->command_arr[i].redirections[j]->redirection_type != HEREDOC)	// todo: remove quotes from heredoc delimiter
 			{
-				exp_str = create_expanded_str(data->command_arr[i].redirections[j]->word, data->head);
+				exp_str = create_expanded_str(data->command_arr[i].redirections[j]->word, data->head, data);
 				if (exp_str == NULL)
 					return (-1);
 				free (data->command_arr[i].redirections[j]->word);

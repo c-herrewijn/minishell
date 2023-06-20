@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 13:19:14 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 20:03:24 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 21:24:54 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void append_str_with_char(char *str, char c)
 	str[i + 1] = '\0';
 }
 
-char *malloc_expand_str(char *in_str, t_expander_data *exp_data, t_node *env_node)
+char *malloc_expand_str(char *in_str, t_expander_data *exp_data, t_node *env_node, t_data *data)
 {
 	// todo: check: can in_str be NULL?
 	size_t	expanded_len;
 	char	*expanded_str;
 
-	expanded_len = expanded_str_len(in_str, env_node);
+	expanded_len = expanded_str_len(in_str, env_node, data);
 	expanded_str = malloc((expanded_len + 1) * sizeof(char));	// TODO: free malloc / error handling
 	if (expanded_str == NULL)
 		return (NULL);
@@ -78,7 +78,7 @@ void exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
 NOTE: trailing and leading blanks have already been stripped
 in tokenizing / parsing
 */
-char	*create_expanded_str(char *in_str, t_node *env_node)
+char	*create_expanded_str(char *in_str, t_node *env_node, t_data *data)
 {
 	t_expander_data		exp_data;
 	char				*exp_str;
@@ -87,7 +87,7 @@ char	*create_expanded_str(char *in_str, t_node *env_node)
 	exp_data.i = 0;
 	exp_data.var_start_index = 0;
 	exp_data.quote_state = OUT_OF_QUOTES;
-	exp_str = malloc_expand_str(in_str, &exp_data, env_node);  // todo FREE
+	exp_str = malloc_expand_str(in_str, &exp_data, env_node, data);  // todo FREE
 	while (true)
 	{
 		if (exp_data.state == SCANNING)

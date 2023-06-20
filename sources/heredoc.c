@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 17:11:48 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 20:06:11 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 21:28:17 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static size_t	get_latest_heredoc(t_command *command)
 // 0: heredoc stored succesfull
 // 1: stop word
 static int	heredoc_read_line(t_command *command, size_t i_redirect,
-	char *stop_word, t_node *env)
+	char *stop_word, t_data *data)
 {
 	char	*here_str;
 
@@ -60,7 +60,7 @@ static int	heredoc_read_line(t_command *command, size_t i_redirect,
 		free (here_str);
 		return (1);
 	}
-	if (expand_here_str(&here_str, env) < 0)
+	if (expand_here_str(&here_str, data->head, data) < 0)
 		return (-1);
 	if (i_redirect == get_latest_heredoc(command))
 	{
@@ -76,7 +76,7 @@ static int	heredoc_read_line(t_command *command, size_t i_redirect,
 
 // assumes there is at least one heredoc, and its word is stored correctly
 // NOTE: all heredocs are read, but only the last one is stored
-static int	read_heredocs(t_command *command, t_node *env)
+static int	read_heredocs(t_command *command, t_data *data)
 {
 	char	*stop_word;
 	size_t	i_redirect;
@@ -94,7 +94,7 @@ static int	read_heredocs(t_command *command, t_node *env)
 		res = 0;
 		while (res == 0)
 		{
-			res = heredoc_read_line(command, i_redirect, stop_word, env);
+			res = heredoc_read_line(command, i_redirect, stop_word, data);
 			if (res < 0)
 				return (-1);
 		}
@@ -114,7 +114,7 @@ int	add_heredoc(t_data *data, size_t command_nr)
 	{
 		if (add_heredoc_pipe(data, command_nr) < 0)
 			return (-1);
-		if (read_heredocs(command, data->head) < 0)
+		if (read_heredocs(command, data) < 0)
 			return (-1);
 	}
 	return (0);
