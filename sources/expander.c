@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 14:28:40 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 13:26:50 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 13:45:11 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,23 @@ int	expander(t_data *data)
 			data->command_arr[i].argv[j] = exp_str;
 			j++;
 		}
+		j = 0;
+		while (data->command_arr[i].redirections[j] != NULL)
+		{
+			if (data->command_arr[i].redirections[j]->redirection_type != HEREDOC)	// todo: remove quotes from heredoc delimiter
+			{
+				exp_str = create_expanded_str(data->command_arr[i].argv[j], data->head);
+				if (exp_str == NULL)
+					return (-1);
+				free (data->command_arr[i].redirections[j]->word);
+				data->command_arr[i].redirections[j]->word = exp_str;
+			}
+			j++;
+		}
 		i++;
 	}
 	return (0);
 }
-
 
 // NOTE: if no command is executed (e.g. empty line), the exit status of the
 //   previous command remains in memory
