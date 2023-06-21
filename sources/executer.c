@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/15 18:09:43 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/21 20:35:07 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	execute_commands_loop(t_data *data, char **envp)
 		}
 		if (new_pid == 0)
 		{
+			set_signals_default();
 			run_child_process_and_exit(envp, data, i);
 		}
 		data->command_arr[i].pid = new_pid;

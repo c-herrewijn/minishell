@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/21 20:10:24 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/21 20:11:30 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/21 20:34:08 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ void exec_cmd(t_data *data)
 	{
 		execute_single_builtin(&data->head, data);
 	}
-	else if (execute_commands(data) < 0)
+	else
 	{
-		free_and_exit_with_perror(data, &data->head);
+		set_signals_blocked();
+		if (execute_commands(data) < 0)
+			free_and_exit_with_perror(data, &data->head);
 	}
 }
 
@@ -50,6 +52,7 @@ void main_loop(t_data data)
 		add_history(data.str);
 		lexer_parser_expander(&data);
 		debug_env_etc(data.str, &data.head); //debug
+		//block before and set to default inside fork
 		exec_cmd(&data);
 		print_child_errors(&data);
 		if (signumber_check(&data) == 1)
