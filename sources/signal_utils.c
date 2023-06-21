@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   signalhandling.c                                   :+:    :+:            */
+/*   signal_utils.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 17:07:52 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/21 16:52:21 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/21 20:15:18 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,14 @@ void signal_handler(int signum)
 	rl_redisplay();
 }
 
+void sig_heredoc(int signum)
+{
+	printf("\n");
+}
+
 int signumber_check(t_data *data)
 {
-	if (signumber != 0)
+	if (signumber == SIGINT)
 	{
 		signumber = 0;
 		free_data(data);
