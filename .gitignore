@@ -7,3 +7,5 @@ outfile
 inf
 out
 *.txt
+test.out.dSYM
+test.out
