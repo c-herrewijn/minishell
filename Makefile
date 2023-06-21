@@ -6,18 +6,21 @@ CFLAGS = -Wall -g -fsanitize=address
 LFLAGS = -Llibft -lft -lreadline -lhistory -L$(shell brew --prefix readline)/lib
 
 SRC_DIR = sources
-SRCS = b_cd.c builtin_utils.c lexer_utils.c \
-b_echo.c check_for_builtin.c main.c b_export_utils.c \
-b_env.c create_env.c update_pwd_env.c update_oldpwd_env.c\
-b_exit.c debug_printing.c parser.c signalhandling.c \
-b_export.c lexer.c parser_create_command.c update_shlvl.c \
-b_pwd.c lexer_count_tokens.c parser_syntax_validation.c \
-b_unset.c lexer_create_tokens.c parser_free_commands.c \
-executer_redirections.c  heredoc.c command_utils.c \
-single_builtin.c expander.c main_utils.c index_in_env.c \
-executer.c executer_pipes.c executer_commands.c executer_utils.c \
-expander_length.c expander_variable_length.c expander_build_str.c \
-expander_variable.c heredoc_expansion.c
+SRCS = b_cd.c expander_variable_length.c \
+b_echo.c heredoc.c b_env.c heredoc_expansion.c \
+b_exit.c index_in_env.c b_export.c lexer.c \
+b_export_utils.c lexer_count_tokens.c \
+b_pwd.c lexer_create_tokens.c b_unset.c lexer_utils.c \
+builtin_utils.c main.c check_for_builtin.c main_utils.c \
+command_utils.c mainprogram.c create_env.c \
+debug_printing.c parser.c executer.c \
+parser_create_command.c executer_commands.c \
+parser_free_commands.c executer_pipes.c \
+parser_syntax_validation.c executer_redirections.c \
+signal_setters.c executer_utils.c signal_utils.c \
+expander.c single_builtin.c expander_build_str.c \
+update_oldpwd_env.c expander_length.c update_pwd_env.c \
+expander_variable.c update_shlvl.c
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
@@ -50,18 +53,21 @@ re: fclean all
 
 # testing
 TEST_SRCS = test.c
-FUNCTION_SRCS = b_cd.c builtin_utils.c lexer_utils.c \
-		b_echo.c check_for_builtin.c b_export_utils.c \
-		b_env.c create_env.c update_pwd_env.c update_oldpwd_env.c\
-		b_exit.c debug_printing.c parser.c signalhandling.c \
-		b_export.c lexer.c parser_create_command.c \
-		b_pwd.c lexer_count_tokens.c parser_syntax_validation.c \
-		b_unset.c lexer_create_tokens.c parser_free_commands.c \
-		executer_redirections.c  heredoc.c command_utils.c \
-		single_builtin.c expander.c main_utils.c index_in_env.c \
-		executer.c executer_pipes.c executer_commands.c executer_utils.c \
-		expander_length.c expander_variable_length.c expander_build_str.c \
-		expander_variable.c heredoc_expansion.c
+FUNCTION_SRCS = b_cd.c expander_variable_length.c \
+		b_echo.c heredoc.c b_env.c heredoc_expansion.c \
+		b_exit.c index_in_env.c b_export.c lexer.c \
+		b_export_utils.c lexer_count_tokens.c \
+		b_pwd.c lexer_create_tokens.c b_unset.c lexer_utils.c \
+		builtin_utils.c check_for_builtin.c main_utils.c \
+		command_utils.c mainprogram.c create_env.c \
+		debug_printing.c parser.c executer.c \
+		parser_create_command.c executer_commands.c \
+		parser_free_commands.c executer_pipes.c \
+		parser_syntax_validation.c executer_redirections.c \
+		signal_setters.c executer_utils.c signal_utils.c \
+		expander.c single_builtin.c expander_build_str.c \
+		update_oldpwd_env.c expander_length.c update_pwd_env.c \
+		expander_variable.c update_shlvl.c
 
 TEST_FLAGS = -Wall -g $(IFLAGS) $(LFLAGS)
 test: $(NAME)
