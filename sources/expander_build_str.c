@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 13:19:14 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 22:56:24 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/21 17:13:31 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void append_str_with_char(char *str, char c)
 	str[i + 1] = '\0';
 }
 
-char *malloc_expand_str(char *in_str, t_expander_data *exp_data, t_node *env_node, t_data *data)
+static char *malloc_expand_str(char *in_str, t_expander_data *exp_data, t_node *env_node, t_data *data)
 {
 	// todo: check: can in_str be NULL?
 	size_t	expanded_len;
@@ -39,7 +39,7 @@ char *malloc_expand_str(char *in_str, t_expander_data *exp_data, t_node *env_nod
 	return (expanded_str);
 }
 
-void exp_state_reading_var_name(char *in_str, char *exp_str, t_expander_data *exp_data,
+static void exp_state_reading_var_name(char *in_str, char *exp_str, t_expander_data *exp_data,
 	t_data *data)
 {
 	t_node *env_node;
@@ -59,7 +59,7 @@ void exp_state_reading_var_name(char *in_str, char *exp_str, t_expander_data *ex
 		exp_var_non_valid_char(in_str, exp_str, env_node, exp_data);
 }
 
-void exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
+static void exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
 {
 	if (in_str[exp_data->i] == '\'' && exp_data->quote_state == IN_DQUOTE)
 		append_str_with_char(exp_str, in_str[exp_data->i]);
@@ -79,6 +79,7 @@ void exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
 			&& in_str[exp_data->i] != '\"' && in_str[exp_data->i] != '$')
 		append_str_with_char(exp_str, in_str[exp_data->i]);
 }
+
 /*
 NOTE: trailing and leading blanks have already been stripped
 in tokenizing / parsing

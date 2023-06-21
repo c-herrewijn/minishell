@@ -6,28 +6,11 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 14:28:40 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 21:24:42 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/21 17:18:34 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// returns the index of the variable name, or -1 if not found
-// a return >= 0 means str is an environment variable
-int	find_str_in_environment(t_node *env, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (env != NULL)
-	{
-		if (ft_strncmp(str, env->str, ft_strlen(str)) == 0)
-			return (i);
-		i++;
-		env = env->next;
-	}
-	return (-1);
-}
 
 char *get_value_from_env(t_node *env, char *key_str, size_t key_len)
 {

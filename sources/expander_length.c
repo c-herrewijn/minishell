@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/15 16:51:21 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 22:02:54 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/21 17:14:47 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ processes 1 char at a time:
 - '$' switches to state READING_VAR_NAME
 - single quote switches to state SQUOTE_SCANNING
 */
-size_t	len_state_scanning(char *in_str, t_expander_data *exp_data)
+static size_t	len_state_scanning(char *in_str, t_expander_data *exp_data)
 {
 	size_t	len;
 
@@ -56,7 +56,7 @@ size_t	len_state_scanning(char *in_str, t_expander_data *exp_data)
 	return (len);
 }
 
-size_t	len_state_reading_var_name(char *in_str, t_node *env_node,
+static size_t	len_state_reading_var_name(char *in_str, t_node *env_node,
 	t_expander_data *exp_data, t_data *data)
 {
 	if (in_str[exp_data->i] == '\'')
