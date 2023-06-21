@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/17 13:50:16 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/20 15:05:43 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/21 17:01:21 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	b_export_allowed_format(char **argv)
 	equals = index_of_c_in_str(argv[1], '=');
 	if (equals == -1)
 		return (-1);
-	if (!(ft_isalnum(argv[1][i]) || argv[1][i] == '_'))
+	if (!(ft_isalpha(argv[1][i]) || argv[1][i] == '_'))
 		return (-1);
 	while (argv[1][i] != '\0' && i < equals)
 	{

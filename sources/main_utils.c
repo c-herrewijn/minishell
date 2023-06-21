@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/15 13:52:14 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 14:08:57 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/21 16:21:33 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	check_data_str(t_data *data)
 	{
 		free_data(data);
 		write(STDOUT_FILENO, "exit\n", 5);
-		exit(1);
+		exit(data->previous_exit_status);
 	}
 	if (data->str[0] == '\0')
 	{
