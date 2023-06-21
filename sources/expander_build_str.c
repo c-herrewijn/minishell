@@ -6,12 +6,11 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 13:19:14 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 12:36:19 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 22:56:24 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 // NOTE: unprotected string append!!
 // enough space should be malloced so the char can be appended
@@ -26,13 +25,13 @@ void append_str_with_char(char *str, char c)
 	str[i + 1] = '\0';
 }
 
-char *malloc_expand_str(char *in_str, t_expander_data *exp_data, t_node *env_node)
+char *malloc_expand_str(char *in_str, t_expander_data *exp_data, t_node *env_node, t_data *data)
 {
 	// todo: check: can in_str be NULL?
 	size_t	expanded_len;
 	char	*expanded_str;
 
-	expanded_len = expanded_str_len(in_str, env_node);
+	expanded_len = expanded_str_len(in_str, env_node, data);
 	expanded_str = malloc((expanded_len + 1) * sizeof(char));	// TODO: free malloc / error handling
 	if (expanded_str == NULL)
 		return (NULL);
@@ -41,18 +40,23 @@ char *malloc_expand_str(char *in_str, t_expander_data *exp_data, t_node *env_nod
 }
 
 void exp_state_reading_var_name(char *in_str, char *exp_str, t_expander_data *exp_data,
-	t_node *env_node)
+	t_data *data)
 {
+	t_node *env_node;
+	
+	env_node = data->head;
 	if (in_str[exp_data->i] == '\'')
 		exp_var_squote(in_str, exp_str, env_node, exp_data);
 	else if (in_str[exp_data->i] == '\"')
 		exp_var_dquote(in_str, exp_str, env_node, exp_data);
 	else if (in_str[exp_data->i] == '$')
 		exp_var_dollar(in_str, exp_str, env_node, exp_data);
-	else if (ft_isblank(in_str[exp_data->i]))
-		exp_var_blank(in_str, exp_str, env_node, exp_data);
 	else if (in_str[exp_data->i] == '\0')
 		exp_var_terminator(in_str, exp_str, env_node, exp_data);
+	else if (in_str[exp_data->i] == '?')
+		return (exp_var_exit_status(in_str, exp_str, data, exp_data));
+	else if (!ft_isalnum(in_str[exp_data->i]) && in_str[exp_data->i] != '_')
+		exp_var_non_valid_char(in_str, exp_str, env_node, exp_data);
 }
 
 void exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
@@ -79,7 +83,7 @@ void exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
 NOTE: trailing and leading blanks have already been stripped
 in tokenizing / parsing
 */
-char	*create_expanded_str(char *in_str, t_node *env_node)
+char	*create_expanded_str(char *in_str, t_node *env_node, t_data *data)
 {
 	t_expander_data		exp_data;
 	char				*exp_str;
@@ -88,13 +92,13 @@ char	*create_expanded_str(char *in_str, t_node *env_node)
 	exp_data.i = 0;
 	exp_data.var_start_index = 0;
 	exp_data.quote_state = OUT_OF_QUOTES;
-	exp_str = malloc_expand_str(in_str, &exp_data, env_node);  // todo FREE
+	exp_str = malloc_expand_str(in_str, &exp_data, env_node, data);  // todo FREE
 	while (true)
 	{
 		if (exp_data.state == SCANNING)
 			exp_state_scanning(in_str, exp_str, &exp_data);
 		if (exp_data.state == READING_VAR_NAME)
-			exp_state_reading_var_name(in_str, exp_str, &exp_data, env_node);
+			exp_state_reading_var_name(in_str, exp_str, &exp_data, data);
 		if (in_str[exp_data.i] == '\0')
 			break ;
 		update_quote_state(&exp_data, in_str[exp_data.i]);

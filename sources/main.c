@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 15:10:56 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/21 14:42:52 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void main_loop(t_data data)
 			execute_single_builtin(&data.head, &data);
 		else if (execute_commands(&data) < 0)
 			free_and_exit_with_perror(&data, &data.head);
+		print_child_errors(&data);
 		if (signumber_check(&data) == 1)
 			continue;
 		store_final_exit_status(&data);

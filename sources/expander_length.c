@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/15 16:51:21 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 17:12:11 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 22:02:54 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ size_t	len_state_scanning(char *in_str, t_expander_data *exp_data)
 }
 
 size_t	len_state_reading_var_name(char *in_str, t_node *env_node,
-	t_expander_data *exp_data)
+	t_expander_data *exp_data, t_data *data)
 {
 	if (in_str[exp_data->i] == '\'')
 		return (len_squote(in_str, env_node, exp_data));
@@ -65,10 +65,12 @@ size_t	len_state_reading_var_name(char *in_str, t_node *env_node,
 		return (len_dquote(in_str, env_node, exp_data));
 	else if (in_str[exp_data->i] == '$')
 		return (len_dollar(in_str, env_node, exp_data));
-	else if (ft_isblank(in_str[exp_data->i]))
-		return (len_blank(in_str, env_node, exp_data));
 	else if (in_str[exp_data->i] == '\0')
 		return (len_terminator(in_str, env_node, exp_data));
+	else if (in_str[exp_data->i] == '?')
+		return (len_exit_status(in_str, env_node, exp_data, data));
+	else if (!ft_isalnum(in_str[exp_data->i]) && in_str[exp_data->i] != '_')
+		return (len_var_non_valid_char(in_str, env_node, exp_data));
 	return (0);
 }
 
@@ -76,7 +78,7 @@ size_t	len_state_reading_var_name(char *in_str, t_node *env_node,
 NOTE: trailing and leading blanks have already been stripped
 in tokenizing / parsing
 */
-size_t	expanded_str_len(char *in_str, t_node *env_node)
+size_t	expanded_str_len(char *in_str, t_node *env_node, t_data *data)
 {
 	size_t				len;
 	t_expander_data		exp_data;
@@ -90,8 +92,8 @@ size_t	expanded_str_len(char *in_str, t_node *env_node)
 	{
 		if (exp_data.state == SCANNING)
 			len += len_state_scanning(in_str, &exp_data);
-		if (exp_data.state == READING_VAR_NAME)
-			len += len_state_reading_var_name(in_str, env_node, &exp_data);
+		else if (exp_data.state == READING_VAR_NAME)
+			len += len_state_reading_var_name(in_str, env_node, &exp_data, data);
 		if (in_str[exp_data.i] == '\0')
 			break ;
 		update_quote_state(&exp_data, in_str[exp_data.i]);

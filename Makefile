@@ -17,7 +17,7 @@ executer_redirections.c  heredoc.c command_utils.c \
 single_builtin.c expander.c main_utils.c index_in_env.c \
 executer.c executer_pipes.c executer_commands.c executer_utils.c \
 expander_length.c expander_variable_length.c expander_build_str.c \
-expander_variable.c
+expander_variable.c heredoc_expansion.c
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
@@ -61,7 +61,7 @@ FUNCTION_SRCS = b_cd.c builtin_utils.c lexer_utils.c \
 		single_builtin.c expander.c main_utils.c index_in_env.c \
 		executer.c executer_pipes.c executer_commands.c executer_utils.c \
 		expander_length.c expander_variable_length.c expander_build_str.c \
-		expander_variable.c
+		expander_variable.c heredoc_expansion.c
 
 TEST_FLAGS = -Wall -g $(IFLAGS) $(LFLAGS)
 test: $(NAME)

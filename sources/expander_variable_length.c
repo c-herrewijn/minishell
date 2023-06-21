@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 11:57:22 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/16 16:45:11 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 21:53:51 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ size_t	len_dollar(char *in_str, t_node *env_node, t_expander_data *exp_data)
 	}
 }
 
-// if blank is directly after $ sign -> literally print $ char
-size_t	len_blank(char *in_str, t_node *env_node, t_expander_data *exp_data)
+// if blank is directly after $ sign -> literally print $ char and the new char
+size_t	len_var_non_valid_char(char *in_str, t_node *env_node, t_expander_data *exp_data)
 {
 	exp_data->state = SCANNING;	
 	if (exp_data->i == exp_data->var_start_index)
-		return (1);
+		return (2);
 	else
 	{
 		return (expander_var_len(in_str, exp_data, env_node) + 1);
@@ -73,5 +73,31 @@ size_t	len_terminator(char *in_str, t_node *env_node,
 	else
 	{
 		return (expander_var_len(in_str, exp_data, env_node));
+	}
+}
+
+// if ? is directly after $, add status code
+// else expand the variable and add the '?' char literal
+size_t	len_exit_status(char *in_str, t_node *env_node,
+	t_expander_data *exp_data, t_data *data)
+{
+	size_t	nr_len;
+	int		nr_part;
+	
+	exp_data->state = SCANNING;
+	if (exp_data->i == exp_data->var_start_index)
+	{
+		nr_len = 1;
+		nr_part = data->previous_exit_status;
+		while (nr_part >= 10)
+		{
+			nr_part /= 10;
+			nr_len += 1;
+		}
+		return (nr_len);
+	}
+	else
+	{
+		return (expander_var_len(in_str, exp_data, env_node) + 1);
 	}
 }
