@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 22:17:37 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/21 20:23:25 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,9 +315,21 @@ void		free_and_exit_with_perror(t_data *data, t_node **head);
 void		init_data_struct(t_data *data, int argc, char **argv, char **envp);
 int			check_data_str(t_data *data);
 
-//signalhandling.c
+//mainprogram.c
+void		exec_cmd(t_data *data);
+void		lexer_parser_expander(t_data *data);
+void		main_loop(t_data data);
+
+//signal_utils.c
 void		signal_handler(int signum);
 int			signumber_check(t_data *data);
+void		sig_heredoc(int signum);
+
+//signal_setters.c
+void		set_signals_parent();
+void		set_signals_heredoc();
+void		set_signals_default();
+void		set_signals_blocked();
 
 //update_shlvl.c
 int	update_shlvl(t_node **head);
