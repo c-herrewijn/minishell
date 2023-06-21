@@ -283,6 +283,8 @@ void test_cd_pwd(void)
 
 }
 
+//this can mosly actually be tested in main function
+//because in the main input like export TESTYEP+="$REAL$FAKE$rEaL \n\n\n\n\n" is parsed, lexed, expanded
 void test_env_export_unset(void)
 {
 
@@ -335,10 +337,10 @@ void test_random(void)
 
 int main(void)
 {
-	// test_count_tokens();
-	// test_create_tokens();
-	// test_syntax_validation();
-	// test_expander();
-	test_echo();
+	test_count_tokens();
+	test_create_tokens();
+	test_syntax_validation();
+	test_expander();
+	// test_echo();
 	exit(0);
 }
