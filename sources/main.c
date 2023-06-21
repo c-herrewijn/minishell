@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/21 14:42:52 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/21 20:11:27 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,44 +16,6 @@
 void	check_leaks(void)
 {
 	system("leaks minishell");
-}
-
-//prob want to somehow split this up into smaller chunks
-void main_loop(t_data data)
-{
-	while (true)
-	{
-		data.str = readline("minishell$ ");
-		signumber = 0;
-		if (signumber_check(&data) == 1)
-			continue;
-		if (check_data_str(&data) == 1)
-			continue;
-		add_history(data.str);
-		if (signumber_check(&data) == 1)
-			continue;
-		if (lexer(&data) < 0)
-			free_and_exit_with_perror(&data, &data.head);
-		if (signumber_check(&data) == 1)
-			continue;
-		if (parser(&data) < 0)
-			free_and_exit_with_perror(&data, &data.head);
-		if (signumber_check(&data) == 1)
-			continue;
-		if (expander(&data) < 0)
-			free_and_exit_with_perror(&data, &data.head);
-		debug_env_etc(data.str, &data.head);
-		if (data.nr_commands == 1 && data.command_arr[0].argc > 0 
-				&& check_if_builtin(data.command_arr[0].argv[0]) != NOT_BUILTIN)
-			execute_single_builtin(&data.head, &data);
-		else if (execute_commands(&data) < 0)
-			free_and_exit_with_perror(&data, &data.head);
-		print_child_errors(&data);
-		if (signumber_check(&data) == 1)
-			continue;
-		store_final_exit_status(&data);
-		free_data(&data);
-	}
 }
 
 // debug
@@ -71,9 +33,6 @@ int	main(int argc, char **argv, char **envp)
 		free_and_exit_with_perror(&data, &data.head);
 	if (update_shlvl(&data.head) < 0)
 		free_and_exit_with_perror(&data, &data.head);
-	
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
 	main_loop(data);
 	return (0);
 }
