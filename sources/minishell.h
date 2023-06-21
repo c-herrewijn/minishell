@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 21:29:03 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/20 22:17:37 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,7 @@ void	exp_var_dquote(char *in_str, char *exp_str, t_node *env_node, t_expander_da
 void	exp_var_dollar(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
 void	exp_var_non_valid_char(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
 void	exp_var_terminator(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
+void	exp_var_exit_status(char *in_str, char *exp_str, t_data *data, t_expander_data *exp_data);
 void	append_str_with_char(char *str, char c);
 char	*get_value_from_env(t_node *env, char *key_str, size_t key_len);
 
