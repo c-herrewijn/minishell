@@ -6,23 +6,12 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 15:01:49 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/22 19:43:41 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// debug
-void	check_leaks(void)
-{
-	system("leaks minishell");
-}
-
-// debug
-// atexit(check_leaks);
-// printf("data.str = %s\n", data.str);
-// print_tokens(&data);
-// print_commands(&data);
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
