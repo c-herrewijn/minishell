@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 16:26:50 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 18:59:04 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,18 +209,6 @@ int			list_len(t_node *head);
 void		list_clear(t_node **head);
 int			list_append(t_node **head, char *str);
 int			list_create_env(t_node **head, t_data data);
-
-//debug_printing.c
-void		print_first(t_node **head);
-void		print_next(t_node **head);
-void		list_print(t_node *head);
-void		print_env_var(char *str, t_node *head);
-void		print_2d_array(char **s);
-void		print_tokens(t_data *data);
-char		*tokens_to_string(t_data *data);
-void		print_commands(t_data *data);
-void		unset_all(t_node **head);
-void		debug_env_etc(char *str, t_node **head);
 
 // lexer
 int			lexer(t_data *data);

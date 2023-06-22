@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/31 12:25:45 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/15 18:12:39 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/22 19:03:26 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,17 @@
 //what about if head == NULL, like the main node == NULL
 int	b_env(t_node *head)
 {
-	list_print(head);
+	t_node	*node;
+
+	node = head;
+	if (head == NULL)
+		return (0);
+	if (head->str == NULL)
+		return (0);
+	while (node != NULL)
+	{
+		printf("%s\n", node->str);
+		node = node->next;
+	}
 	return (0);
 }

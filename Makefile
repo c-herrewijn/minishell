@@ -13,7 +13,7 @@ b_export_utils.c lexer_count_tokens.c \
 b_pwd.c lexer_create_tokens.c b_unset.c lexer_utils.c \
 builtin_utils.c main.c check_for_builtin.c main_utils.c \
 command_utils.c mainprogram.c create_env.c \
-debug_printing.c parser.c executer.c \
+ parser.c executer.c \
 parser_create_command.c executer_commands.c \
 parser_free_commands.c executer_pipes.c \
 parser_syntax_validation.c executer_redirections.c \
@@ -61,7 +61,7 @@ FUNCTION_SRCS = b_cd.c expander_variable_length.c \
 		b_pwd.c lexer_create_tokens.c b_unset.c lexer_utils.c \
 		builtin_utils.c check_for_builtin.c main_utils.c \
 		command_utils.c mainprogram.c create_env.c \
-		debug_printing.c parser.c executer.c \
+		 parser.c executer.c \
 		parser_create_command.c executer_commands.c \
 		parser_free_commands.c executer_pipes.c \
 		parser_syntax_validation.c executer_redirections.c \
