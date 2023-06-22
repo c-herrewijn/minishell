@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 14:28:40 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/21 17:18:34 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 10:14:57 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,17 +85,4 @@ int	expander(t_data *data)
 		i++;
 	}
 	return (0);
-}
-
-// NOTE: if no command is executed (e.g. empty line), the exit status of the
-//   previous command remains in memory
-void	store_final_exit_status(t_data *data)
-{
-	int	i_last;
-
-	if (data->nr_commands >= 1)
-	{
-		i_last = data->nr_commands - 1;
-		data->previous_exit_status = data->command_arr[i_last].exit_status;
-	}
 }

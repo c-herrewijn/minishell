@@ -6,16 +6,29 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/21 20:10:24 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/21 20:34:08 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/22 10:18:39 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void exec_cmd(t_data *data)
+// NOTE: if no command is executed (e.g. empty line), the exit status of the
+//   previous command remains in memory
+static void	store_final_exit_status(t_data *data)
 {
-	if (data->nr_commands == 1 && data->command_arr[0].argc > 0 
-			&& check_if_builtin(data->command_arr[0].argv[0]) != NOT_BUILTIN)
+	int	i_last;
+
+	if (data->nr_commands >= 1)
+	{
+		i_last = data->nr_commands - 1;
+		data->previous_exit_status = data->command_arr[i_last].exit_status;
+	}
+}
+
+static void	exec_cmd(t_data *data)
+{
+	if (data->nr_commands == 1 && data->command_arr[0].argc > 0
+		&& check_if_builtin(data->command_arr[0].argv[0]) != NOT_BUILTIN)
 	{
 		execute_single_builtin(&data->head, data);
 	}
@@ -27,7 +40,7 @@ void exec_cmd(t_data *data)
 	}
 }
 
-void lexer_parser_expander(t_data *data)
+static void	lexer_parser_expander(t_data *data)
 {	
 	if (lexer(data) < 0)
 		free_and_exit_with_perror(data, &data->head);
@@ -38,7 +51,7 @@ void lexer_parser_expander(t_data *data)
 }
 
 //prob want to somehow split this up into smaller chunks
-void main_loop(t_data data)
+void	main_loop(t_data data)
 {
 	while (true)
 	{
@@ -46,9 +59,9 @@ void main_loop(t_data data)
 		data.str = readline("minishell$ ");
 		signumber = 0;
 		if (signumber_check(&data) == 1)
-			continue;
+			continue ;
 		if (check_data_str(&data) == 1)
-			continue;
+			continue ;
 		add_history(data.str);
 		lexer_parser_expander(&data);
 		debug_env_etc(data.str, &data.head); //debug
@@ -56,7 +69,7 @@ void main_loop(t_data data)
 		exec_cmd(&data);
 		print_child_errors(&data);
 		if (signumber_check(&data) == 1)
-			continue;
+			continue ;
 		store_final_exit_status(&data);
 		free_data(&data);
 	}
