@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/22 11:17:35 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 11:18:10 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 15:04:41 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void	exp_var_exit_status(char *in_str, char *exp_str, t_data *data,
 	if (exp_data->i == exp_data->var_start_index)
 	{
 		nr_part = data->previous_exit_status;
-		if (data->previous_exit_status > 100)
+		if (data->previous_exit_status >= 100)
 		{
 			append_str_with_char(exp_str, '0' + nr_part / 100);
 			nr_part = nr_part - ((nr_part / 100) * 100);
 		}
-		if (data->previous_exit_status > 10)
+		if (data->previous_exit_status >= 10)
 		{
 			append_str_with_char(exp_str, '0' + nr_part / 10);
 			nr_part = nr_part - ((nr_part / 10) * 10);

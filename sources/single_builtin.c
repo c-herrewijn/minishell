@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 17:12:43 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/15 18:30:40 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/22 14:39:18 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	execute_single_builtin(t_node **head, t_data *data)
 	if (type == B_ENV)
 		ret = b_env(*head);
 	if (type == B_EXIT)
-		b_exit(data->command_arr[0].argv[1]);
+		b_exit(data, data->command_arr[0].argv[1]);
 	if (type == B_EXPORT)
 		ret = execute_export(head, data, 0);
 	if (type == B_UNSET)

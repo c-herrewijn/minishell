@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 12:16:13 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 14:39:07 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ int			b_echo(int argc, char **argv);
 int			b_env(t_node *head);
 
 //b_exit.c
-void		b_exit(char *exit_status);
+void		b_exit(t_data *data, char *exit_status);
 
 //b_export_utils.c
 bool		empty_list_add(t_node **head, char *str);
