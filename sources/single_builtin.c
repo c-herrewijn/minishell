@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 17:12:43 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/22 14:39:18 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/22 17:39:27 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	execute_single_builtin(t_node **head, t_data *data)
 	if (ret == 0)
 		data->previous_exit_status = 0;
 	if (ret != 0)
-		data->previous_exit_status = 1;
+		data->command_arr[0].exit_status = 1;
 	if (ret == -1)
 		perror(NULL);
 }
