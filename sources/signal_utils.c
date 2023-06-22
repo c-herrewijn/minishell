@@ -6,13 +6,13 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 17:07:52 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/21 20:36:06 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/22 11:27:03 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void signal_handler(int signum)
+void	signal_handler(int signum)
 {
 	signumber = signum;
 	printf("\n");
@@ -21,12 +21,14 @@ void signal_handler(int signum)
 	rl_redisplay();
 }
 
-void sig_heredoc(int signum)
+void	sig_heredoc(int signum)
 {
+	// todo: what to do with input 'signum'
+	(void) signum;
 	printf("\n");
 }
 
-int signumber_check(t_data *data)
+int	signumber_check(t_data *data)
 {
 	if (signumber == SIGINT)
 	{

@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 10:37:10 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 11:33:19 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 //this is the global i choose because
 //it needs to be able to update from the signalhandler
 //which can only take one parameter
-int signumber;
+int	signumber;
 
 typedef enum e_lexer_state {
 	DELIMITED,
@@ -241,31 +241,36 @@ int			command_count_arguments(t_data *data, size_t command_nr);
 void		free_commands(t_data *data);
 
 // expander
-int		expander(t_data *data);
-size_t	expanded_str_len(char *in_str, t_node *env_node, t_data *data);
-size_t	expander_var_len(char *in_str, t_expander_data *exp_data,
-			t_node *head);
-size_t	len_quote(char *in_str, t_node *env_node,
-			t_expander_data *exp_data);
-size_t	len_dollar(char *in_str, t_node *env_node,
-			t_expander_data *exp_data);
-size_t	len_var_non_valid_char(char *in_str, t_node *env_node,
-			t_expander_data *exp_data);
-size_t	len_terminator(char *in_str, t_node *env_node,
-			t_expander_data *exp_data);
-size_t	len_exit_status(char *in_str, t_node *env_node,
-			t_expander_data *exp_data, t_data *data);
-char	*create_expanded_str(char *in_str, t_node *env_node, t_data *data);
-void	update_quote_state(t_expander_data *exp_data, char c);
-void	append_variable(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
-void	exp_var_squote(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
-void	exp_var_dquote(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
-void	exp_var_dollar(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
-void	exp_var_non_valid_char(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
-void	exp_var_terminator(char *in_str, char *exp_str, t_node *env_node, t_expander_data *exp_data);
-void	exp_var_exit_status(char *in_str, char *exp_str, t_data *data, t_expander_data *exp_data);
-void	append_str_with_char(char *str, char c);
-char	*get_value_from_env(t_node *env, char *key_str, size_t key_len);
+int			expander(t_data *data);
+size_t		expanded_str_len(char *in_str, t_node *env_node, t_data *data);
+size_t		expander_var_len(char *in_str, t_expander_data *exp_data,
+				t_node *head);
+size_t		len_quote(char *in_str, t_node *env_node,
+				t_expander_data *exp_data);
+size_t		len_dollar(char *in_str, t_node *env_node,
+				t_expander_data *exp_data);
+size_t		len_var_non_valid_char(char *in_str, t_node *env_node,
+				t_expander_data *exp_data);
+size_t		len_terminator(char *in_str, t_node *env_node,
+				t_expander_data *exp_data);
+size_t		len_exit_status(char *in_str, t_node *env_node,
+				t_expander_data *exp_data, t_data *data);
+char		*create_expanded_str(char *in_str, t_node *env_node, t_data *data);
+void		update_quote_state(t_expander_data *exp_data, char c);
+void		append_variable(char *in_str, char *exp_str, t_node *env_node,
+				t_expander_data *exp_data);
+void		exp_var_quote(char *in_str, char *exp_str, t_node *env_node,
+				t_expander_data *exp_data);
+void		exp_var_dollar(char *in_str, char *exp_str, t_node *env_node,
+				t_expander_data *exp_data);
+void		exp_var_non_valid_char(char *in_str, char *exp_str,
+				t_node *env_node, t_expander_data *exp_data);
+void		exp_var_terminator(char *in_str, char *exp_str, t_node *env_node,
+				t_expander_data *exp_data);
+void		exp_var_exit_status(char *in_str, char *exp_str, t_data *data,
+				t_expander_data *exp_data);
+void		append_str_with_char(char *str, char c);
+char		*get_value_from_env(t_node *env, char *key_str, size_t key_len);
 
 // heredoc
 int			add_heredoc(t_data *data, size_t command_nr);
@@ -321,12 +326,12 @@ int			signumber_check(t_data *data);
 void		sig_heredoc(int signum);
 
 //signal_setters.c
-void		set_signals_parent();
-void		set_signals_heredoc();
-void		set_signals_default();
-void		set_signals_blocked();
+void		set_signals_parent(void);
+void		set_signals_heredoc(void);
+void		set_signals_default(void);
+void		set_signals_blocked(void);
 
 //update_shlvl.c
-int	update_shlvl(t_node **head);
+int			update_shlvl(t_node **head);
 
 #endif

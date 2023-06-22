@@ -2,7 +2,7 @@ NAME = minishell
 
 IFLAGS = -Iinclude -I$(LIBFT_DIR) -I$(shell brew --prefix readline)/include
 # CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
-CFLAGS = -Wall -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 LFLAGS = -Llibft -lft -lreadline -lhistory -L$(shell brew --prefix readline)/lib
 
 SRC_DIR = sources
@@ -20,7 +20,7 @@ parser_syntax_validation.c executer_redirections.c \
 signal_setters.c executer_utils.c signal_utils.c \
 expander.c single_builtin.c expander_build_str.c \
 update_oldpwd_env.c expander_length.c update_pwd_env.c \
-expander_variable.c update_shlvl.c
+expander_variable.c update_shlvl.c expander_exit_status.c
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
@@ -67,7 +67,7 @@ FUNCTION_SRCS = b_cd.c expander_variable_length.c \
 		signal_setters.c executer_utils.c signal_utils.c \
 		expander.c single_builtin.c expander_build_str.c \
 		update_oldpwd_env.c expander_length.c update_pwd_env.c \
-		expander_variable.c update_shlvl.c
+		expander_variable.c update_shlvl.c expander_exit_status.c
 
 TEST_FLAGS = -Wall -g $(IFLAGS) $(LFLAGS)
 test: $(NAME)

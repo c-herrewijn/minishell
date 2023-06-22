@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 14:28:40 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 10:51:46 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 11:23:02 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ size_t	expander_var_len(char *in_str, t_expander_data *exp_data, t_node *env)
 
 static int	expand_argv(t_data *data, size_t i_command)
 {
-	size_t	j;
+	int		j;
 	char	*exp_str;
 
 	j = 0;

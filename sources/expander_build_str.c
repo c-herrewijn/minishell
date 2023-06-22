@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 13:19:14 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/21 17:13:31 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 11:25:48 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // NOTE: unprotected string append!!
 // enough space should be malloced so the char can be appended
-void append_str_with_char(char *str, char c)
+void	append_str_with_char(char *str, char c)
 {
 	size_t	i;
 
@@ -25,30 +25,30 @@ void append_str_with_char(char *str, char c)
 	str[i + 1] = '\0';
 }
 
-static char *malloc_expand_str(char *in_str, t_expander_data *exp_data, t_node *env_node, t_data *data)
+static char	*malloc_expand_str(char *in_str, t_node *env_node, t_data *data)
 {
-	// todo: check: can in_str be NULL?
 	size_t	expanded_len;
 	char	*expanded_str;
 
+	// todo: check: can in_str be NULL?
 	expanded_len = expanded_str_len(in_str, env_node, data);
-	expanded_str = malloc((expanded_len + 1) * sizeof(char));	// TODO: free malloc / error handling
+	expanded_str = malloc((expanded_len + 1) * sizeof(char));  // TODO: free malloc / error handling
 	if (expanded_str == NULL)
 		return (NULL);
 	expanded_str[0] = '\0';
 	return (expanded_str);
 }
 
-static void exp_state_reading_var_name(char *in_str, char *exp_str, t_expander_data *exp_data,
-	t_data *data)
+static void	exp_state_reading_var_name(char *in_str, char *exp_str,
+	t_expander_data *exp_data, t_data *data)
 {
-	t_node *env_node;
-	
+	t_node	*env_node;
+
 	env_node = data->head;
 	if (in_str[exp_data->i] == '\'')
-		exp_var_squote(in_str, exp_str, env_node, exp_data);
+		exp_var_quote(in_str, exp_str, env_node, exp_data);
 	else if (in_str[exp_data->i] == '\"')
-		exp_var_dquote(in_str, exp_str, env_node, exp_data);
+		exp_var_quote(in_str, exp_str, env_node, exp_data);
 	else if (in_str[exp_data->i] == '$')
 		exp_var_dollar(in_str, exp_str, env_node, exp_data);
 	else if (in_str[exp_data->i] == '\0')
@@ -59,7 +59,7 @@ static void exp_state_reading_var_name(char *in_str, char *exp_str, t_expander_d
 		exp_var_non_valid_char(in_str, exp_str, env_node, exp_data);
 }
 
-static void exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
+static void	exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
 {
 	if (in_str[exp_data->i] == '\'' && exp_data->quote_state == IN_DQUOTE)
 		append_str_with_char(exp_str, in_str[exp_data->i]);
@@ -76,7 +76,7 @@ static void exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp
 		}
 	}
 	if (in_str[exp_data->i] != '\0' && in_str[exp_data->i] != '\''
-			&& in_str[exp_data->i] != '\"' && in_str[exp_data->i] != '$')
+		&& in_str[exp_data->i] != '\"' && in_str[exp_data->i] != '$')
 		append_str_with_char(exp_str, in_str[exp_data->i]);
 }
 
@@ -88,12 +88,12 @@ char	*create_expanded_str(char *in_str, t_node *env_node, t_data *data)
 {
 	t_expander_data		exp_data;
 	char				*exp_str;
-	
+
 	exp_data.state = SCANNING;
 	exp_data.i = 0;
 	exp_data.var_start_index = 0;
 	exp_data.quote_state = OUT_OF_QUOTES;
-	exp_str = malloc_expand_str(in_str, &exp_data, env_node, data);  // todo FREE
+	exp_str = malloc_expand_str(in_str, env_node, data);  // todo FREE
 	while (true)
 	{
 		if (exp_data.state == SCANNING)
@@ -107,4 +107,3 @@ char	*create_expanded_str(char *in_str, t_node *env_node, t_data *data)
 	}
 	return (exp_str);
 }
-
