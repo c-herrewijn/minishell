@@ -6,23 +6,13 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 11:57:22 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 21:53:51 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 10:55:09 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	len_squote(char *in_str, t_node *env_node, t_expander_data *exp_data)
-{
-	exp_data->state = SCANNING;
-	if (exp_data->i != exp_data->var_start_index)
-	{
-		return (expander_var_len(in_str, exp_data, env_node));
-	}
-	return (0);
-}
-
-size_t	len_dquote(char *in_str, t_node *env_node, t_expander_data *exp_data)
+size_t	len_quote(char *in_str, t_node *env_node, t_expander_data *exp_data)
 {
 	exp_data->state = SCANNING;
 	if (exp_data->i != exp_data->var_start_index)
@@ -53,9 +43,10 @@ size_t	len_dollar(char *in_str, t_node *env_node, t_expander_data *exp_data)
 }
 
 // if blank is directly after $ sign -> literally print $ char and the new char
-size_t	len_var_non_valid_char(char *in_str, t_node *env_node, t_expander_data *exp_data)
+size_t	len_var_non_valid_char(char *in_str, t_node *env_node,
+	t_expander_data *exp_data)
 {
-	exp_data->state = SCANNING;	
+	exp_data->state = SCANNING;
 	if (exp_data->i == exp_data->var_start_index)
 		return (2);
 	else
@@ -83,7 +74,7 @@ size_t	len_exit_status(char *in_str, t_node *env_node,
 {
 	size_t	nr_len;
 	int		nr_part;
-	
+
 	exp_data->state = SCANNING;
 	if (exp_data->i == exp_data->var_start_index)
 	{

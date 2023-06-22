@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 10:18:45 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 10:37:10 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,9 +245,7 @@ int		expander(t_data *data);
 size_t	expanded_str_len(char *in_str, t_node *env_node, t_data *data);
 size_t	expander_var_len(char *in_str, t_expander_data *exp_data,
 			t_node *head);
-size_t	len_squote(char *in_str, t_node *env_node,
-			t_expander_data *exp_data);
-size_t	len_dquote(char *in_str, t_node *env_node,
+size_t	len_quote(char *in_str, t_node *env_node,
 			t_expander_data *exp_data);
 size_t	len_dollar(char *in_str, t_node *env_node,
 			t_expander_data *exp_data);

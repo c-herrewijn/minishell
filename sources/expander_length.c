@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/15 16:51:21 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/21 17:14:47 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 10:54:17 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,18 @@ static size_t	len_state_scanning(char *in_str, t_expander_data *exp_data)
 		}
 	}
 	if (in_str[exp_data->i] != '\0' && in_str[exp_data->i] != '\''
-			&& in_str[exp_data->i] != '\"' && in_str[exp_data->i] != '$')
+		&& in_str[exp_data->i] != '\"' && in_str[exp_data->i] != '$')
 		len = 1;
 	return (len);
 }
 
-static size_t	len_state_reading_var_name(char *in_str, t_node *env_node,
+static size_t	len_state_reading_var(char *in_str, t_node *env_node,
 	t_expander_data *exp_data, t_data *data)
 {
 	if (in_str[exp_data->i] == '\'')
-		return (len_squote(in_str, env_node, exp_data));
+		return (len_quote(in_str, env_node, exp_data));
 	else if (in_str[exp_data->i] == '\"')
-		return (len_dquote(in_str, env_node, exp_data));
+		return (len_quote(in_str, env_node, exp_data));
 	else if (in_str[exp_data->i] == '$')
 		return (len_dollar(in_str, env_node, exp_data));
 	else if (in_str[exp_data->i] == '\0')
@@ -93,7 +93,7 @@ size_t	expanded_str_len(char *in_str, t_node *env_node, t_data *data)
 		if (exp_data.state == SCANNING)
 			len += len_state_scanning(in_str, &exp_data);
 		else if (exp_data.state == READING_VAR_NAME)
-			len += len_state_reading_var_name(in_str, env_node, &exp_data, data);
+			len += len_state_reading_var(in_str, env_node, &exp_data, data);
 		if (in_str[exp_data.i] == '\0')
 			break ;
 		update_quote_state(&exp_data, in_str[exp_data.i]);
