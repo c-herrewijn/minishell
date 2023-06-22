@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 17:07:52 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/22 11:27:03 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 11:38:31 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	signal_handler(int signum)
 {
-	signumber = signum;
+	g_signumber = signum;
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -30,9 +30,9 @@ void	sig_heredoc(int signum)
 
 int	signumber_check(t_data *data)
 {
-	if (signumber == SIGINT)
+	if (g_signumber == SIGINT)
 	{
-		signumber = 0;
+		g_signumber = 0;
 		free_data(data);
 		return (1);
 	}

@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:36:57 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/21 20:11:27 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/22 11:38:31 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 
-	signumber = 0;
+	g_signumber = 0;
 	init_data_struct(&data, argc, argv, envp);
 	if (list_create_env(&data.head, data) < 0)
 		free_and_exit_with_perror(&data, &data.head);

@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/21 20:10:24 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/22 10:18:39 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 11:38:44 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	main_loop(t_data data)
 	{
 		set_signals_parent();
 		data.str = readline("minishell$ ");
-		signumber = 0;
+		g_signumber = 0;
 		if (signumber_check(&data) == 1)
 			continue ;
 		if (check_data_str(&data) == 1)

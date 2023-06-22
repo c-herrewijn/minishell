@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 11:33:19 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 11:39:02 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 //this is the global i choose because
 //it needs to be able to update from the signalhandler
 //which can only take one parameter
-int	signumber;
+int	g_signumber;
 
 typedef enum e_lexer_state {
 	DELIMITED,
