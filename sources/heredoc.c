@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 17:11:48 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/20 21:28:17 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 19:38:31 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,26 @@ static int	read_heredocs(t_command *command, t_data *data)
 int	add_heredoc(t_data *data, size_t command_nr)
 {
 	t_command	*command;
+	pid_t		new_pid;
+	int			stat_loc;
 
 	command = &((data->command_arr)[command_nr]);
 	if (command_has_heredoc(data, command_nr))
 	{
 		if (add_heredoc_pipe(data, command_nr) < 0)
 			return (-1);
-		if (read_heredocs(command, data) < 0)
-			return (-1);
+		set_signals_blocked();
+		new_pid = fork();
+		if (new_pid == 0)
+		{
+			set_signals_default();
+			close(command->heredoc_pipe[0]);
+			read_heredocs(command, data);
+			exit(0);
+		}
+		close(command->heredoc_pipe[1]);
+		waitpid(new_pid, &stat_loc, 0);
+		set_signals_parent();
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 18:59:04 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/22 19:40:00 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,11 +313,9 @@ void		main_loop(t_data data);
 //signal_utils.c
 void		signal_handler(int signum);
 int			signumber_check(t_data *data);
-void		sig_heredoc(int signum);
 
 //signal_setters.c
 void		set_signals_parent(void);
-void		set_signals_heredoc(void);
 void		set_signals_default(void);
 void		set_signals_blocked(void);
 

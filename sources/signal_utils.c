@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 17:07:52 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/22 11:38:31 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 19:39:17 by kkroon        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@ void	signal_handler(int signum)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-}
-
-void	sig_heredoc(int signum)
-{
-	// todo: what to do with input 'signum'
-	(void) signum;
-	printf("\n");
 }
 
 int	signumber_check(t_data *data)
