@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/05 19:52:01 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 12:15:18 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 14:30:57 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	set_fd_pipe_out(t_data *data, size_t i_command)
 	return (0);
 }
 
-int	apply_redirections(t_data *data, size_t i_command)
+int	apply_redirections_pipe(t_data *data, size_t i_command)
 {
 	size_t	i_redirect;
 
@@ -50,6 +50,20 @@ int	apply_redirections(t_data *data, size_t i_command)
 	while (data->command_arr[i_command].redirections[i_redirect] != NULL)
 	{
 		if (apply_redirect(data, i_command, i_redirect) < 0)
+			return (-1);
+		i_redirect++;
+	}
+	return (0);
+}
+
+int	apply_redirections_single_builtin(t_data *data)
+{
+	size_t	i_redirect;
+
+	i_redirect = 0;
+	while (data->command_arr[0].redirections[i_redirect] != NULL)
+	{
+		if (apply_redirect(data, 0, i_redirect) < 0)
 			return (-1);
 		i_redirect++;
 	}

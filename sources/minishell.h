@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 14:39:07 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/22 16:26:50 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,7 +307,8 @@ int			free_envp_return(char ***envp, int n);
 void		print_child_errors(t_data *data);
 
 //executer_redirections.c
-int			apply_redirections(t_data *data, size_t i_command);
+int			apply_redirections_pipe(t_data *data, size_t i_command);
+int			apply_redirections_single_builtin(t_data *data);
 
 //single_builtin.c
 void		execute_single_builtin(t_node **head, t_data *data);

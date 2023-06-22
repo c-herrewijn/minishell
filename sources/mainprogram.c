@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/21 20:10:24 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/22 15:07:12 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/22 16:28:01 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,35 @@ static void	store_final_exit_status(t_data *data)
 	}
 }
 
+void	redirect_and_execute_single_builtin(t_data *data)
+{
+	int	terminal_out;
+	int	terminal_in;
+
+	terminal_in = dup(STDIN_FILENO);
+	terminal_out = dup(STDOUT_FILENO);
+	if (terminal_in < 0 || terminal_out < 0)
+	{
+		perror(NULL);
+		return ;
+	}
+	if (apply_redirections_single_builtin(data) < 0)
+	{
+		perror(NULL);
+		return ;
+	}
+	execute_single_builtin(&data->head, data);
+	if (dup2(terminal_out, STDOUT_FILENO) < 0
+		|| dup2(terminal_in, STDIN_FILENO) < 0)
+		perror(NULL);
+}
+
 static void	exec_cmd(t_data *data)
 {
 	if (data->nr_commands == 1 && data->command_arr[0].argc > 0
 		&& check_if_builtin(data->command_arr[0].argv[0]) != NOT_BUILTIN)
 	{
-		execute_single_builtin(&data->head, data);
+		redirect_and_execute_single_builtin(data);
 	}
 	else
 	{
@@ -64,8 +87,6 @@ void	main_loop(t_data data)
 			continue ;
 		add_history(data.str);
 		lexer_parser_expander(&data);
-		debug_env_etc(data.str, &data.head); //debug
-		//block before and set to default inside fork
 		exec_cmd(&data);
 		print_child_errors(&data);
 		if (signumber_check(&data) == 1)

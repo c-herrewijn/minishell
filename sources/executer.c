@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 15:03:09 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/21 20:35:07 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/22 14:26:00 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	run_child_process_and_exit(char **envp, t_data *data, size_t com_i)
 {
 	if (close_pipes_before_running_command_i(data, com_i) < 0)
 		exit(1);
-	if (apply_redirections(data, com_i) < 0)
+	if (apply_redirections_pipe(data, com_i) < 0)
 		exit(1);
 	if ((data->command_arr)[com_i].argc == 0)
 		exit(0);
