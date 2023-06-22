@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 13:19:14 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 11:25:48 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 12:08:30 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ static char	*malloc_expand_str(char *in_str, t_node *env_node, t_data *data)
 	size_t	expanded_len;
 	char	*expanded_str;
 
-	// todo: check: can in_str be NULL?
 	expanded_len = expanded_str_len(in_str, env_node, data);
-	expanded_str = malloc((expanded_len + 1) * sizeof(char));  // TODO: free malloc / error handling
+	expanded_str = malloc((expanded_len + 1) * sizeof(char));
 	if (expanded_str == NULL)
 		return (NULL);
 	expanded_str[0] = '\0';
@@ -59,7 +58,8 @@ static void	exp_state_reading_var_name(char *in_str, char *exp_str,
 		exp_var_non_valid_char(in_str, exp_str, env_node, exp_data);
 }
 
-static void	exp_state_scanning(char *in_str, char *exp_str, t_expander_data *exp_data)
+static void	exp_state_scanning(char *in_str, char *exp_str,
+	t_expander_data *exp_data)
 {
 	if (in_str[exp_data->i] == '\'' && exp_data->quote_state == IN_DQUOTE)
 		append_str_with_char(exp_str, in_str[exp_data->i]);
@@ -93,7 +93,9 @@ char	*create_expanded_str(char *in_str, t_node *env_node, t_data *data)
 	exp_data.i = 0;
 	exp_data.var_start_index = 0;
 	exp_data.quote_state = OUT_OF_QUOTES;
-	exp_str = malloc_expand_str(in_str, env_node, data);  // todo FREE
+	exp_str = malloc_expand_str(in_str, env_node, data);
+	if (exp_str == NULL)
+		return (exp_str);
 	while (true)
 	{
 		if (exp_data.state == SCANNING)

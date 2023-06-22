@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/15 16:51:21 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 10:54:17 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 12:05:23 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ size_t	expanded_str_len(char *in_str, t_node *env_node, t_data *data)
 	exp_data.i = 0;
 	exp_data.var_start_index = 0;
 	exp_data.quote_state = OUT_OF_QUOTES;
+	if (in_str == NULL)
+		return (0);
 	while (true)
 	{
 		if (exp_data.state == SCANNING)

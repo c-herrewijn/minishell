@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/09 14:28:40 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 11:23:02 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 11:46:05 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	expand_redirections(t_data *data, size_t i_command)
 	{
 		redirect_str = data->command_arr[i_command].redirections[j]->word;
 		if (data->command_arr[i_command].redirections[j]->redirection_type
-			!= HEREDOC)  // todo: remove quotes from heredoc delimiter
+			!= HEREDOC)
 		{
 			exp_str = create_expanded_str(redirect_str, data->head, data);
 			if (exp_str == NULL)
