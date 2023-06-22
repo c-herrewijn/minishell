@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 11:39:02 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/22 12:16:13 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,6 +282,7 @@ int			wait_for_child_processes(t_data *data);
 void		run_child_process_and_exit(char **envp, t_data *data, size_t com_i);
 int			execute_commands_loop(t_data *data, char **envp);
 int			execute_commands(t_data *data);
+int			apply_redirect(t_data *data, size_t i_command, size_t i_redirect);
 
 // executer_commands.c
 char		*combine_command_path(char *path, char *cmd);
