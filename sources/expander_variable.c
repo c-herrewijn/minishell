@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/20 11:25:02 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 11:17:56 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/26 22:45:47 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,29 @@ void	append_variable(char *in_str, char *exp_str, t_node *env_node,
 void	exp_var_quote(char *in_str, char *exp_str, t_node *env_node,
 	t_expander_data *exp_data)
 {
+	bool	print_quote;
+	bool	print_dollar;
+
 	exp_data->state = SCANNING;
-	if (exp_data->i != exp_data->var_start_index)
+	print_quote = 0;
+	print_dollar = 0;
+	if (in_str[exp_data->i] == '\'' && exp_data->quote_state == IN_DQUOTE)
+		print_quote = 1;
+	if (exp_data->i == exp_data->var_start_index
+		&& exp_data->quote_state == IN_DQUOTE)
+		print_dollar = 1;
+	if (exp_data->i == exp_data->var_start_index)
+	{
+		if (print_dollar == true)
+			append_str_with_char(exp_str, '$');
+		if (print_quote == true)
+			append_str_with_char(exp_str, in_str[exp_data->i]);
+	}
+	else
 	{
 		append_variable(in_str, exp_str, env_node, exp_data);
+		if (print_quote == true)
+			append_str_with_char(exp_str, in_str[exp_data->i]);
 	}
 }
 

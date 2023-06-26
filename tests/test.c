@@ -308,6 +308,42 @@ void	test_expander(void)
 	assert(ft_strncmp("$cherrewi", exp_str, 9) == 0);	
 	free(exp_str);
 	
+	char *str20b = "\"$USER$\""; 
+	exp_str = create_expanded_str(str20b, env_llist, &data);
+	assert(expanded_str_len(str20b, env_llist, &data) == 9);
+	assert(ft_strncmp("cherrewi$", exp_str, 9) == 0);	
+	free(exp_str);
+
+	char *str20c = "\"$USER$''\""; 
+	exp_str = create_expanded_str(str20c, env_llist, &data);
+	assert(expanded_str_len(str20c, env_llist, &data) == 11);
+	assert(ft_strncmp("cherrewi$''", exp_str, 11) == 0);	
+	free(exp_str);
+
+	char *str20d = "\"$USER'''\""; 
+	exp_str = create_expanded_str(str20d, env_llist, &data);
+	assert(expanded_str_len(str20d, env_llist, &data) == 11);
+	assert(ft_strncmp("cherrewi'''", exp_str, 11) == 0);	
+	free(exp_str);
+
+	char *str20e = "\"$USE'''\""; 
+	exp_str = create_expanded_str(str20e, env_llist, &data);
+	assert(expanded_str_len(str20e, env_llist, &data) == 3);
+	assert(ft_strncmp("'''", exp_str, 3) == 0);	
+	free(exp_str);
+
+	char *str20f = "\"$'USER'\""; 
+	exp_str = create_expanded_str(str20f, env_llist, &data);
+	assert(expanded_str_len(str20f, env_llist, &data) == 7);
+	assert(ft_strncmp("$'USER'", exp_str, 7) == 0);	
+	free(exp_str);
+
+	char *str20g = "$''a"; 
+	exp_str = create_expanded_str(str20g, env_llist, &data);
+	assert(expanded_str_len(str20g, env_llist, &data) == 1);
+	assert(ft_strncmp("a", exp_str, 1) == 0);	
+	free(exp_str);
+
 	// heredoc cases, ending with newline
 	
 	char *str21 = "aa$USER\n";

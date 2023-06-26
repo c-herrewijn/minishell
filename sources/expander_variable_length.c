@@ -6,20 +6,40 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/16 11:57:22 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 10:55:09 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/26 22:43:19 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+only print single quotes within double quotes
+print the dollar sign if:
+ - a closing double quote is directly after the dollar sign
+ - a single quote in double quotes is directly after the dollar sign
+if a quote is not directly after the dollar sign, expand the variable
+*/
 size_t	len_quote(char *in_str, t_node *env_node, t_expander_data *exp_data)
 {
+	bool	print_quote;
+	bool	print_dollar;
+
 	exp_data->state = SCANNING;
-	if (exp_data->i != exp_data->var_start_index)
+	print_quote = 0;
+	print_dollar = 0;
+	if (in_str[exp_data->i] == '\'' && exp_data->quote_state == IN_DQUOTE)
+		print_quote = 1;
+	if (exp_data->i == exp_data->var_start_index
+		&& exp_data->quote_state == IN_DQUOTE)
+		print_dollar = 1;
+	if (exp_data->i == exp_data->var_start_index)
 	{
-		return (expander_var_len(in_str, exp_data, env_node));
+		return (print_dollar + print_quote);
 	}
-	return (0);
+	else
+	{
+		return (expander_var_len(in_str, exp_data, env_node) + print_quote);
+	}
 }
 
 // if consequtive dollars -> literally print first $ char
