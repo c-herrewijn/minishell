@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/21 20:10:24 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/22 16:28:01 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/26 22:59:48 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	exec_cmd(t_data *data)
 }
 
 static void	lexer_parser_expander(t_data *data)
-{	
+{
 	if (lexer(data) < 0)
 		free_and_exit_with_perror(data, &data->head);
 	if (parser(data) < 0)

@@ -7,9 +7,9 @@ static void	create_pipes(int (**pipes)[2], int nr_pipes)
 {
 	int i;
 	int result;
-	
+
 	*pipes = malloc(nr_pipes * 2 * sizeof(int));
-	
+
 	i = 0;
 	while (i < nr_pipes)
 	{

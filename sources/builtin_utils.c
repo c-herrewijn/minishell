@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 15:53:59 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/15 18:17:53 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/26 22:59:48 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ t_node	*get_node_from_index(t_node **head, int index)
 	{
 		node = node->next;
 		x++;
-	}	
+	}
 	return (node);
 }

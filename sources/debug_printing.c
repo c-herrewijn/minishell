@@ -6,7 +6,7 @@
 /*   By: kkroon <kkroon@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/19 22:28:28 by kkroon        #+#    #+#                 */
-/*   Updated: 2023/06/23 12:52:49 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/26 22:59:48 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void print_next(t_node **head)
 void list_print(t_node *head)
 {
 	t_node *node;
-	
+
 	node = head;
 	if (head == NULL)
 	{
@@ -146,7 +146,7 @@ char *tokens_to_string(t_data *data)
 		i++;
 	}
 	str = ft_calloc(len, sizeof(char));
-	
+
 	// fill the returnstring: we strip final space by using len - 1
 	i = 0;
 	while (i < data->nr_tokens)
@@ -167,7 +167,7 @@ char *tokens_to_string(t_data *data)
 			ft_strlcat(str, ">> ", len - 1);
 		if (token.type == HEREDOC)
 			ft_strlcat(str, "<< ", len - 1);
-		i++;		
+		i++;	
 	}
 	return (str);
 }
@@ -247,7 +247,7 @@ void debug_env_etc(char *str, t_node **head)
 	if (ft_strncmp("remove on", str, 9) == 0)
 	{
 		int listlen;
-	
+
 		listlen = list_len(*head);
 		// printf("listlen : %d\n", listlen);
 		if (((int)ft_strlen(str)) < 11)

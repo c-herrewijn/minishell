@@ -32,7 +32,7 @@ int main(int argc, char **argv, char **envp)
 	res = write(my_pipe[1], str1, ft_strlen(str1));
 	res = write(my_pipe[1], str2, ft_strlen(str2));
 
-	// close writing end	
+	// close writing end
 	res = close(my_pipe[1]);
 
 	// get there heredoc (NOT null terminated) from the pipe into a string (NULL terminated)

@@ -14,7 +14,7 @@ int main(void)
 
 	char *const grep_argv[] = {"grep", "as", NULL};
 	char *const wc_argv[] = {"wc", "-c", NULL};
-	
+
     extern char **environ;
 	int fildes;
     int p1[2];

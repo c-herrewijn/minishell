@@ -31,7 +31,7 @@ extern int errno ;
 // 	extern char **environ;
 
 // 	return_val = execve(path, argv, environ);
-	
+
 // 	// note if execve runs successfull, the process terminates, so this part won't run!
 // 	puts("!! ERROR !!");
 // 	printf("return val: %d\n", return_val);
@@ -50,7 +50,7 @@ int main(void)
 	extern char **environ;
 
 	return_val = execve(path, argv, environ);
-	
+
 	// note if execve runs successfull, the process terminates, so this part won't run!
 	puts("!! ERROR !!");
 	printf("errno: %d\n", errno);
@@ -68,7 +68,7 @@ int main(void)
 // 	extern char **environ;
 
 // 	return_val = execve(path, argv, environ);
-	
+
 // 	// note if execve runs successfull, the process terminates, so this part won't run!
 // 	puts("!! ERROR !!");
 // 	printf("return val: %d\n", return_val);

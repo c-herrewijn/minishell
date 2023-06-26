@@ -22,7 +22,7 @@ int main(void)
 	char *const grep1_argv[] = {"grep", "as", NULL};
 	char *const grep2_argv[] = {"grep", "f", NULL};
 	char *const wc_argv[] = {"wc", "-c", NULL};
-	
+
     int p1[2];
     int p2[2];
     pid_t new_pid;

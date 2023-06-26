@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/26 16:40:56 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/07 17:41:55 by cherrewi      ########   odam.nl         */
+/*   Updated: 2023/06/26 22:59:48 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	add_argv(t_data *data, size_t command_nr, size_t i_token)
 size_t	command_count_redirections(t_data *data, size_t command_nr)
 {
 	size_t	i_token;
-	size_t	redirection_count;	
+	size_t	redirection_count;
 
 	redirection_count = 0;
 	i_token = get_start_token(data, command_nr);
