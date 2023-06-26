@@ -6,7 +6,7 @@
 /*   By: cherrewi <cherrewi@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 12:37:28 by cherrewi      #+#    #+#                 */
-/*   Updated: 2023/06/22 19:40:00 by kkroon        ########   odam.nl         */
+/*   Updated: 2023/06/23 12:55:15 by cherrewi      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,5 +321,17 @@ void		set_signals_blocked(void);
 
 //update_shlvl.c
 int			update_shlvl(t_node **head);
+
+//debug_printing.c
+void		print_first(t_node **head);
+void		print_next(t_node **head);
+void		list_print(t_node *head);
+void		print_env_var(char *str, t_node *head);
+void		print_2d_array(char **s);
+void		print_tokens(t_data *data);
+char		*tokens_to_string(t_data *data);
+void		print_commands(t_data *data);
+void		unset_all(t_node **head);
+void		debug_env_etc(char *str, t_node **head);
 
 #endif

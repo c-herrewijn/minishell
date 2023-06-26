@@ -21,7 +21,7 @@ signal_setters.c executer_utils.c signal_utils.c \
 expander.c single_builtin.c expander_build_str.c \
 update_oldpwd_env.c expander_length.c update_pwd_env.c \
 expander_variable.c update_shlvl.c expander_exit_status.c \
-executer_apply_redirect.c
+executer_apply_redirect.c debug_printing.c
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
@@ -69,7 +69,7 @@ FUNCTION_SRCS = b_cd.c expander_variable_length.c \
 		expander.c single_builtin.c expander_build_str.c \
 		update_oldpwd_env.c expander_length.c update_pwd_env.c \
 		expander_variable.c update_shlvl.c expander_exit_status.c \
-		executer_apply_redirect.c
+		executer_apply_redirect.c debug_printing.c
 
 TEST_FLAGS = -Wall -g $(IFLAGS) $(LFLAGS)
 test: $(NAME)
