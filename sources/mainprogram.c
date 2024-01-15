@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+extern int	g_signumber;
+
 // NOTE: if no command is executed (e.g. empty line), the exit status of the
 //   previous command remains in memory
 static void	store_final_exit_status(t_data *data)

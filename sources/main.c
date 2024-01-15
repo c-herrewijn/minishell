@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int	g_signumber;
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;

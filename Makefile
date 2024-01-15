@@ -1,9 +1,11 @@
 NAME = minishell
 
-IFLAGS = -Iinclude -I$(LIBFT_DIR) -I$(shell brew --prefix readline)/include
+# IFLAGS = -Iinclude -I$(LIBFT_DIR) -I$(shell brew --prefix readline)/include
+IFLAGS = -Iinclude -I$(LIBFT_DIR)
 # CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
-LFLAGS = -Llibft -lft -lreadline -lhistory -L$(shell brew --prefix readline)/lib
+CFLAGS = -Wall -Wextra -Werror
+# LFLAGS = -Llibft -lft -lreadline -lhistory -L$(shell brew --prefix readline)/lib
+LFLAGS = -Llibft -lft -lreadline -lhistory
 
 SRC_DIR = sources
 SRCS = b_cd.c expander_variable_length.c \

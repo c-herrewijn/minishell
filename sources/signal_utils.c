@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+extern int	g_signumber;
+
 void	signal_handler(int signum)
 {
 	g_signumber = signum;

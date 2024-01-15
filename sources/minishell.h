@@ -33,11 +33,6 @@
 # include <curses.h>
 # include <term.h>
 
-//this is the global i choose because
-//it needs to be able to update from the signalhandler
-//which can only take one parameter
-int	g_signumber;
-
 typedef enum e_lexer_state {
 	DELIMITED,
 	READING_WORD,
@@ -57,7 +52,7 @@ typedef enum e_token_type {
 Expander States:
 - SCANNING (default) = 'normal' parsing of characters
   - state changes:
-    - after $: if quote state != IN_SQUOTE: expander state -> READING_VAR_NAME 
+    - after $: if quote state != IN_SQUOTE: expander state -> READING_VAR_NAME
   - creating expanded string:
 	- squotes are only added if quote state == IN_DQUOTE
 	- dquotes are only added if quote state == IN_SQUOTE
@@ -68,7 +63,7 @@ Expander States:
   	- state changes back to SCANNING after squote, dquote, or <blank> char
   - creating expanded string:
     - after '\0', $, single quote, double quote, blank -> variable is expanded
-    - in case the $ char is directly followed by $, blank, or '\0' -> 
+    - in case the $ char is directly followed by $, blank, or '\0' ->
         the $ char is literally printed
 */
 typedef enum e_expander_state {
