@@ -167,7 +167,7 @@ char *tokens_to_string(t_data *data)
 			ft_strlcat(str, ">> ", len - 1);
 		if (token.type == HEREDOC)
 			ft_strlcat(str, "<< ", len - 1);
-		i++;	
+		i++;
 	}
 	return (str);
 }
@@ -246,10 +246,6 @@ void debug_env_etc(char *str, t_node **head)
 		list_remove_first(head);
 	if (ft_strncmp("remove on", str, 9) == 0)
 	{
-		int listlen;
-
-		listlen = list_len(*head);
-		// printf("listlen : %d\n", listlen);
 		if (((int)ft_strlen(str)) < 11)
 			return ;
 		int n = str[10] - '0';

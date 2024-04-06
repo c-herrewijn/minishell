@@ -18,10 +18,8 @@ check if s == -n\0 or -nnnnnnnnnnnn\0
 static bool	is_dash_n(char *s)
 {
 	int	i;
-	int	len;
 
 	i = 1;
-	len = (int) ft_strlen(s);
 	if (s[0] != '-')
 		return (false);
 	while (s[i] != '\0')
